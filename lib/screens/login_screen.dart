@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-
-//TODO bei bedarf die ganzen shadowColors ändern zu einer farbe, die besser passt
-
-
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -24,27 +20,42 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //TODO animation soll nicht loopen
-              //TODO maybe animation verlangsamen
+              Center(
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage('assets/sadcat.jpeg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 25),
               AnimatedTextKit(
                 repeatForever: false,
                 animatedTexts: [
-                  TypewriterAnimatedText("Willkommen bei XPirl!",
+                  TypewriterAnimatedText(
+                    "Willkommen bei XPirl!",
                     textStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
-                      decorationColor: Colors.pink,
+                      decorationColor: Colors.lightGreenAccent,
                       decorationThickness: 2.0,
                       shadows: [
                         Shadow(
-                          color: Colors.pinkAccent.withOpacity(0.5),
+                          color: Colors.lightGreenAccent.withOpacity(0.7),
                           blurRadius: 5,
                           offset: Offset(0, 2),
                         ),
                       ],
                     ),
+                    speed: Duration(milliseconds: 250),
                   ),
                 ],
+                totalRepeatCount: 1,
                 onTap: () {
                   print("Tap Event");
                 },
@@ -76,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromRGBO(180, 180, 180, 1),
                   elevation: 10,
-                  shadowColor: Colors.pinkAccent.withOpacity(0.5),
+                  shadowColor: Colors.lightGreenAccent.withOpacity(0.8),
                 ),
                 child: Text(
                   "Absenden",
@@ -84,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
-                    decorationColor: Colors.pink,
+                    decorationColor: Colors.lightGreenAccent,
                     decorationThickness: 2.0,
                   ),
                 ),
