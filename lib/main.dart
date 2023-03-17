@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:xpirl/screens/login_screen.dart';
+//import 'package:xpirl/screens/login_screen.dart';
 
-import 'screens/home_screen.dart';
+//import 'screens/home_screen.dart';
+import 'screens/test_screen.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -9,12 +12,11 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Annika',
+      title: 'XPirl',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // SystemChrome.setEnabledSystemUIOverlays([]), -> muss irgendwo ausgeführt werden, damit List oben weg
       //home: HomeScreen(),
-      home: LoginScreen(),
+      home: TestScreen(),
     );
   }
 }

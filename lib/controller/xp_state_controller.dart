@@ -1,0 +1,13 @@
+import 'package:get/get.dart';
+import '../model/tasks.dart';
+
+class XPStateController extends GetxController {
+  // einfacher Ansatz, um auf (beliebige) Veränderungen zu reagieren
+  var somethingChanged = 0.obs;
+
+  void change() {
+    somethingChanged++;
+  }
+
+  List<Task> taskListe= [];
+}

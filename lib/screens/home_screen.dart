@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:flutter/services.dart';
 import 'package:xpirl/screens/category_task_overview_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+import '../controller/xp_state_controller.dart';
+import '../model/tasks.dart';
+import '../xp_service.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  XPStateController _controller = Get.find();
+
+  XPService service = XPService();
+  List<Task> tasks = [];
+
+  // Load to-do list from the server
+  Future<bool> _loadUsers() async {
+    tasks = await service.getTaskList();
+
+    return true;
+  }
 
   final dataMap = <String, double>{
     "User": 5, // Aktueller XP Wert von User
@@ -22,7 +44,8 @@ class HomeScreen extends StatelessWidget {
           Column(
             children: [
               Expanded(
-                  flex: 2, child: UserBar(dataMap: dataMap, colorList: colorList)),
+                  flex: 2,
+                  child: UserBar(dataMap: dataMap, colorList: colorList)),
               // Leiste oben
 
               Expanded(
@@ -38,9 +61,13 @@ class HomeScreen extends StatelessWidget {
                             GestureDetector(
                               // -> aus Widget Interaktionselement machen
                               onTap: () {
+                                _controller.onDelete(); // TODO weg (war nur für Compiler :D
                                 // TODO Animation
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => CategoryTaskOverviewScreen()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CategoryTaskOverviewScreen()));
                               },
                               child: Container(
                                 width: double.infinity,
@@ -53,9 +80,32 @@ class HomeScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(16.0),
                                   child: Column(
                                     children: [
+                                      Obx(
+                                        () {
+                                          //int change = _controller.somethingChanged.value;
+                                          return FutureBuilder<bool>(
+                                            future: _loadUsers(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return _buildListView(snapshot);
+                                              } else if (snapshot.hasError) {
+                                                return Text(
+                                                    '${snapshot.error}');
+                                              }
+                                              return CircularProgressIndicator();
+                                            },
+                                          );
+                                        },
+                                      ),
                                       Expanded(
                                           flex: 6,
-                                          child: Row(
+                                          child: ListView.builder(
+                                            itemCount: Task.nrCategories,
+                                            itemBuilder: (context, index) {
+                                              final user = tasks[index];
+                                              return _buildCard(user);
+                                            },
+                                            /*
                                             children: [
                                               Expanded(
                                                   flex: 8,
@@ -71,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                                                   child: Icon(
                                                       Icons.lock_outline_rounded)),
                                               // TODO nur anzeigen, wenn noch nicht freigeschlten
-                                            ],
+                                            ],*/
                                           )),
                                       Expanded(
                                         flex: 4,
@@ -85,7 +135,8 @@ class HomeScreen extends StatelessWidget {
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
-                                                  color: Colors.lightGreenAccent,
+                                                  color:
+                                                      Colors.lightGreenAccent,
                                                 ),
                                               ),
                                             ),
@@ -114,8 +165,6 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                   )),
-
-
             ],
           ),
           Positioned(
@@ -127,17 +176,51 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Stack(
                     children: [
-                      CircleAvatar(radius: 20, child: Icon(Icons.message_outlined)),
-                      Align(alignment: Alignment.topRight,child: CircleAvatar(radius: 5, child: Text("1"))), // TODO an Anzahl der Anfragen anpassen
+                      CircleAvatar(
+                          radius: 20, child: Icon(Icons.message_outlined)),
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: CircleAvatar(radius: 5, child: Text("1"))),
+                      // TODO an Anzahl der Anfragen anpassen
                     ],
                   ),
-                  SizedBox(height: 5,),
-                  CircleAvatar(radius: 20, child: Icon(Icons.settings_outlined)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  CircleAvatar(
+                      radius: 20, child: Icon(Icons.settings_outlined)),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Align _buildCard(Task task) {
+    return Align(
+      child: Text(
+        "Daily", // TODO Kategorie anpassen
+        style: TextStyle(fontSize: 30),
+      ),
+      alignment: Alignment.centerLeft,
+    );
+  }
+
+  Widget _buildListView(AsyncSnapshot<bool> snapshot) {
+    return Expanded(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: ListView.builder(
+          itemCount: tasks.length,
+          itemBuilder: (context, index) {
+            final user = tasks[index];
+            return _buildCard(user);
+          },
+        ),
       ),
     );
   }
