@@ -5,6 +5,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
+  //TODO den rest der seite erst erscheinen lassen, wenn das willkommen vollständig animiert ist
   @override
   Widget build(BuildContext context) {
     return Scaffold(
