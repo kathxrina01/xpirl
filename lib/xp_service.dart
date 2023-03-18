@@ -1,4 +1,4 @@
-import 'model/tasks.dart';
+import 'model/task.dart';
 import 'xpbackend_service_provider.dart';
 import 'model/object_not_found_exception.dart';
 
@@ -10,6 +10,24 @@ class XPService {
       listFromJson: taskListFromJson,
     );
   }
+
+  // get list of tasks by their category name
+  Future<List<Task>> getTasksByCategory(String category) async {
+    return await XPBackendServiceProvider.getObjectsByCategory<Task>(
+      resourcePath: "tasks",
+      categoryName: category,
+      listFromJson: taskListFromJson,
+    );
+  }
+
+  // get a list of all categories
+  Future<List<String>> getCategoryList() async {
+    return await XPBackendServiceProvider.getObjectCategoryList<String>(
+      resourcePath: "tasks",
+      listFromJson: categoryListFromTaskJson,
+    );
+  }
+
 
   Future<Task> getTaskById({required int id}) async {
     var result = await XPBackendServiceProvider.getObjectById<Task>(

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:xpirl/screens/category_task_overview_screen.dart';
 
 import '../controller/xp_state_controller.dart';
-import '../model/tasks.dart';
+import '../model/task.dart';
 import '../xp_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,11 +20,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   XPService service = XPService();
   List<Task> tasks = [];
+  List<String> categories = [];
 
   // Load to-do list from the server
   Future<bool> _loadUsers() async {
     tasks = await service.getTaskList();
 
+    return true;
+  }
+
+  Future<bool> _loadCategories() async {
+    categories = await service.getCategoryList();
     return true;
   }
 
@@ -44,127 +50,32 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             children: [
               Expanded(
+                  // War mal Expanded
                   flex: 2,
                   child: UserBar(dataMap: dataMap, colorList: colorList)),
               // Leiste oben
 
               Expanded(
-                  flex: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            SizedBox(height: 10), // TODO responsive
-                            GestureDetector(
-                              // -> aus Widget Interaktionselement machen
-                              onTap: () {
-                                _controller.onDelete(); // TODO weg (war nur für Compiler :D
-                                // TODO Animation
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            CategoryTaskOverviewScreen()));
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                height: 120, // TODO responsive
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    children: [
-                                      Obx(
-                                        () {
-                                          //int change = _controller.somethingChanged.value;
-                                          return FutureBuilder<bool>(
-                                            future: _loadUsers(),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.hasData) {
-                                                return _buildListView(snapshot);
-                                              } else if (snapshot.hasError) {
-                                                return Text(
-                                                    '${snapshot.error}');
-                                              }
-                                              return CircularProgressIndicator();
-                                            },
-                                          );
-                                        },
-                                      ),
-                                      Expanded(
-                                          flex: 6,
-                                          child: ListView.builder(
-                                            itemCount: Task.nrCategories,
-                                            itemBuilder: (context, index) {
-                                              final user = tasks[index];
-                                              return _buildCard(user);
-                                            },
-                                            /*
-                                            children: [
-                                              Expanded(
-                                                  flex: 8,
-                                                  child: Align(
-                                                    child: Text(
-                                                      "Daily", // TODO Kategorie anpassen
-                                                      style: TextStyle(fontSize: 20),
-                                                    ),
-                                                    alignment: Alignment.centerLeft,
-                                                  )),
-                                              Expanded(
-                                                  flex: 2,
-                                                  child: Icon(
-                                                      Icons.lock_outline_rounded)),
-                                              // TODO nur anzeigen, wenn noch nicht freigeschlten
-                                            ],*/
-                                          )),
-                                      Expanded(
-                                        flex: 4,
-                                        child: Row(
-                                          children: [
-                                            // TODO flex anpassn an %
-                                            Expanded(
-                                              flex: 66,
-                                              child: Container(
-                                                height: 5,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color:
-                                                      Colors.lightGreenAccent,
-                                                ),
-                                              ),
-                                            ),
-
-                                            Expanded(
-                                              flex: 34,
-                                              child: Container(
-                                                height: 5,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.black12,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
+                // War mal Expanded
+                flex: 8,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Obx(() {
+                    int change = _controller.somethingChanged.value;
+                    return FutureBuilder<bool>(
+                      future: _loadCategories(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return _buildListView(snapshot);
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return CircularProgressIndicator();
                       },
-                    ),
-                  )),
+                    );
+                  }),
+                ),
+              ),
             ],
           ),
           Positioned(
@@ -198,27 +109,92 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Align _buildCard(Task task) {
-    return Align(
-      child: Text(
-        "Daily", // TODO Kategorie anpassen
-        style: TextStyle(fontSize: 30),
-      ),
-      alignment: Alignment.centerLeft,
+  _buildCard(String category) {
+    return Column(
+      children: [
+        SizedBox(height: 10), // TODO responsive
+        GestureDetector(
+          // -> aus Widget Interaktionselement machen
+          onTap: () {
+            _controller.onDelete(); // TODO weg (war nur für Compiler :D
+            // TODO Animation
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CategoryTaskOverviewScreen()));
+          },
+          child: Container(
+            width: double.infinity,
+            height: 120, // TODO responsive
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey,
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 6,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Align(
+                      child: Text(
+                        category, // TODO Kategorie anpassen
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      alignment: Alignment.centerLeft,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  // Anzeige unten  wie weit
+                  flex: 4,
+                  child: Row(
+                    children: [
+                      // TODO flex anpassn an %
+                      Expanded(
+                        flex: 66,
+                        child: Container(
+                          height: 5,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.lightGreenAccent,
+                          ),
+                        ),
+                      ),
+
+                      Expanded(
+                        flex: 34,
+                        child: Container(
+                          height: 5,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.black12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildListView(AsyncSnapshot<bool> snapshot) {
-    return Expanded(
+    return Container(
       child: RefreshIndicator(
         onRefresh: () async {
           setState(() {});
         },
         child: ListView.builder(
-          itemCount: tasks.length,
+          itemCount: categories.length,
           itemBuilder: (context, index) {
-            final user = tasks[index];
-            return _buildCard(user);
+            //final user = tasks[index];
+            final category = categories[index];
+            return _buildCard(category);
           },
         ),
       ),

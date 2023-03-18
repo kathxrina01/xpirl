@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../model/tasks.dart';
+import '../model/task.dart';
 
 class XPStateController extends GetxController {
   // einfacher Ansatz, um auf (beliebige) Veränderungen zu reagieren
@@ -9,5 +9,5 @@ class XPStateController extends GetxController {
     somethingChanged++;
   }
 
-  List<Task> taskListe= [];
+  List<Task> taskListe = [];
 }

@@ -5,10 +5,24 @@ import 'dart:convert';
 List<Task> taskListFromJson(String str) =>
     List<Task>.from(json.decode(str).map((x) => Task.fromJson(x)));
 
+List<String> categoryListFromTaskJson(String jsonData) {
+  List<dynamic> taskList = json.decode(jsonData);
+  Set<String> categories = Set<String>();
+  for (var taskJson in taskList) {
+    categories.add(taskJson['category']);
+  }
+  return categories.toList();
+}
+/*
+List<String> categoryListFromJson(String str) =>
+    List<String>.from(json.decode(str).map((x) => Task.fromJson(x)));
+*/
 String taskListToJson(List<Task> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 Task taskFromJson(String str) => Task.fromJson(json.decode(str));
+
+
 
 String taskToJson(Task data) => json.encode(data.toJson());
 
@@ -52,6 +66,8 @@ class Task {
     rewardTickets: json["rewardTickets"],
     hasRewardXp: List<int>.from(json["hasRewardXP"].map((x) => x)),
   );
+
+
 
   Map<String, dynamic> toJson() => {
     "id": id,

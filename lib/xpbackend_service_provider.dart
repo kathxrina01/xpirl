@@ -1,3 +1,4 @@
+//import 'package:http/http.dart' as http;
 import 'package:http/http.dart' as http;
 
 class XPBackendServiceProvider {
@@ -19,6 +20,41 @@ class XPBackendServiceProvider {
     if (response.statusCode == 200) {
       List<T> data = listFromJson(response.body);
       return (data);
+    } else {
+      return [];
+    }
+  }
+
+  // return all Objects where the category name is a match
+  static Future<List<T>> getObjectsByCategory<T>({
+    required String resourcePath,
+    required String categoryName,
+    required Function(String) listFromJson,
+  }) async {
+    var url = Uri.https(host, '${apiPath}/${resourcePath}.json', {'category': categoryName});
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<T> data = listFromJson(response.body);
+      return (data);
+    } else {
+      return [];
+    }
+  }
+
+  // get list of all categories
+  static Future<List<T>> getObjectCategoryList<T>({
+    required String resourcePath,
+    required Function(String) listFromJson,
+  }) async {
+    var url = Uri.https(host, '${apiPath}/${resourcePath}');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      List<T> data = listFromJson(response.body);
+      return (data);
+      /*
+      List<String> data = listFromJson(response.body);
+      return (data);*/
     } else {
       return [];
     }
