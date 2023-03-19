@@ -16,7 +16,9 @@ class XPService {
     return await XPBackendServiceProvider.getObjectsByCategory<Task>(
       resourcePath: "tasks",
       categoryName: category,
-      listFromJson: taskListFromJson,
+      //listByCategoryFromJson: taskListByCategoryFromJson,
+      listByCategoryFromJson: (jsonString) =>
+          taskListByCategoryFromJson(jsonString, category),
     );
   }
 

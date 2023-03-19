@@ -5,6 +5,29 @@ import 'dart:convert';
 List<Task> taskListFromJson(String str) =>
     List<Task>.from(json.decode(str).map((x) => Task.fromJson(x)));
 
+/*
+List<Task> taskListByCategoryFromJson(String str, String categoryName) {
+  List<dynamic> jsonData = json.decode(str);
+  List<Task> tasks = [];
+
+  for (var i = 0; i < jsonData.length; i++) {
+    Map<String, dynamic> taskData = jsonData[i];
+    if (taskData['category'] == categoryName) {
+      tasks.add(Task.fromJson(taskData));
+    }
+  }
+
+  return tasks;
+}*/
+List<Task> taskListByCategoryFromJson(String jsonString, String categoryName) {
+  final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
+  List<Task> filteredTasks = parsed
+      .map<Task>((json) => Task.fromJson(json))
+      .where((task) => task.category == categoryName)
+      .toList();
+  return filteredTasks;
+}
+
 List<String> categoryListFromTaskJson(String jsonData) {
   List<dynamic> taskList = json.decode(jsonData);
   Set<String> categories = Set<String>();

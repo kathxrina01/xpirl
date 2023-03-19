@@ -1,10 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../controller/xp_state_controller.dart';
+import '../model/task.dart';
+import '../xp_service.dart';
 import 'home_screen.dart';
+import 'task_screen.dart';
 
-class CategoryTaskOverviewScreen extends StatelessWidget {
-  CategoryTaskOverviewScreen({Key? key}) : super(key: key);
+class CategoryTaskOverviewScreen extends StatefulWidget {
+  final String category;
+
+  CategoryTaskOverviewScreen({Key? key, required this.category})
+      : super(key: key);
+
+  @override
+  State<CategoryTaskOverviewScreen> createState() =>
+      _CategoryTaskOverviewScreenState();
+}
+
+class _CategoryTaskOverviewScreenState
+    extends State<CategoryTaskOverviewScreen> {
+  // current category that we are in
+  XPStateController _controller = Get.find();
+
+  XPService service = XPService();
+
+  List<Task> tasks = [];
+
+  Future<bool> _loadTasksInCategory() async {
+    tasks = await service.getTasksByCategory(this.widget.category);
+    return true;
+  }
 
   final dataMap = <String, double>{
     "User": 5, // Aktueller XP Wert von User
@@ -27,117 +54,143 @@ class CategoryTaskOverviewScreen extends StatelessWidget {
               flex: 8,
               child: Column(
                 children: [
-                  Stack(
-                    children: [
-                      GestureDetector(
-                          // -> aus Widget Interaktionselement machen
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(Icons.arrow_back)),
-                      Align(child: Text("Daily"), alignment: Alignment.center),
-                    ],
+                  Expanded(
+                    flex: 5,
+                    child: Stack(
+                      // bar on top that tells the category and lets you go back
+                      children: [
+                        GestureDetector(
+                            // -> aus Widget Interaktionselement machen
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(Icons.arrow_back)),
+                        Align(
+                            child: Text(this.widget.category),
+                            alignment: Alignment.center),
+                      ],
+                    ),
                   ),
-                  Container(color: Colors.grey, height: 20, width: double.infinity,),
-
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            SizedBox(height: 10), // TODO responsive
-/*                            GestureDetector(
-                              // -> aus Widget Interaktionselement machen
-                              onTap: () {
-                                // TODO Animation
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            CategoryTaskOverviewScreen()));
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                height: 120, // TODO responsive
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                          flex: 6,
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                  flex: 8,
-                                                  child: Align(
-                                                    child: Text(
-                                                      "Daily",
-                                                      // TODO Kategorie anpassen
-                                                      style: TextStyle(
-                                                          fontSize: 20),
-                                                    ),
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                  )),
-                                              Expanded(
-                                                  flex: 2,
-                                                  child: Icon(Icons
-                                                      .lock_outline_rounded)),
-                                              // TODO nur anzeigen, wenn noch nicht freigeschlten
-                                            ],
-                                          )),
-                                      Expanded(
-                                        flex: 4,
-                                        child: Row(
-                                          children: [
-                                            // TODO flex anpassn an %
-                                            Expanded(
-                                              flex: 66,
-                                              child: Container(
-                                                height: 5,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color:
-                                                      Colors.lightGreenAccent,
-                                                ),
-                                              ),
-                                            ),
-
-                                            Expanded(
-                                              flex: 34,
-                                              child: Container(
-                                                height: 5,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.black12,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),*/
-                          ],
+                  Expanded(
+                    flex: 95,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Obx(() {
+                        int change = _controller.somethingChanged.value;
+                        return FutureBuilder<bool>(
+                          future: _loadTasksInCategory(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return _buildListView(snapshot);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+                            return CircularProgressIndicator();
+                          },
                         );
-                      },
+                      }),
                     ),
                   )
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Container _buildListView(AsyncSnapshot<bool> snapshot) {
+    print(tasks.toString());
+    return Container(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: ListView.builder(
+          itemCount: tasks.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                SizedBox(height: 10), // TODO responsive
+                GestureDetector(
+                  // -> aus Widget Interaktionselement machen
+                  onTap: () {
+                    // TODO Animation
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                TaskScreen())); // TODO Korrekte leitung
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 120, // TODO responsive
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Expanded(
+                              flex: 6,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      flex: 8,
+                                      child: Align(
+                                        child: Text(
+                                          tasks[index].title,
+                                          // TODO Kategorie anpassen
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        alignment: Alignment.centerLeft,
+                                      )),
+                                  Expanded(
+                                      flex: 2,
+                                      child: Icon(Icons.lock_outline_rounded)),
+                                  // TODO nur anzeigen, wenn noch nicht freigeschlten
+                                ],
+                              )),
+                          Expanded(
+                            flex: 4,
+                            child: Row(
+                              children: [
+                                // TODO flex anpassn an %
+                                Expanded(
+                                  flex: 66,
+                                  child: Container(
+                                    height: 5,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.lightGreenAccent,
+                                    ),
+                                  ),
+                                ),
+
+                                Expanded(
+                                  flex: 34,
+                                  child: Container(
+                                    height: 5,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.black12,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

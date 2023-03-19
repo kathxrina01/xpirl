@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CategoryTaskOverviewScreen()));
+                    builder: (context) => CategoryTaskOverviewScreen(category: category)));
           },
           child: Container(
             width: double.infinity,
@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: Align(
                       child: Text(
-                        category, // TODO Kategorie anpassen
+                        category,
                         style: TextStyle(fontSize: 20),
                       ),
                       alignment: Alignment.centerLeft,
