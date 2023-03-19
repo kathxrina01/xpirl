@@ -1,10 +1,10 @@
-import 'users.dart';
+import 'user.dart';
 
 import 'package:http/http.dart' as http;
 
 class Model {
   //Users user = new Users();
-  Users? currentUser; // Aktueller User
+  User? currentUser; // Aktueller User
 
   void createUser(String username) async {
     var url = Uri.https('http://localhost:8000/xpbackend/api/', '/users');

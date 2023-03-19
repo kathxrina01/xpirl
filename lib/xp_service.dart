@@ -1,4 +1,5 @@
 import 'model/task.dart';
+import 'model/user.dart';
 import 'xpbackend_service_provider.dart';
 import 'model/object_not_found_exception.dart';
 
@@ -19,6 +20,16 @@ class XPService {
       //listByCategoryFromJson: taskListByCategoryFromJson,
       listByCategoryFromJson: (jsonString) =>
           taskListByCategoryFromJson(jsonString, category),
+    );
+  }
+
+  /* User */
+  // get user
+  Future<User?> getUser(String username) async {
+    return await XPBackendServiceProvider.getUser(
+      resourcePath: "users",
+      username: username,
+      userFromJson: userFromJson,
     );
   }
 

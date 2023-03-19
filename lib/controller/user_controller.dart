@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
 
 import '../model/model.dart';
-import '../model/users.dart';
+import '../model/user.dart';
 
 class UserController extends GetxController {
   var model = Model().obs;
   var changed = 0.obs;
 
   //Users currentUser = new Users("abc").obs;
-  Users? currentUser;
+  String? currentUserUsername;
 
-  void addCurrentUser(Users currentUser) {
-    this.currentUser = currentUser;
+  void configCurrentUser(String username) {
+    this.currentUserUsername = username;
   }
 
   // XP Punkte hinzufügen

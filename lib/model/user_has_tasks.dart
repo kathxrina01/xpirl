@@ -7,14 +7,18 @@ String userTasksToJson(List<UserHasTasks> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class UserHasTasks {
-  String? username;
-  int? taskID;
-  String? status;
-  String? dateCompleted;
-
   UserHasTasks({
-    this.username, this.taskID, this.status, this.dateCompleted,
-});
+    required this.username,
+    required this.taskID,
+    required this.status,
+    required this.dateCompleted,
+  });
+  
+  String username;
+  int taskID;
+  String status;
+  String dateCompleted;
+  
   factory UserHasTasks.fromJson(Map<String, dynamic> json) => UserHasTasks(
     username: json["username"],
     taskID: json["taskid"],

@@ -101,7 +101,6 @@ class _CategoryTaskOverviewScreenState
   }
 
   Container _buildListView(AsyncSnapshot<bool> snapshot) {
-    print(tasks.toString());
     return Container(
       child: RefreshIndicator(
         onRefresh: () async {
