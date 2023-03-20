@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:flutter/services.dart';
 import 'package:xpirl/screens/category_task_overview_screen.dart';
+import 'package:xpirl/screens/profile_screen.dart';
 
 import '../controller/xp_state_controller.dart';
 import '../model/task.dart';
@@ -266,58 +267,67 @@ class UserBar extends StatelessWidget {
             ),
             Expanded(
               flex: 4,
-              child: Stack(
-                children: [
-                  /*
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Positioned.fill(child: CircleAvatar(backgroundImage: AssetImage("assets/sadcat.jpeg"), )),
-                  ),*/
-                  Positioned.fill(
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage("assets/sadcat.jpeg"),
+              child: GestureDetector(
+                onTap: () {
+                  // TODO Animation
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileScreen()));
+                },
+                child: Stack(
+                  children: [
+                    /*
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Positioned.fill(child: CircleAvatar(backgroundImage: AssetImage("assets/sadcat.jpeg"), )),
+                    ),*/
+                    Positioned.fill(
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage("assets/sadcat.jpeg"),
+                      ),
+                      // TODO Größe responsive machen
+                      bottom: 10,
+                      left: 10,
+                      right: 10,
+                      top: 10,
                     ),
-                    // TODO Größe responsive machen
-                    bottom: 10,
-                    left: 10,
-                    right: 10,
-                    top: 10,
-                  ),
-                  //Expanded(child: CircleAvatar(backgroundImage: AssetImage("assets/sadcat.jpeg"), ), flex: 1,),
-                  //Expanded(child: CircleAvatar(backgroundImage: AssetImage("assets/sadcat.jpeg"), )),
-                  //Container(color: Colors.black, width: 100, height: 100, child: Image.asset("assets/sadcat.jpeg"),),
-                  PieChart(
-                    // TODO Zu Button machen -> Zu Profil gelangen
-                    dataMap: dataMap,
-                    chartType: ChartType.ring,
-                    baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-                    colorList: colorList,
-                    chartValuesOptions: ChartValuesOptions(
-                      showChartValuesInPercentage: true,
-                      showChartValues: false,
+                    //Expanded(child: CircleAvatar(backgroundImage: AssetImage("assets/sadcat.jpeg"), ), flex: 1,),
+                    //Expanded(child: CircleAvatar(backgroundImage: AssetImage("assets/sadcat.jpeg"), )),
+                    //Container(color: Colors.black, width: 100, height: 100, child: Image.asset("assets/sadcat.jpeg"),),
+                    PieChart(
+                      // TODO Zu Button machen -> Zu Profil gelangen
+                      dataMap: dataMap,
+                      chartType: ChartType.ring,
+                      baseChartColor: Colors.grey[50]!.withOpacity(0.15),
+                      colorList: colorList,
+                      chartValuesOptions: ChartValuesOptions(
+                        showChartValuesInPercentage: true,
+                        showChartValues: false,
+                      ),
+                      totalValue: 20,
+                      // TODO Hier MaxXP von Level + so viel, dass Level von Lvl Kreis bis Lvl Kreis geht
+                      initialAngleInDegree: 45,
+                      ringStrokeWidth: 12,
+                      legendOptions: LegendOptions(showLegends: false),
                     ),
-                    totalValue: 20,
-                    // TODO Hier MaxXP von Level + so viel, dass Level von Lvl Kreis bis Lvl Kreis geht
-                    initialAngleInDegree: 45,
-                    ringStrokeWidth: 12,
-                    legendOptions: LegendOptions(showLegends: false),
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      radius: 30,
-                      child: Text(
-                        "1",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.black,
+                        radius: 30,
+                        child: Text(
+                          "1",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

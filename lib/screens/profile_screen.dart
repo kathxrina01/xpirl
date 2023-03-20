@@ -55,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     IconButton(
                       icon: Icon(Icons.arrow_back),
                       onPressed: () {
-                        // TODO: implement back button action
+                        Navigator.pop(context);
                       },
                     ),
                     SizedBox(width: 8),

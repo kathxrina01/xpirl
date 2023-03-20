@@ -14,6 +14,27 @@ class UserController extends GetxController {
     this.currentUserUsername = username;
   }
 
+
+
+
+  List<int> LevelXP = [0, 10, 30];
+  var currentLevel = 1;
+  var currenctXP = 0;
+
+  updateLevel() {
+    if (currenctXP >= LevelXP[currentLevel]) {
+      // Level Aufstieg
+      for (var i = currentLevel; i < LevelXP.length; i++) {
+        if (currenctXP >= LevelXP[i]) currentLevel++;
+        else break;
+      }
+    }
+  }
+
+
+
+
+
   // XP Punkte hinzufügen
   void addLevelXP(int add) {
     if (add <= 0) return; // Falsche Eingabe
