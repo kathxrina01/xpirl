@@ -77,8 +77,10 @@ class XPBackendServiceProvider {
   }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}');
     var response = await http.get(url);
+    print("hi uwu");
     if (response.statusCode == 200) {
       List<T> data = listFromJson(response.body);
+      print("hi uwu");
       return (data);
     } else {
       return [];
