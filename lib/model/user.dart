@@ -14,6 +14,10 @@ class User {
 }) {
     // TODO hier einen neuen Datenbankeintrag schreiben!
   }
+  /*
+  User(String username) {
+    this.username = username;
+  }*/
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     username: json["username"],
@@ -24,10 +28,10 @@ class User {
   );
 
   String username;
-  String avatar; // TODO std Avatar einfügen (Link?)
-  int levelXP;
-  int numCoins;
-  int numTickets;
+  String avatar = "assets/sadcat.jpeg"; // TODO std Avatar einfügen (Link?)
+  int levelXP = 0;
+  int numCoins = 0;
+  int numTickets = 0;
 
   /*
   User(String username, {String? avatar}) {

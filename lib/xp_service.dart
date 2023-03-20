@@ -33,6 +33,16 @@ class XPService {
     );
   }
 
+  /*
+  // set user
+  Future<User?> setUser(String username) async {
+    return await XPBackendServiceProvider.setUser(
+      resourcePath: "users",
+      username: username,
+      userFromJson: userFromJson,
+    );
+  }*/
+
   // get a list of all categories
   Future<List<String>> getCategoryList() async {
     return await XPBackendServiceProvider.getObjectCategoryList<String>(

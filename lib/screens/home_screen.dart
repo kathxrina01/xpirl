@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xpirl/screens/category_task_overview_screen.dart';
 import 'package:xpirl/screens/profile_screen.dart';
 
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   XPService service = XPService();
   List<Task> tasks = [];
   List<String> categories = [];
+  String username = '';
 
   // Load to-do list from the server
   Future<bool> _loadUsers() async {
@@ -33,6 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<bool> _loadCategories() async {
     categories = await service.getCategoryList();
     return true;
+  }
+
+  Future<String> _loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('username') ?? '';
   }
 
   final dataMap = <String, double>{
@@ -213,6 +220,13 @@ class UserBar extends StatelessWidget {
   final Map<String, double> dataMap;
   final List<Color> colorList;
 
+  //String username = '';
+
+  Future<String> loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('username') ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -236,7 +250,7 @@ class UserBar extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "XPirl",
+                        'XPirl',
                         style: TextStyle(
                           fontSize: 30, // TODO Responsive machen
                           fontWeight: FontWeight.bold,

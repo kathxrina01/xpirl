@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       // SystemChrome.setEnabledSystemUIOverlays([]), -> muss irgendwo ausgeführt werden, damit List oben weg
       //home: HomeScreen(),
       //home: TestScreen(),
-      home: ProfileScreen(),
+      home: LoginScreen(),
     );
   }
 }

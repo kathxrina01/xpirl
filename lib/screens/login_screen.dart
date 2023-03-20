@@ -1,9 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../controller/xp_state_controller.dart';
 import 'home_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  XPStateController _controller = Get.put(XPStateController());
+
+  final _formKey = GlobalKey<FormState>();
+
+  String username = "";
+
+  loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('username') ?? '';
+    });
+  }
+
+  saveUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', username);
+  }
 
   //TODO den rest der seite erst erscheinen lassen, wenn das willkommen vollständig animiert ist
   @override
@@ -69,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: TextField(
+                child: TextFormField(
                   decoration: InputDecoration(
                     hintText: 'Enter Your Name',
                     hintStyle: TextStyle(
@@ -81,6 +107,12 @@ class LoginScreen extends StatelessWidget {
                     ),
                     border: InputBorder.none,
                   ),
+                  onChanged: (value) {
+                    username = value;
+                  },
+                  onFieldSubmitted: (value) {
+                    submit();
+                  },
                 ),
               ),
               SizedBox(height: 20),
@@ -101,12 +133,21 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
-                    ),
-                  );
+                  submit();
+                  /*
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    addStringToSF() async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('currentUser', "username1");
+                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(),
+                      ),
+                    );
+                  }*/
                 },
               ),
             ],
@@ -115,6 +156,19 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+
+  submit() {
+    if (username.isEmpty) {
+      // TODO Fehermeldung -> was eintragen
+      print("leeres Feld");
+      return;
+    }
+    saveUsername().then((value) => loadUsername());
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(),
+      ),
+    );
+  }
 }
-
-
