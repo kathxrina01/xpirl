@@ -8,6 +8,7 @@ import 'package:xpirl/screens/profile_screen.dart';
 
 import '../controller/xp_state_controller.dart';
 import '../model/task.dart';
+import '../model/user.dart';
 import '../xp_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
   // Load to-do list from the server
   Future<bool> _loadUsers() async {
     tasks = await service.getTaskList();
-
     return true;
   }
 
@@ -129,7 +129,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CategoryTaskOverviewScreen(category: category)));
+                    builder: (context) =>
+                        CategoryTaskOverviewScreen(category: category)));
           },
           child: Container(
             width: double.infinity,
@@ -210,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class UserBar extends StatelessWidget {
+class UserBar extends StatefulWidget {
   const UserBar({
     Key? key,
     required this.dataMap,
@@ -220,11 +221,66 @@ class UserBar extends StatelessWidget {
   final Map<String, double> dataMap;
   final List<Color> colorList;
 
-  //String username = '';
+  @override
+  State<UserBar> createState() => _UserBarState();
+}
 
-  Future<String> loadUsername() async {
+class _UserBarState extends State<UserBar> {
+  User? user;
+  var levelXP = 0;
+  var numCoins = 0;
+  var tickets = 0;
+
+  XPService service = XPService();
+
+  String username = '';
+
+
+  Future<void> loadUsername() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('username') ?? '';
+    String loadedUsername = await prefs.getString('username') ?? '';
+    setState(() {
+      username = loadedUsername;
+    });
+
+    getUser();
+  }
+
+  Future<void> getUser() async {
+    User ?currentUser = await service.getUser(username);
+    setState(() {
+      user = currentUser;
+    });
+    print("XP: " + user!.getLevelXP().toString());
+  }
+/*
+  loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('username') ?? '';
+    });
+  }*/
+
+  /*
+  Future<bool> _loadUser() async {
+    user = await service.getUser();
+    return true;
+  }*/
+
+  /*
+  loadUserStats() async {
+    user = await service.getUser(username);
+    levelXP = user?.getLevelXP();
+    numCoins = user?.getNumCoins();
+
+    return true;
+  }*/
+
+  @override
+  void initState() {
+    super.initState();
+    loadUsername();
+    // loadUserStats();
   }
 
   @override
@@ -263,7 +319,7 @@ class UserBar extends StatelessWidget {
                     child: Row(
                       children: [
                         Icon(Icons.monetization_on_outlined),
-                        Text("20"), // TODO an User anpassen
+                        Text("0")
                       ],
                     ),
                   ),
@@ -284,10 +340,8 @@ class UserBar extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   // TODO Animation
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProfileScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProfileScreen()));
                 },
                 child: Stack(
                   children: [
@@ -311,10 +365,10 @@ class UserBar extends StatelessWidget {
                     //Container(color: Colors.black, width: 100, height: 100, child: Image.asset("assets/sadcat.jpeg"),),
                     PieChart(
                       // TODO Zu Button machen -> Zu Profil gelangen
-                      dataMap: dataMap,
+                      dataMap: widget.dataMap,
                       chartType: ChartType.ring,
                       baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-                      colorList: colorList,
+                      colorList: widget.colorList,
                       chartValuesOptions: ChartValuesOptions(
                         showChartValuesInPercentage: true,
                         showChartValues: false,

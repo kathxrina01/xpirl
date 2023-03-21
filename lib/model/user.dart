@@ -58,6 +58,14 @@ class User {
 
   }
 
+  getLevelXP() {
+    return this.levelXP;
+  }
+
+  getNumCoins() {
+    return this.numCoins;
+  }
+
   // XP Punkte hinzufügen
   addLevelXP(int add) {
     if (add <= 0) return; // Falsche Eingabe

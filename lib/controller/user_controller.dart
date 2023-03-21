@@ -2,18 +2,21 @@ import 'package:get/get.dart';
 
 import '../model/model.dart';
 import '../model/user.dart';
+import '../xp_service.dart';
 
 class UserController extends GetxController {
   var model = Model().obs;
   var changed = 0.obs;
 
-  //Users currentUser = new Users("abc").obs;
-  String? currentUserUsername;
+  /*
+  User ?user;
 
-  void configCurrentUser(String username) {
-    this.currentUserUsername = username;
+  XPService service = XPService();
+
+  setUser(String username) async {
+    user = await service.getUser(username);
   }
-
+*/
 
 
 

@@ -45,12 +45,14 @@ class XPBackendServiceProvider {
       List<dynamic> userData = json.decode(response.body);
       User? user = userData
           .map((e) => userFromJson(json.encode(e), username))
-          .firstWhere((e) => e!.username == username, orElse: () => null);
+          .firstWhere((e) => e!.username == username, orElse: () => User(username: username, avatar: "assets/sadcat.jpeg", levelXP: 0, numCoins: 0, numTickets: 0)); // TODO neuen User erstellen
       return user;
     } else {
       return null;
     }
   }
+
+
 
   // return all Objects where the category name is a match
   static Future<List<T>> getObjectsByCategory<T>({
@@ -77,10 +79,8 @@ class XPBackendServiceProvider {
   }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}');
     var response = await http.get(url);
-    print("hi uwu");
     if (response.statusCode == 200) {
       List<T> data = listFromJson(response.body);
-      print("hi uwu");
       return (data);
     } else {
       return [];
