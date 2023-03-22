@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xpirl/screens/login_screen.dart';
 import 'package:xpirl/screens/profile_screen.dart';
+import 'package:xpirl/screens/test_button_feature.dart';
 import 'screens/home_screen.dart';
 import 'screens/test_screen.dart';
 
@@ -33,8 +34,8 @@ class MyApp extends StatelessWidget {
       // SystemChrome.setEnabledSystemUIOverlays([]), -> muss irgendwo ausgeführt werden, damit List oben weg
       //home: HomeScreen(),
       //home: TestScreen(),
-      home: ProfileScreen(),
-      //home: LoginScreen(),
+      //home: ProfileScreen(),
+      home: Test(),
     );
   }
 }

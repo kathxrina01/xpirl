@@ -13,6 +13,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   List<Task> tasks = [];
   List<String> categories = [];
+  List<Map<String, dynamic>> friendsreq = [    {'name': 'Max', 'avatar': Icons.person, 'task': 'Hausaufgaben'},    {'name': 'Lisa', 'avatar': Icons.person, 'task': 'Einkaufen'},    {'name': 'Tom', 'avatar': Icons.person, 'task': 'Gartenarbeit'},  ];
 
   List<Map<String, dynamic>> achievements = [
     {'name': 'Name Erfolg'},
@@ -229,18 +230,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
 
-
-
-
                       Align(
                         alignment: Alignment.topRight,
                         child: CircleAvatar(
                           backgroundColor: Colors.blueGrey,
                           radius: 5,
                           child: Text(
-                            "1",
+                            '${friends.length}',
                             style: TextStyle(
                               color: Colors.black,
+                              fontSize: 8,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -251,11 +251,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.blueGrey,
-                      child:
-                          Icon(Icons.settings_outlined, color: Colors.black)),
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.blueGrey,
+                    child: IconButton(
+                      icon: Icon(Icons.settings_outlined, color: Colors.black),
+                      onPressed: () {
+                        setState(() {
+                          _showSettingsDialog();
+                        });
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -428,6 +435,110 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Navigator.of(context).pop();
               },
             )
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSettingsDialog() {
+    bool _notificationsEnabled = true; // Benachrichtigungen aktiviert/deaktiviert
+    bool _darkModeEnabled = false; // Dark Mode aktiviert/deaktiviert
+    String _language = 'Deutsch'; // Ausgewählte Sprache
+    double _volume = 0.5; // Lautstärke des Sounds
+
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Einstellungen'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Sound'),
+                  Slider(
+                    value: _volume,
+                    onChanged: (double value) {
+                      setState(() {
+                        _volume = value;
+                      });
+                    },
+                    min: 0.0,
+                    max: 1.0,
+                    divisions: 10,
+                    label: _volume.toStringAsFixed(1),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Benachrichtigungen'),
+                  Switch(
+                    value: _notificationsEnabled,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _notificationsEnabled = value ?? false;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Sprache'),
+                  DropdownButton<String>(
+                    value: _language,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _language = newValue ?? 'Deutsch';
+                      });
+                    },
+                    items: <String>['Deutsch', 'Englisch', 'Französisch', 'Japanisch', 'Arabisch']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Dark Mode'),
+                  Switch(
+                    value: _darkModeEnabled,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _darkModeEnabled = value ?? false;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('Hilfe/Support'),
+              onPressed: () {
+                // Hier können Sie Ihre Hilfe/Support-Funktion aufrufen
+              },
+            ),
+            ElevatedButton(
+              child: Text('Schließen'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         );
       },
