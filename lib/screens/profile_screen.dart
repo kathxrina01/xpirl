@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import '../model/task.dart';
+import 'User_Bar.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Expanded(
                 // Leiste oben
                 flex: 2,
-                child: UserBar(dataMap: dataMap, colorList: colorList),
+                child: UserBar(dataMap: dataMap, colorList: colorList, type: 1,),
               ),
               SizedBox(height: 8),
               Padding(
@@ -559,6 +560,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 }
 
+/*
+
 class UserBar extends StatelessWidget {
   const UserBar({
     Key? key,
@@ -661,3 +664,4 @@ class UserBar extends StatelessWidget {
     );
   }
 }
+*/

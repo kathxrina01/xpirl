@@ -4,12 +4,13 @@ import 'package:pie_chart/pie_chart.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xpirl/screens/category_task_overview_screen.dart';
-import 'package:xpirl/screens/profile_screen.dart';
+
 
 import '../controller/xp_state_controller.dart';
 import '../model/task.dart';
 import '../model/user.dart';
 import '../xp_service.dart';
+import 'User_Bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -53,22 +54,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          Column(
-            children: [
-              Expanded(
-                  // War mal Expanded
-                  flex: 2,
-                  child: UserBar(dataMap: dataMap, colorList: colorList)),
-              // Leiste oben
+          Expanded(
+              // War mal Expanded
+              flex: 2,
+              child: UserBar(dataMap: dataMap, colorList: colorList, type: 0,)),
+          // Leiste oben
 
-              Expanded(
-                // War mal Expanded
-                flex: 8,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Obx(() {
+          Expanded(
+            // War mal Expanded
+            flex: 8,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Stack(
+                children: [
+                  Obx(() {
                     int change = _controller.somethingChanged.value;
                     return FutureBuilder<bool>(
                       future: _loadCategories(),
@@ -82,32 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     );
                   }),
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                          radius: 20, child: Icon(Icons.message_outlined)),
-                      Align(
-                          alignment: Alignment.topRight,
-                          child: CircleAvatar(radius: 5, child: Text("1"))),
-                      // TODO an Anzahl der Anfragen anpassen
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CircleAvatar(
-                      radius: 20, child: Icon(Icons.settings_outlined)),
+                  //buildButtonsBottomRight(),
                 ],
               ),
             ),
@@ -117,12 +93,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget buildButtonsBottomRight() {
+    return /*Positioned(
+          right: 0,
+          bottom: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    CircleAvatar(
+                        radius: 20, child: Icon(Icons.message_outlined)),
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: CircleAvatar(radius: 5, child: Text("1"))),
+                    // TODO an Anzahl der Anfragen anpassen
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                CircleAvatar(
+                    radius: 20, child: Icon(Icons.settings_outlined)),
+              ],
+            ),
+          ),
+        );*/
+    Container();
+  }
+
   _buildCard(String category) {
     return Column(
       children: [
         SizedBox(height: 10), // TODO responsive
-        GestureDetector(
-          // -> aus Widget Interaktionselement machen
+        InkWell(
           onTap: () {
             _controller.onDelete(); // TODO weg (war nur für Compiler :D
             // TODO Animation
@@ -211,219 +216,3 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class UserBar extends StatefulWidget {
-  const UserBar({
-    Key? key,
-    required this.dataMap,
-    required this.colorList,
-  }) : super(key: key);
-
-  final Map<String, double> dataMap;
-  final List<Color> colorList;
-
-  @override
-  State<UserBar> createState() => _UserBarState();
-}
-
-class _UserBarState extends State<UserBar> {
-  User? user;
-  var levelXP = 0;
-  var numCoins = 0;
-  var tickets = 0;
-
-  XPService service = XPService();
-
-  String? username;
-
-  Future<String> loadUsername() async {
-    print("loadUsername() ausgeführt");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String loadedUsername = await prefs.getString('username') ?? '';
-    return loadedUsername;
-    /*
-    setState(() {
-      username = loadedUsername;
-    });
-
-    getUser();*/
-  }
-
-  Future<User?> getUser() async {
-    print("getUser() ausgeführt");
-    String currentUsername = username ?? await loadUsername();
-    return await service.getUser(currentUsername);
-    /*
-    setState(() {
-      user = currentUser;
-    });
-    print("XP: " + user!.getLevelXP().toString());*/
-    return user;
-  }
-
-  Future<String?> loadNumCoins() async {
-    print("loadNumCoins() ausgeführt");
-    User? currentUser = user ?? await getUser();
-    return currentUser?.numCoins.toString();
-  }
-/*
-  loadUsername() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      username = prefs.getString('username') ?? '';
-    });
-  }*/
-
-  /*
-  Future<bool> _loadUser() async {
-    user = await service.getUser();
-    return true;
-  }*/
-
-  /*
-  loadUserStats() async {
-    user = await service.getUser(username);
-    levelXP = user?.getLevelXP();
-    numCoins = user?.getNumCoins();
-
-    return true;
-  }*/
-
-  @override
-  void initState() {
-    super.initState();
-    loadUsername();
-    // loadUserStats();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey,
-      height: 200,
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Container(),
-            ),
-            Expanded(
-              flex: 6,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 6,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'XPirl',
-                        style: TextStyle(
-                          fontSize: 30, // TODO Responsive machen
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      children: [
-                        Icon(Icons.monetization_on_outlined),
-                    FutureBuilder<String?>(
-                      future: loadNumCoins(),
-                      builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-                        print(snapshot.toString());
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator(); // Ladeindikator anzeigen
-                        } else if (snapshot.hasError) {
-                          return Text("Fehler beim Laden"); // Fehlermeldung anzeigen
-                        } else {
-                          return Text(snapshot.data ?? '0'); // Text anzeigen
-                        }
-                      },),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      children: [
-                        Icon(Icons.airplane_ticket_outlined),
-                        Text("0"), // TODO an User anpassen
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 4,
-              child: GestureDetector(
-                onTap: () {
-                  // TODO Animation
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProfileScreen()));
-                },
-                child: Stack(
-                  children: [
-                    /*
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Positioned.fill(child: CircleAvatar(backgroundImage: AssetImage("assets/sadcat.jpeg"), )),
-                    ),*/
-                    Positioned.fill(
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage("assets/sadcat.jpeg"),
-                      ),
-                      // TODO Größe responsive machen
-                      bottom: 10,
-                      left: 10,
-                      right: 10,
-                      top: 10,
-                    ),
-                    //Expanded(child: CircleAvatar(backgroundImage: AssetImage("assets/sadcat.jpeg"), ), flex: 1,),
-                    //Expanded(child: CircleAvatar(backgroundImage: AssetImage("assets/sadcat.jpeg"), )),
-                    //Container(color: Colors.black, width: 100, height: 100, child: Image.asset("assets/sadcat.jpeg"),),
-                    PieChart(
-                      // TODO Zu Button machen -> Zu Profil gelangen
-                      dataMap: widget.dataMap,
-                      chartType: ChartType.ring,
-                      baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-                      colorList: widget.colorList,
-                      chartValuesOptions: ChartValuesOptions(
-                        showChartValuesInPercentage: true,
-                        showChartValues: false,
-                      ),
-                      totalValue: 20,
-                      // TODO Hier MaxXP von Level + so viel, dass Level von Lvl Kreis bis Lvl Kreis geht
-                      initialAngleInDegree: 45,
-                      ringStrokeWidth: 12,
-                      legendOptions: LegendOptions(showLegends: false),
-                    ),
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        radius: 30,
-                        child: Text(
-                          "1",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../controller/xp_state_controller.dart';
 import '../model/task.dart';
 import '../xp_service.dart';
+import 'User_Bar.dart';
 import 'home_screen.dart';
 import 'task_screen.dart';
 
@@ -49,7 +50,7 @@ class _CategoryTaskOverviewScreenState
           children: [
             Expanded(
                 flex: 2,
-                child: UserBar(dataMap: dataMap, colorList: colorList)),
+                child: UserBar(dataMap: dataMap, colorList: colorList, type: 0,)),
             Expanded(
               flex: 8,
               child: Column(
@@ -60,6 +61,7 @@ class _CategoryTaskOverviewScreenState
                       // bar on top that tells the category and lets you go back
                       children: [
                         GestureDetector(
+behavior: HitTestBehavior.opaque,
                             // -> aus Widget Interaktionselement machen
                             onTap: () {
                               Navigator.pop(context);
@@ -113,6 +115,7 @@ class _CategoryTaskOverviewScreenState
               children: [
                 SizedBox(height: 10), // TODO responsive
                 GestureDetector(
+behavior: HitTestBehavior.opaque,
                   // -> aus Widget Interaktionselement machen
                   onTap: () {
                     // TODO Animation
