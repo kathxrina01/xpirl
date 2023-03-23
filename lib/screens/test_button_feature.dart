@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 //test
 class Test extends StatefulWidget {
   const Test({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   bool _isUnlocked = false;
-  int _goldCoins = 10;
+  int _goldCoins = 0;
 
   void _buyCategory() {
     if (_goldCoins >= 5) {
@@ -103,6 +104,18 @@ class _TestState extends State<Test> {
                   SizedBox(height: 10),
                   Text('Kategorie 2'),
                 ],
+              ),
+            ),
+            Container(
+              child: GFIconBadge(
+                child: GFIconButton(
+                  onPressed: (){},
+                  icon: Icon(Icons.notifications),
+                  shape: GFIconButtonShape.pills,
+                ),
+                counterChild: GFBadge(
+                  child: Text("12"),
+                ),
               ),
             ),
           ],

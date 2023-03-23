@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import '../model/task.dart';
 
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -62,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         'Profil',
                         style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.04,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -116,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Text(
                     "Level 3",
                     style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -146,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         '700XP',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -191,7 +192,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Text('Änderungen speichern'),
                     style: ElevatedButton.styleFrom(
                       textStyle: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.04),
+                          fontSize: 15,
+                        fontFamily: "SourceCodePro",
+                        //fontFamily: "JosefinSans",
+                      ),
+
                       backgroundColor: Colors.blueGrey,
                       minimumSize: Size(50, 30),
                       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -221,7 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         radius: 20,
                         backgroundColor: Colors.blueGrey,
                         child: IconButton(
-                          icon: Icon(Icons.message_outlined, color: Colors.black),
+                          icon: Icon(Icons.message_outlined, color: Colors.white),
                           onPressed: () {
                             setState(() {
                               _showDialog();
@@ -238,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Text(
                             '${friends.length}',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 8,
                               fontWeight: FontWeight.bold,
                             ),
@@ -255,7 +260,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     radius: 20,
                     backgroundColor: Colors.blueGrey,
                     child: IconButton(
-                      icon: Icon(Icons.settings_outlined, color: Colors.black),
+                      icon: Icon(Icons.settings_outlined, color: Colors.white),
                       onPressed: () {
                         setState(() {
                           _showSettingsDialog();
@@ -273,7 +278,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text(
                 'Erfolge',
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -302,7 +307,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         achievements[index]['name'],
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.04),
+                            fontSize: 15),
                       ),
                     ],
                   );
@@ -319,7 +324,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text('Alle Erfolge'),
               style: ElevatedButton.styleFrom(
                 textStyle: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                  fontSize: 15,
+                  fontFamily: "SourceCodePro",
+                  //fontFamily: "JosefinSans",
                 ),
                 backgroundColor: Colors.blueGrey,
                 minimumSize: Size(70, 25),
@@ -333,7 +340,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text(
                 'Freunde',
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -362,7 +369,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         friends[index]['name'],
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.04),
+                            fontSize: 15),
                       ),
                     ],
                   );
@@ -379,7 +386,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text('Alle Freunde'),
               style: ElevatedButton.styleFrom(
                 textStyle: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.04),
+                    fontSize: 15,
+                  //fontFamily: "SourceCodePro",
+                  fontFamily: "JosefinSans",
+                ),
                 backgroundColor: Colors.blueGrey,
                 minimumSize: Size(70, 25),
                 padding: EdgeInsets.symmetric(horizontal: 10),
@@ -561,91 +571,93 @@ class UserBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          color: Colors.blueGrey,
-          height: 200,
-          width: double.infinity,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(),
-              ),
-              Expanded(
-                flex: 6,
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "XPirl",
-                          style: TextStyle(
-                            fontSize: 30, // TODO Responsive machen
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                color: Colors.pinkAccent,
-                                blurRadius: 1,
-                                offset: Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Row(
-                        children: const [
-                          Icon(Icons.monetization_on_outlined),
-                          Text("20"), // TODO an User anpassen
-                        ],
-                      ),
-                    ),
-                    //TODO space bissel zwischen beiden icons
-                    Expanded(
-                      flex: 1,
-                      child: Row(
-                        children: const [
-                          Icon(Icons.airplane_ticket_outlined),
-                          Text("0"), // TODO an User anpassen
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "Username",
-                          style: TextStyle(
-                            fontSize: 30, // TODO Responsive machen
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                color: Colors.pinkAccent,
-                                blurRadius: 1,
-                                offset: Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return SizedBox(
+      child: Stack(
+        children: [
+          Container(
+            color: Colors.blueGrey,
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(),
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "XPirl",
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height * 0.035, // TODO Responsive machen
+                              //fontWeight: FontWeight.bold,
+                              fontFamily: "Righteous",
+                              shadows: [
+                                Shadow(
+                                  color: Colors.pinkAccent,
+                                  blurRadius: 1,
+                                  offset: Offset(2, 2),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          children: const [
+                            Icon(Icons.monetization_on_outlined),
+                            Text("20"), // TODO an User anpassen
+                          ],
+                        ),
+                      ),
+                      //TODO space bissel zwischen beiden icons
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          children: const [
+                            Icon(Icons.airplane_ticket_outlined),
+                            Text("0"), // TODO an User anpassen
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "Username",
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height * 0.035, // TODO Responsive machen
+                              fontFamily: 'Righteous',
+                              //fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.pinkAccent,
+                                  blurRadius: 1,
+                                  offset: Offset(2, 2),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
