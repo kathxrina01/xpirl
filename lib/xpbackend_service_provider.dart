@@ -37,17 +37,42 @@ class XPBackendServiceProvider {
     required String resourcePath,
     required String username,
     required Function(String, String) userFromJson,
+    required Function(String) userListFromJson,
   }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
     var response = await http.get(url);
-
+    print(url);
     if (response.statusCode == 200) {
+      print("-----ok1------");
+      print(username);
+
+
       List<dynamic> userData = json.decode(response.body);
+      print(userData.toString());
+/*
       User? user = userData
           .map((e) => userFromJson(json.encode(e), username))
-          .firstWhere((e) => e!.username == username, orElse: () => User(username: username, avatar: "assets/sadcat.jpeg", levelXP: 0, numCoins: 0, numTickets: 0)); // TODO neuen User erstellen
-      return user;
+          .firstWhere((e) => e!.username == username, orElse: () => User(username: username, avatar: "assets/sadcat.jpeg", levelXP: 0, numCoins: 0, numTickets: 0)); // TODO hier Fehler?
+*/
+      User? currentUser;
+      for (var user in userData) {
+        if (user['username'] == username) {
+          currentUser = User.fromJson(user); // Konvertiere das JSON-Objekt in eine User-Instanz
+          break; // Beende die Schleife, wenn die gesuchte Instanz gefunden wurde
+        }
+      }
+
+      currentUser ??= User(username: username, avatar: "assets/sadcat.jpeg", levelXP: 0, numCoins: 0, numTickets: 0);
+
+      print(response.body);
+      //List<User> userList = userListFromJson(response.body);
+
+
+      print("-----ok2------");
+      //return userList[0];
+      return currentUser;
     } else {
+      print("-----nicht------");
       return null;
     }
   }

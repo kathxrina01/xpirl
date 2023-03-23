@@ -2,36 +2,52 @@ import 'dart:convert';
 
 User userFromJson(String str, String username) => User.fromJson(json.decode(str));
 
+List<User> userListFromJson(String str) => List<User>.from(json.decode(str).map((x) => User.fromJson(x)));
 
 class User {
 
   User({
+    this.id = 0,
    required this. username,
-    required this.avatar,
-    required this.levelXP,
-    required this.numCoins,
-    required this.numTickets
+    this.avatar = "assets/sadcat.jpeg",
+    this.levelXP = 0,
+    this.numCoins = 0,
+    this.numTickets = 0,
+    this.isFriendWith = const [],
+    this.hasLevelXP = const []
 }) {
     // TODO hier einen neuen Datenbankeintrag schreiben!
   }
-  /*
-  User(String username) {
-    this.username = username;
-  }*/
+  User.empty({
+    this.id = 0,
+    this.username = 'User123',
+    this.avatar = "assets/sadcat.jpeg",
+    this.levelXP = 0,
+    this.numCoins = 0,
+    this.numTickets = 0,
+    this.isFriendWith = const [],
+    this.hasLevelXP = const []
+});
 
   factory User.fromJson(Map<String, dynamic> json) => User(
+    id: json["id"],
     username: json["username"],
     avatar: json["avatar"],
     levelXP: json["levelXP"],
     numCoins: json["numCoins"],
     numTickets: json["numTickets"],
+    isFriendWith: json["isFriendWith"],
+    hasLevelXP: json["hasLevelXP"]
   );
 
+  int id;
   String username;
-  String avatar = "assets/sadcat.jpeg"; // TODO std Avatar einfügen (Link?)
-  int levelXP = 0;
-  int numCoins = 0;
-  int numTickets = 0;
+  String avatar;
+  int levelXP;
+  int numCoins;
+  int numTickets;
+  List<String> isFriendWith;
+  List<int> hasLevelXP;
 
   /*
   User(String username, {String? avatar}) {

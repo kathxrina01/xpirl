@@ -30,6 +30,7 @@ class XPService {
       resourcePath: "users",
       username: username,
       userFromJson: userFromJson,
+      userListFromJson: userListFromJson,
     );
   }
 

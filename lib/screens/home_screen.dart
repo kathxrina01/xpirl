@@ -233,25 +233,37 @@ class _UserBarState extends State<UserBar> {
 
   XPService service = XPService();
 
-  String username = '';
+  String? username;
 
-
-  Future<void> loadUsername() async {
+  Future<String> loadUsername() async {
+    print("loadUsername() ausgeführt");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String loadedUsername = await prefs.getString('username') ?? '';
+    return loadedUsername;
+    /*
     setState(() {
       username = loadedUsername;
     });
 
-    getUser();
+    getUser();*/
   }
 
-  Future<void> getUser() async {
-    User ?currentUser = await service.getUser(username);
+  Future<User?> getUser() async {
+    print("getUser() ausgeführt");
+    String currentUsername = username ?? await loadUsername();
+    return await service.getUser(currentUsername);
+    /*
     setState(() {
       user = currentUser;
     });
-    print("XP: " + user!.getLevelXP().toString());
+    print("XP: " + user!.getLevelXP().toString());*/
+    return user;
+  }
+
+  Future<String?> loadNumCoins() async {
+    print("loadNumCoins() ausgeführt");
+    User? currentUser = user ?? await getUser();
+    return currentUser?.numCoins.toString();
   }
 /*
   loadUsername() async {
@@ -319,7 +331,18 @@ class _UserBarState extends State<UserBar> {
                     child: Row(
                       children: [
                         Icon(Icons.monetization_on_outlined),
-                        Text("0")
+                    FutureBuilder<String?>(
+                      future: loadNumCoins(),
+                      builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+                        print(snapshot.toString());
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator(); // Ladeindikator anzeigen
+                        } else if (snapshot.hasError) {
+                          return Text("Fehler beim Laden"); // Fehlermeldung anzeigen
+                        } else {
+                          return Text(snapshot.data ?? '0'); // Text anzeigen
+                        }
+                      },),
                       ],
                     ),
                   ),
