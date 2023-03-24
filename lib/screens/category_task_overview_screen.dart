@@ -39,7 +39,7 @@ class _CategoryTaskOverviewScreenState
   };
 
   final colorList = <Color>[
-    Colors.greenAccent,
+    Colors.pinkAccent,
   ];
 
   @override
@@ -130,56 +130,36 @@ behavior: HitTestBehavior.opaque,
                     height: 120, // TODO responsive
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey,
+                      color: Colors.blueGrey,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.pinkAccent.withOpacity(0.5),
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
                           Expanded(
-                              flex: 6,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: 8,
-                                      child: Align(
-                                        child: Text(
-                                          tasks[index].title,
-                                          // TODO Kategorie anpassen
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        alignment: Alignment.centerLeft,
-                                      )),
-                                  Expanded(
-                                      flex: 2,
-                                      child: Icon(Icons.lock_outline_rounded)),
-                                  // TODO nur anzeigen, wenn noch nicht freigeschlten
-                                ],
-                              )),
-                          Expanded(
-                            flex: 4,
+                            flex: 6,
                             child: Row(
                               children: [
-                                // TODO flex anpassn an %
                                 Expanded(
-                                  flex: 66,
-                                  child: Container(
-                                    height: 5,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.lightGreenAccent,
+                                  flex: 8,
+                                  child: Align(
+                                    child: Text(
+                                      tasks[index].title,
+                                      // TODO Kategorie anpassen
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontFamily: "SourceCodePro",
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                ),
-
-                                Expanded(
-                                  flex: 34,
-                                  child: Container(
-                                    height: 5,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.black12,
-                                    ),
+                                    alignment: Alignment.centerLeft,
                                   ),
                                 ),
                               ],

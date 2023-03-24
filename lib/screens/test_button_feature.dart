@@ -118,6 +118,25 @@ class _TestState extends State<Test> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: Container(
+                  child:  GFProgressBar(
+                      percentage: 0.9,
+                      width:100,
+                      radius: 90,
+                      type: GFProgressType.circular,
+                      backgroundColor : Colors.black26,
+                      progressBarColor: GFColors.DANGER
+                  )
+              ),
+            ),
+            Container(
+              child: CircleAvatar(
+                backgroundImage: AssetImage("assets/sadcat.jpeg"),
+                radius: 40,
+              ),
+            ),
           ],
         ),
       ),
