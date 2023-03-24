@@ -11,6 +11,7 @@ import '../model/user.dart';
 import '../xp_service.dart';
 import 'Back_Bar.dart';
 import 'User_Bar.dart';
+import 'package:xpirl/screens/Set_and_Not_Button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -99,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      floatingActionButton: SetandNotButton(),
     );
   }
 

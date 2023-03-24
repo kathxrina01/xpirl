@@ -110,7 +110,7 @@ class _TestState extends State<Test> {
               child: GFIconBadge(
                 child: GFIconButton(
                   onPressed: (){},
-                  icon: Icon(Icons.notifications),
+                  icon: Icon(Icons.person_add),
                   shape: GFIconButtonShape.pills,
                 ),
                 counterChild: GFBadge(

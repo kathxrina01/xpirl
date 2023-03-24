@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import '../model/task.dart';
 import 'User_Bar.dart';
+import 'package:xpirl/screens/Set_and_Not_Button.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -71,6 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
+
               Container(
                 child: InkWell(
                   onTap: () {
@@ -214,65 +216,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ],
           ),
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.blueGrey,
-                        child: IconButton(
-                          icon: Icon(Icons.message_outlined, color: Colors.white),
-                          onPressed: () {
-                            setState(() {
-                              _showDialog();
-                            });
-                          },
-                        ),
-                      ),
-
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.blueGrey,
-                          radius: 5,
-                          child: Text(
-                            '${friends.length}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 8,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      // TODO an Anzahl der Anfragen anpassen
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.blueGrey,
-                    child: IconButton(
-                      icon: Icon(Icons.settings_outlined, color: Colors.white),
-                      onPressed: () {
-                        setState(() {
-                          _showSettingsDialog();
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
           Container(
             child: Padding(
               padding: const EdgeInsets.only(top: 465, left: 166),
@@ -399,165 +342,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
+      floatingActionButton: SetandNotButton(),
     );
   }
-
-
-  void _showDialog() {
-    List<Map<String, dynamic>> friends = [    {'name': 'Max', 'avatar': Icons.person, 'task': 'Hausaufgaben'},    {'name': 'Lisa', 'avatar': Icons.person, 'task': 'Einkaufen'},    {'name': 'Tom', 'avatar': Icons.person, 'task': 'Gartenarbeit'},  ]; // Hier werden Freunde mit ihren Avataren und Aufgaben definiert
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Freunde-Benachrichtigung'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('${friends.length} ${friends.length == 1 ? "Freund" : "Freunde"} möchten mit dir eine Task zusammen lösen.'),
-              SizedBox(height: 16),
-              Text('Freunde:'),
-              SizedBox(height: 8),
-              ...friends.map((friend) {
-                return Column(
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          child: Icon(friend['avatar'], color: Colors.white),
-                        ),
-                        SizedBox(width: 8),
-                        Text(friend['name']),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    Text('Möchte ${friend['task']} erledigen.'),
-                    SizedBox(height: 16),
-                  ],
-                );
-              }).toList(),
-            ],
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: Text('Schließen'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  void _showSettingsDialog() {
-    bool _notificationsEnabled = true; // Benachrichtigungen aktiviert/deaktiviert
-    bool _darkModeEnabled = false; // Dark Mode aktiviert/deaktiviert
-    String _language = 'Deutsch'; // Ausgewählte Sprache
-    double _volume = 0.5; // Lautstärke des Sounds
-
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Einstellungen'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Sound'),
-                  Slider(
-                    value: _volume,
-                    onChanged: (double value) {
-                      setState(() {
-                        _volume = value;
-                      });
-                    },
-                    min: 0.0,
-                    max: 1.0,
-                    divisions: 10,
-                    label: _volume.toStringAsFixed(1),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Benachrichtigungen'),
-                  Switch(
-                    value: _notificationsEnabled,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _notificationsEnabled = value ?? false;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Sprache'),
-                  DropdownButton<String>(
-                    value: _language,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _language = newValue ?? 'Deutsch';
-                      });
-                    },
-                    items: <String>['Deutsch', 'Englisch', 'Französisch', 'Japanisch', 'Arabisch']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-              //test
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Dark Mode'),
-                  Switch(
-                    value: _darkModeEnabled,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _darkModeEnabled = value ?? false;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: Text('Hilfe/Support'),
-              onPressed: () {
-                // Hier können Sie Ihre Hilfe/Support-Funktion aufrufen
-              },
-            ),
-            ElevatedButton(
-              child: Text('Schließen'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-
 }
 
 /*

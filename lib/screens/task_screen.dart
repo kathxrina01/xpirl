@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../controller/xp_state_controller.dart';
 import '../model/task.dart';
 import '../xp_service.dart';
@@ -9,6 +8,8 @@ import 'Back_Bar.dart';
 import 'User_Bar.dart';
 import 'home_screen.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
+import 'package:xpirl/screens/Set_and_Not_Button.dart';
+import 'package:getwidget/getwidget.dart';
 
 class TaskScreen extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _TaskScreenState extends State<TaskScreen> {
   ];
 
   bool _isButtonPressed = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +116,17 @@ class _TaskScreenState extends State<TaskScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
+                        GFIconButton(
+                          onPressed:(){
+                            addFriends();
+                          },
+                          icon: Icon(Icons.person_add),
+                          shape: GFIconButtonShape.circle,
+                          color: Colors.blueGrey,
+                          borderSide: BorderSide(color: Colors.white, width: 2.0),
+                        ),
+                        SizedBox(height: 10),
                         AnimatedContainer(
                           duration: Duration(milliseconds: 200),
                           height: 40,
@@ -174,6 +186,74 @@ class _TaskScreenState extends State<TaskScreen> {
           ],
         ),
       ),
+      floatingActionButton: SetandNotButton(),
     );
+  }
+
+  void addFriends() {
+    List<String> friends = [    "Freund 1",    "Freund 2",    "Freund 3",    "Freund 4",    "Freund 5"  ];
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Freunde zur Task hinzufügen"),
+            content: SingleChildScrollView(
+              child: Column(
+                children: friends.map((friend) {
+                  return ListTile(
+                    leading: GestureDetector(
+                      onTapDown: (TapDownDetails details) {
+                        RenderBox box = context.findRenderObject() as RenderBox;
+                        Offset position = box.localToGlobal(details.globalPosition);
+                        _showProfileMenu(context, position);
+                      },
+                      child: CircleAvatar(
+                        child: Text(friend[0]),
+                      ),
+                    ),
+                    title: Text(friend),
+                    trailing: IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        // Hier können Sie den Freund zur Task hinzufügen
+                      },
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                child: Text("Schließen"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+  void _showProfileMenu(BuildContext context, Offset position) {
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy - 40.0, // Anpassen der Y-Position um 30 Einheiten nach unten
+        position.dx + 10,
+        position.dy - 40.0,
+      ),
+      items: [
+        PopupMenuItem(
+          child: Text('Profil aufrufen'),
+          value: 1,
+        ),
+      ],
+      elevation: 8.0,
+    ).then((value) {
+      if (value == 1) {
+        // Hier kann die Aktion ausgeführt werden, wenn "Profil aufrufen" ausgewählt wird
+      }
+    });
   }
 }
