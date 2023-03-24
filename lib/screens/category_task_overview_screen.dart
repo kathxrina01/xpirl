@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../controller/xp_state_controller.dart';
 import '../model/task.dart';
 import '../xp_service.dart';
+import 'Back_Bar.dart';
 import 'User_Bar.dart';
 import 'home_screen.dart';
 import 'task_screen.dart';
@@ -49,51 +50,27 @@ class _CategoryTaskOverviewScreenState
         child: Column(
           children: [
             Expanded(
-                flex: 2,
+                flex: 20,
                 child: UserBar(dataMap: dataMap, colorList: colorList, type: 0,)),
+            Expanded(flex: 5, child: BackBar(title: "Kategorie", type: 1,)),// TODO Kategorie einfügen
             Expanded(
-              flex: 8,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: Stack(
-                      // bar on top that tells the category and lets you go back
-                      children: [
-                        GestureDetector(
-behavior: HitTestBehavior.opaque,
-                            // -> aus Widget Interaktionselement machen
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(Icons.arrow_back)),
-                        Align(
-                            child: Text(this.widget.category),
-                            alignment: Alignment.center),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 95,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Obx(() {
-                        int change = _controller.somethingChanged.value;
-                        return FutureBuilder<bool>(
-                          future: _loadTasksInCategory(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return _buildListView(snapshot);
-                            } else if (snapshot.hasError) {
-                              return Text('${snapshot.error}');
-                            }
-                            return CircularProgressIndicator();
-                          },
-                        );
-                      }),
-                    ),
-                  )
-                ],
+              flex: 75,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Obx(() {
+                  int change = _controller.somethingChanged.value;
+                  return FutureBuilder<bool>(
+                    future: _loadTasksInCategory(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return _buildListView(snapshot);
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  );
+                }),
               ),
             ),
           ],

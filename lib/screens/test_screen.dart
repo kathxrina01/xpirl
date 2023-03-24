@@ -43,23 +43,7 @@ class _TestScreenState extends State<TestScreen> {
                 width: 200,
                 color: Colors.black12,
               )),
-          PieChart(
-            // TODO Zu Button machen -> Zu Profil gelangen
-            dataMap: dataMap,
-            chartType: ChartType.ring,
-            baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-            colorList: colorList,
-            chartValuesOptions: ChartValuesOptions(
-              showChartValuesInPercentage: true,
-              showChartValues: false,
-            ),
-            totalValue: 20,
-            // TODO Hier MaxXP von Level + so viel, dass Level von Lvl Kreis bis Lvl Kreis geht
-            initialAngleInDegree: 45,
-            ringStrokeWidth: 12,
-            legendOptions: LegendOptions(showLegends: false),
-            animationDuration: Duration(milliseconds: 0),
-          ),
+
         ],
       ),
     );

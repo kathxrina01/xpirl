@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xpirl/screens/category_task_overview_screen.dart';
 
-
 import '../controller/xp_state_controller.dart';
 import '../model/task.dart';
 import '../model/user.dart';
 import '../xp_service.dart';
+import 'Back_Bar.dart';
 import 'User_Bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -58,13 +58,22 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Expanded(
               // War mal Expanded
-              flex: 2,
-              child: UserBar(dataMap: dataMap, colorList: colorList, type: 0,)),
+              flex: 20,
+              child: UserBar(
+                dataMap: dataMap,
+                colorList: colorList,
+                type: 0,
+              )),
           // Leiste oben
-
+          Expanded(
+              flex: 5,
+              child: BackBar(
+                title: "Übersicht",
+                type: 0,
+              )),
           Expanded(
             // War mal Expanded
-            flex: 8,
+            flex: 75,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Stack(
@@ -120,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         );*/
-    Container();
+        Container();
   }
 
   _buildCard(String category) {
@@ -215,4 +224,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
