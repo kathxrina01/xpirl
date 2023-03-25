@@ -45,6 +45,7 @@ dependencies:
   google_fonts: any
   getwidget: ^2.0.4
   flutter_animated_button: any
+  page_transition: ^2.0.9
 
 dev_dependencies:
   flutter_test:

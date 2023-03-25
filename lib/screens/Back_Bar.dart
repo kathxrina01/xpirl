@@ -16,7 +16,7 @@ class BackBar extends StatelessWidget {
           this.title,
           style: TextStyle(
             fontFamily: "RobotoMono",
-            fontSize: 15,
+            fontSize: MediaQuery.of(context).size.height * 0.032,
             color: Colors.black,
             fontStyle: FontStyle.italic,
           ),
@@ -31,7 +31,7 @@ class BackBar extends StatelessWidget {
             icon: Icon(
               Icons.arrow_back,
               color: Colors.black,
-              size: 15,
+              size: MediaQuery.of(context).size.height * 0.032,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -44,7 +44,7 @@ class BackBar extends StatelessWidget {
             this.title,
             style: TextStyle(
               fontFamily: "RobotoMono",
-              fontSize: 15,
+              fontSize: MediaQuery.of(context).size.height * 0.032,
               color: Colors.black,
               fontStyle: FontStyle.italic,
             ),

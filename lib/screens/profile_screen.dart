@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import '../model/task.dart';
+import 'Back_Bar.dart';
 import 'User_Bar.dart';
 import 'package:xpirl/screens/Set_and_Not_Button.dart';
 
@@ -40,126 +43,124 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          Column(
-            children: [
-              Expanded(
-                // Leiste oben
-                flex: 2,
-                child: UserBar(dataMap: dataMap, colorList: colorList, type: 1,),
-              ),
-              SizedBox(height: 8),
-              Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Row(
+          Expanded(
+            // Leiste oben
+            flex: 20,
+            child: UserBar(dataMap: dataMap, colorList: colorList, type: 1,),
+          ),
+          Expanded(
+          flex: 5,
+            child: BackBar(title: "Profil", type: 1),
+          ),
+          Expanded(
+            flex: 75,
+            child: Padding(
+              padding: EdgeInsets.all(sqrt(MediaQuery.of(context).size.height * MediaQuery.of(context).size.width) * 0.01),
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
+                    InkWell(
+                      onTap: () {
+                        // TODO: navigate to profile picture change screen
                       },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 106),
-                      child: Text(
-                        'Profil',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Container(
-                child: InkWell(
-                  onTap: () {
-                    // TODO: navigate to profile picture change screen
-                  },
-                  child: Stack(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage('assets/sadcat.jpeg'),
-                        radius: 40,
-                      ),
-                      Positioned(
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Opacity(
-                          opacity: 0.6,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 20, top: 31),
-                              child: Text(
-                                'Profilbild wechseln',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
+                      child: Stack(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: AssetImage('assets/sadcat.jpeg'),
+                            radius: MediaQuery.of(context).size.width * 0.1,
+                          ),
+                          Positioned.fill(
+                            child: Opacity(
+                              opacity: 0.6,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Profilbild wechseln',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: MediaQuery.of(context).size.height * 0.015,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 7),
-                  child: Text(
-                    "Level 3",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 200.0,
-                height: 20.0,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      width: 100.0,
-                      height: 20.0,
-                      decoration: BoxDecoration(
-                        //TODO entscheidenmit oder ohne opacity
-                        color: Colors.pinkAccent.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(10.0),
+                        ],
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
+                    Padding(
+                      padding:EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),
                       child: Text(
-                        '700XP',
+                        "Level 3",
                         style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
+                          fontSize: MediaQuery.of(context).size.height * 0.022,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              //Name ändern
-              /* Container(
+                    Row(
+                      children: [
+                        Expanded(flex: 30, child: SizedBox()),
+                        Expanded(
+                          flex: 40,
+                          child: Stack(
+                            children: [Container(
+                              height: MediaQuery.of(context).size.height * 0.024,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 70, // TODO Backend
+                                    child: Container(
+                                    height: MediaQuery.of(context).size.height * 0.024,
+                                    decoration: BoxDecoration(
+                                      //TODO entscheidenmit oder ohne opacity
+                                      color: Colors.pinkAccent.withOpacity(0.8),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  ),Expanded(
+                                    flex: 30, // TODO Backend
+                                    child: SizedBox(),
+                                  ),
+
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: MediaQuery.of(context).size.height * 0.004),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    '540/700XP', // TODO Backend
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: MediaQuery.of(context).size.height * 0.018,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(flex: 30, child: SizedBox()),
+                      ],
+                    ),
+                    //Name ändern
+                    /* Container(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 80, right: 80, top: 15),
                   child: TextField(
@@ -184,159 +185,162 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-              ), */
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Container(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //TODO: implement button action
-                    },
-                    child: Text('Änderungen speichern'),
-                    style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                        fontFamily: "SourceCodePro",
-                        //fontFamily: "JosefinSans",
-                      ),
+          ), */
+                    /*
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Container(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            //TODO: implement button action
+                          },
+                          child: Text('Änderungen speichern'),
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              fontSize: 15,
+                              fontFamily: "SourceCodePro",
+                              //fontFamily: "JosefinSans",
+                            ),
 
-                      backgroundColor: Colors.blueGrey,
-                      minimumSize: Size(50, 30),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                            backgroundColor: Colors.blueGrey,
+                            minimumSize: Size(50, 30),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              const Expanded(
-                // War mal Expanded
-                flex: 6,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                ),
-              ),
-            ],
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 465, left: 166),
-              child: Text(
-                'Erfolge',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(top: 505),
-            child: Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                itemCount: achievements.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    children: [
-                      Icon(
-                        Icons.emoji_events,
-                        color: Colors.black.withOpacity(0.7),
+                    const Expanded(
+                      // War mal Expanded
+                      flex: 6,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
                       ),
-                      SizedBox(height: 8),
-                      Text(
-                        achievements[index]['name'],
-                        textAlign: TextAlign.center,
+                    ),*/
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.035,),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Erfolge',
                         style: TextStyle(
-                            fontSize: 15),
+                            fontSize: MediaQuery.of(context).size.height * 0.034,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 560, left: 160),
-            child: ElevatedButton(
-              onPressed: () {
-                //TODO: implement button action
-              },
-              child: Text('Alle Erfolge'),
-              style: ElevatedButton.styleFrom(
-                textStyle: TextStyle(
-                  fontSize: 15,
-                  fontFamily: "SourceCodePro",
-                  //fontFamily: "JosefinSans",
-                ),
-                backgroundColor: Colors.blueGrey,
-                minimumSize: Size(70, 25),
-                padding: EdgeInsets.symmetric(horizontal: 10),
-              ),
-            ),
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 620, left: 166),
-              child: Text(
-                'Freunde',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(top: 650.0),
-            child: Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                itemCount: friends.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage(friends[index]['image']),
-                        radius: 25,
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.008,),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: achievements.length < 3 ? achievements.length : 3,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          //mainAxisSpacing: 16,
+                          childAspectRatio: 1,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              Icon(
+                                Icons.emoji_events,
+                                color: Colors.black.withOpacity(0.7),
+                                size: MediaQuery.of(context).size.height * 0.055,
+                              ),
+                              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                              Text(
+                                achievements[index]['name'],
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.height * 0.018),
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                      SizedBox(height: 8),
-                      Text(
-                        friends[index]['name'],
-                        textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.001,),
+                    Align(
+                      alignment: Alignment.center,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //TODO: implement button action
+                        },
+                        child: Text('Alle Erfolge'),
+                        style: ElevatedButton.styleFrom(
+                          textStyle: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height * 0.018,
+                            fontFamily: "SourceCodePro",
+                            //fontFamily: "JosefinSans",
+                          ),
+                          backgroundColor: Colors.blueGrey,
+                          minimumSize: Size(70, 25),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.035,),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Freunde',
                         style: TextStyle(
-                            fontSize: 15),
+                            fontSize: MediaQuery.of(context).size.height * 0.034,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 725, left: 160),
-            child: ElevatedButton(
-              onPressed: () {
-                //TODO: implement button action
-              },
-              child: Text('Alle Freunde'),
-              style: ElevatedButton.styleFrom(
-                textStyle: TextStyle(
-                    fontSize: 15,
-                  //fontFamily: "SourceCodePro",
-                  fontFamily: "JosefinSans",
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.008,),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: friends.length < 3 ? friends.length : 3,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          //mainAxisSpacing: 16,
+                          childAspectRatio: 1,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: AssetImage(friends[index]['image']),
+                                //radius: 25,
+                                radius: MediaQuery.of(context).size.height * 0.055 / 2,
+                              ),
+                              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                              Text(
+                                friends[index]['name'],
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.height * 0.018),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.001,),
+                    Align(
+                      alignment: Alignment.center,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //TODO: implement button action
+                        },
+                        child: Text('Alle Freunde'),
+                        style: ElevatedButton.styleFrom(
+                          textStyle: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height * 0.018,
+                            fontFamily: "SourceCodePro",
+                            //fontFamily: "JosefinSans",
+                          ),
+                          backgroundColor: Colors.blueGrey,
+                          minimumSize: Size(70, 25),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                backgroundColor: Colors.blueGrey,
-                minimumSize: Size(70, 25),
-                padding: EdgeInsets.symmetric(horizontal: 10),
               ),
             ),
           ),
@@ -346,109 +350,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
-
-/*
-
-class UserBar extends StatelessWidget {
-  const UserBar({
-    Key? key,
-    required this.dataMap,
-    required this.colorList,
-  }) : super(key: key);
-
-  final Map<String, double> dataMap;
-  final List<Color> colorList;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      child: Stack(
-        children: [
-          Container(
-            color: Colors.blueGrey,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "XPirl",
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height * 0.035, // TODO Responsive machen
-                              //fontWeight: FontWeight.bold,
-                              fontFamily: "Righteous",
-                              shadows: [
-                                Shadow(
-                                  color: Colors.pinkAccent,
-                                  blurRadius: 1,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Row(
-                          children: const [
-                            Icon(Icons.monetization_on_outlined),
-                            Text("20"), // TODO an User anpassen
-                          ],
-                        ),
-                      ),
-                      //TODO space bissel zwischen beiden icons
-                      Expanded(
-                        flex: 1,
-                        child: Row(
-                          children: const [
-                            Icon(Icons.airplane_ticket_outlined),
-                            Text("0"), // TODO an User anpassen
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            "Username",
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height * 0.035, // TODO Responsive machen
-                              fontFamily: 'Righteous',
-                              //fontWeight: FontWeight.bold,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.pinkAccent,
-                                  blurRadius: 1,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-*/

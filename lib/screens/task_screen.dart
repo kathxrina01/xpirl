@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,17 +50,17 @@ class _TaskScreenState extends State<TaskScreen> {
             Expanded(
               flex: 5,
               child: BackBar(
-                title: "Aufgabe",
+                title: "Aufgabe", // TODO Backend?
                 type: 1,
               ),
             ),
             Expanded(
               flex: 75,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(sqrt(MediaQuery.of(context).size.height * MediaQuery.of(context).size.width) * 0.01),
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
                     color: Colors.blueGrey,
                     boxShadow: [
                       BoxShadow(
@@ -68,55 +70,56 @@ class _TaskScreenState extends State<TaskScreen> {
                       ),
                     ],
                   ),
-                  width: MediaQuery.of(context).size.width - 20,
-                  height: 300,
+                  //width: MediaQuery.of(context).size.width - 20, // brauchen wir das?
+                  //height: 300,// TODO responsive bzw brauchen wir das überhaupt?
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Titel: Das ist der titel',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: MediaQuery.of(context).size.height * 0.04,
                             fontWeight: FontWeight.bold,
                             fontFamily: "Righteous",
                           ),
                         ),
-                        SizedBox(height: 8),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                         Text(
-                          'Beschreibung: das ist die beschreibung',
+                          'Beschreibung: das ist die beschreibung', // TODO Backend
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: MediaQuery.of(context).size.height * 0.03,
                             fontFamily: "RobotoMono",
                           ),
                         ),
-                        SizedBox(height: 16),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.012),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(Icons.star_outline, color: Colors.black),
-                            SizedBox(width: 8),
+                            SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                             Text(
-                              '200 XP',
+                              '200 XP', // TODO Backend
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: MediaQuery.of(context).size.height * 0.03,
                                 fontFamily: "RobotoMono",
                               ),
                             ),
-                            SizedBox(width: 16),
+                            SizedBox(width: MediaQuery.of(context).size.height * 0.045),
                             Icon(Icons.monetization_on_outlined,
                                 color: Colors.black),
-                            SizedBox(width: 8),
+                            SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                             Text(
-                              '10 Coins',
+                              '10 Coins', // TODO Backend
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: MediaQuery.of(context).size.height * 0.03,
                                 fontFamily: "RobotoMono",
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.012),
                         GFIconButton(
                           onPressed:(){
                             addFriends();
@@ -124,20 +127,20 @@ class _TaskScreenState extends State<TaskScreen> {
                           icon: Icon(Icons.person_add),
                           shape: GFIconButtonShape.circle,
                           color: Colors.blueGrey,
-                          borderSide: BorderSide(color: Colors.white, width: 2.0),
+                          borderSide: BorderSide(color: Colors.white, width: MediaQuery.of(context).size.height * 0.003),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.012),
                         AnimatedContainer(
                           duration: Duration(milliseconds: 200),
-                          height: 40,
-                          width: _isButtonPressed ? 200 : 220,
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: _isButtonPressed ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.45,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
                             color: _isButtonPressed
                                 ? Colors.white
                                 : Colors.blueGrey,
                             // Ändere die Hintergrundfarbe hier
-                            border: Border.all(color: Colors.white, width: 2),
+                            border: Border.all(color: Colors.white, width: MediaQuery.of(context).size.height * 0.003),
                           ),
                           child: ElevatedButton(
                             onPressed: () {
@@ -163,14 +166,14 @@ class _TaskScreenState extends State<TaskScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text('Task erledigt'),
-                                  SizedBox(width: 10),
+                                  SizedBox(width: MediaQuery.of(context).size.height * 0.012),
                                   Icon(
                                     Icons.check,
                                     color: _isButtonPressed
                                         ? Colors.black
                                         : Colors.white,
                                     // Ändere die Schriftfarbe hier
-                                    size: 20,
+                                    size: MediaQuery.of(context).size.height * 0.025,
                                   ),
                                 ],
                               ),

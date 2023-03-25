@@ -187,15 +187,15 @@ class _UserBarState extends State<UserBar> {
       child: GestureDetector(
         onTap: () {
           // TODO Animation
-          print("korrekt ausgelöst");
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ProfileScreen()));
         },
         child: Stack(
+          alignment: Alignment.bottomRight,
           children: [
             Positioned.fill(
               child: FittedBox(
-                fit: BoxFit.contain,
+                fit: BoxFit.fitHeight,
                 child: CircleAvatar(
                   backgroundImage: AssetImage("assets/sadcat.jpeg"),
                 ),
@@ -205,16 +205,18 @@ class _UserBarState extends State<UserBar> {
               //left: MediaQuery.of(context).size.height * 0.01,
               //right: MediaQuery.of(context).size.height * 0.01,
               //top: MediaQuery.of(context).size.height * 0.01,
-              right: 0,
+              //right: 0,
             ),
             Positioned.fill(
+              //right: 0,
               child: IgnorePointer(
                 ignoring: true,
                 child: GFProgressBar(
                   percentage: 0.1,
+                  // TODO according to levelXP
                   // width:100,
-                  circleWidth: MediaQuery.of(context).size.height * 0.01,
-                  radius: MediaQuery.of(context).size.height * 0.18,
+                  circleWidth: MediaQuery.of(context).size.height * 0.015,
+                  radius: MediaQuery.of(context).size.height * 0.178,
                   type: GFProgressType.circular,
                   backgroundColor: Colors.black12,
                   progressBarColor: colorList1[0],
@@ -227,13 +229,13 @@ class _UserBarState extends State<UserBar> {
               //top: MediaQuery.of(context).size.height * 0.01,
             ),
             Positioned(
-              right: 0,
+              right: MediaQuery.of(context).size.width * 0.06,
               bottom: 0,
               child: CircleAvatar(
                 backgroundColor: Colors.black,
-                radius: 30,
+                radius: MediaQuery.of(context).size.height * 0.03,
                 child: Text(
-                  "1",
+                  "1", // TODO Level anpassen
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -254,7 +256,7 @@ class _UserBarState extends State<UserBar> {
         "Username",
         style: TextStyle(
           fontSize: MediaQuery.of(context).size.height *
-              0.035, // TODO Responsive machen
+              0.035,
           fontFamily: 'Righteous',
           //fontWeight: FontWeight.bold,
           shadows: [

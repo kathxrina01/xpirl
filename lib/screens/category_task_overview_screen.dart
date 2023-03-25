@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -52,12 +54,22 @@ class _CategoryTaskOverviewScreenState
           children: [
             Expanded(
                 flex: 20,
-                child: UserBar(dataMap: dataMap, colorList: colorList, type: 0,)),
-            Expanded(flex: 5, child: BackBar(title: "Kategorie", type: 1,)),// TODO Kategorie einfügen
+                child: UserBar(
+                  dataMap: dataMap,
+                  colorList: colorList,
+                  type: 0,
+                )),
+            Expanded(
+              flex: 5,
+              child: BackBar(
+                title: "Kategorie",// TODO Kategorie einfügen
+                type: 1,
+              ),
+            ),
             Expanded(
               flex: 75,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(sqrt(MediaQuery.of(context).size.height * MediaQuery.of(context).size.width) * 0.01),
                 child: Obx(() {
                   int change = _controller.somethingChanged.value;
                   return FutureBuilder<bool>(
@@ -92,10 +104,8 @@ class _CategoryTaskOverviewScreenState
           itemBuilder: (context, index) {
             return Column(
               children: [
-                SizedBox(height: 10), // TODO responsive
                 GestureDetector(
-behavior: HitTestBehavior.opaque,
-                  // -> aus Widget Interaktionselement machen
+                  behavior: HitTestBehavior.opaque,
                   onTap: () {
                     // TODO Animation
                     Navigator.push(
@@ -106,49 +116,43 @@ behavior: HitTestBehavior.opaque,
                   },
                   child: Container(
                     width: double.infinity,
-                    height: 120, // TODO responsive
+                    height: MediaQuery.of(context).size.height * 0.17,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
+                      color: Colors.blueGrey, // TODO grauer, wenn nicht freigeschaltet
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.pinkAccent.withOpacity(0.5),
+                          color: Colors.pinkAccent.withOpacity(0.5), // TODO grün, wenn freigeschaltet?
                           offset: Offset(0, 2),
                           blurRadius: 4,
                         ),
                       ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: 6,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 8,
-                                  child: Align(
-                                    child: Text(
-                                      tasks[index].title,
-                                      // TODO Kategorie anpassen
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontFamily: "SourceCodePro",
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                ),
-                              ],
+                    child: Row(
+                      children: [
+                        Expanded(flex: 5, child: SizedBox()),
+                        Expanded(
+                          flex: 90,
+                          child: Align(
+                            child: Text(
+                              tasks[index].title,
+                              // TODO Kategorie anpassen
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.height * 0.038,
+
+                              fontFamily: "SourceCodePro",
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
+                            alignment: Alignment.centerLeft,
                           ),
-                        ],
-                      ),
+                        ),
+                        Expanded(flex: 5, child: SizedBox()),
+                      ],
                     ),
                   ),
                 ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.008),
               ],
             );
           },

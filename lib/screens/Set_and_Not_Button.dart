@@ -29,9 +29,9 @@ class _SetandNotButtonState extends State<SetandNotButton> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('${friends.length} ${friends.length == 1 ? "Freund" : "Freunde"} möchten mit dir eine Task zusammen lösen.'),
-              SizedBox(height: 16),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               Text('Freunde:'),
-              SizedBox(height: 8),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.015),
               ...friends.map((friend) {
                 return Column(
                   children: [
@@ -40,13 +40,13 @@ class _SetandNotButtonState extends State<SetandNotButton> {
                         CircleAvatar(
                           child: Icon(friend['avatar'], color: Colors.white),
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(width: MediaQuery.of(context).size.height * 0.015),
                         Text(friend['name']),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                     Text('Möchte ${friend['task']} erledigen.'),
-                    SizedBox(height: 16),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   ],
                 );
               }).toList(),
@@ -172,34 +172,30 @@ class _SetandNotButtonState extends State<SetandNotButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 16,
-      right: 16,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          GFIconBadge(
-            child: GFIconButton(
-              onPressed: widget.onPressedButton1 ?? () => _showFriend(),
-              icon: Icon(Icons.notifications),
-              shape: GFIconButtonShape.circle,
-              color: Colors.blueGrey,
-              borderSide: BorderSide(color: Colors.white, width: 2.0),
-            ),
-            counterChild: GFBadge(
-              child: Text("3"),
-            ),
-          ),
-          SizedBox(height: 10),
-          GFIconButton(
-            onPressed: widget.onPressedButton1 ?? () => _showSettings(),
-            icon: Icon(Icons.settings),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        GFIconBadge(
+          child: GFIconButton(
+            onPressed: widget.onPressedButton1 ?? () => _showFriend(),
+            icon: Icon(Icons.notifications),
             shape: GFIconButtonShape.circle,
             color: Colors.blueGrey,
-            borderSide: BorderSide(color: Colors.white, width: 2.0),
+            borderSide: BorderSide(color: Colors.white, width: MediaQuery.of(context).size.height * 0.0025),
           ),
-        ],
-      ),
+          counterChild: GFBadge(
+            child: Text("3"),
+          ),
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+        GFIconButton(
+          onPressed: widget.onPressedButton1 ?? () => _showSettings(),
+          icon: Icon(Icons.settings),
+          shape: GFIconButtonShape.circle,
+          color: Colors.blueGrey,
+          borderSide: BorderSide(color: Colors.white, width: MediaQuery.of(context).size.height * 0.0025),
+        ),
+      ],
     );
   }
 }
