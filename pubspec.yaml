@@ -97,15 +97,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: JosefinSans
-      fonts:
-        - asset: fonts/JosefinSans-Regular.ttf
     - family: Righteous
       fonts:
         - asset: fonts/Righteous-Regular.ttf
-    - family: RobotoMono
-      fonts:
-        - asset: fonts/RobotoMono-Regular.ttf
     - family: SourceCodePro
       fonts:
         - asset: fonts/SourceCodePro-Regular.ttf

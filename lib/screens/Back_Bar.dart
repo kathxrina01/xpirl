@@ -15,7 +15,7 @@ class BackBar extends StatelessWidget {
         child: Text(
           this.title,
           style: TextStyle(
-            fontFamily: "RobotoMono",
+            fontFamily: "Righteous",
             fontSize: MediaQuery.of(context).size.height * 0.032,
             color: Colors.black,
             fontStyle: FontStyle.italic,
@@ -43,7 +43,7 @@ class BackBar extends StatelessWidget {
           child: Text(
             this.title,
             style: TextStyle(
-              fontFamily: "RobotoMono",
+              fontFamily: "Righteous",
               fontSize: MediaQuery.of(context).size.height * 0.032,
               color: Colors.black,
               fontStyle: FontStyle.italic,

@@ -23,29 +23,37 @@ class _SetandNotButtonState extends State<SetandNotButton> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Freunde-Benachrichtigung'),
+          title: Text('Freunde-Benachrichtigung',
+          style: TextStyle(fontFamily: "Righteous",),),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${friends.length} ${friends.length == 1 ? "Freund" : "Freunde"} möchten mit dir eine Task zusammen lösen.'),
+              Text('${friends.length} ${friends.length == 1 ? "Freund" : "Freunde"} möchten mit dir eine Task zusammen lösen.',
+                style: TextStyle(fontFamily: "SourceCodePro",),
+              ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              Text('Freunde:'),
+              Text('Freunde:',
+                style: TextStyle(fontFamily: "SourceCodePro",),
+              ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.015),
               ...friends.map((friend) {
                 return Column(
                   children: [
                     Row(
                       children: [
+                        //TODO anstatt icon avatar bilder hinzufügen
                         CircleAvatar(
                           child: Icon(friend['avatar'], color: Colors.white),
                         ),
                         SizedBox(width: MediaQuery.of(context).size.height * 0.015),
-                        Text(friend['name']),
+                        Text(friend['name'],
+                        style: TextStyle(fontFamily: "SourceCodePro",),),
                       ],
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.005),
-                    Text('Möchte ${friend['task']} erledigen.'),
+                    Text('Möchte ${friend['task']} erledigen.',
+                    style: TextStyle(fontFamily: "SourceCodePro",),),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   ],
                 );
@@ -54,11 +62,17 @@ class _SetandNotButtonState extends State<SetandNotButton> {
           ),
           actions: <Widget>[
             ElevatedButton(
-              child: Text('Schließen'),
+              child: Text('Schließen',
+                style: TextStyle(fontFamily: "SourceCodePro",),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-            )
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 113, 127, 143),
+                foregroundColor: Colors.white,
+              ),
+            ),
           ],
         );
       },
@@ -71,12 +85,14 @@ class _SetandNotButtonState extends State<SetandNotButton> {
     String _language = 'Deutsch'; // Ausgewählte Sprache
     double _volume = 0.5; // Lautstärke des Sounds
 
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Einstellungen'),
+          title: Text(
+            'Einstellungen',
+            style: TextStyle(fontFamily: "Righteous"),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +100,10 @@ class _SetandNotButtonState extends State<SetandNotButton> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Sound'),
+                  Text(
+                    'Sound',
+                    style: TextStyle(fontFamily: "SourceCodePro"),
+                  ),
                   Slider(
                     value: _volume,
                     onChanged: (double value) {
@@ -96,13 +115,18 @@ class _SetandNotButtonState extends State<SetandNotButton> {
                     max: 1.0,
                     divisions: 10,
                     label: _volume.toStringAsFixed(1),
+                    activeColor: Color.fromARGB(255, 113, 127, 143),
+                    // todo inactive color das hellere grau
                   ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Benachrichtigungen'),
+                  Text(
+                    'Benachrichtigungen',
+                    style: TextStyle(fontFamily: "SourceCodePro"),
+                  ),
                   Switch(
                     value: _notificationsEnabled,
                     onChanged: (bool? value) {
@@ -110,13 +134,17 @@ class _SetandNotButtonState extends State<SetandNotButton> {
                         _notificationsEnabled = value ?? false;
                       });
                     },
+                    activeColor: Color.fromARGB(255, 113, 127, 143),
                   ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Sprache'),
+                  Text(
+                    'Sprache',
+                    style: TextStyle(fontFamily: "SourceCodePro"),
+                  ),
                   DropdownButton<String>(
                     value: _language,
                     onChanged: (String? newValue) {
@@ -124,13 +152,22 @@ class _SetandNotButtonState extends State<SetandNotButton> {
                         _language = newValue ?? 'Deutsch';
                       });
                     },
-                    items: <String>['Deutsch', 'Englisch', 'Französisch', 'Japanisch', 'Arabisch']
-                        .map<DropdownMenuItem<String>>((String value) {
+                    items: <String>[
+                      'Deutsch',
+                      'Englisch',
+                      'Französisch',
+                      'Japanisch',
+                      'Arabisch'
+                    ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(
+                          value,
+                          style: TextStyle(fontFamily: "SourceCodePro"),
+                        ),
                       );
                     }).toList(),
+                    iconEnabledColor: Color.fromARGB(255, 113, 127, 143),
                   ),
                 ],
               ),
@@ -138,7 +175,10 @@ class _SetandNotButtonState extends State<SetandNotButton> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Dark Mode'),
+                  Text(
+                    'Dark Mode',
+                    style: TextStyle(fontFamily: "SourceCodePro"),
+                  ),
                   Switch(
                     value: _darkModeEnabled,
                     onChanged: (bool? value) {
@@ -146,6 +186,8 @@ class _SetandNotButtonState extends State<SetandNotButton> {
                         _darkModeEnabled = value ?? false;
                       });
                     },
+                    // TODO hier das hellere grau dann-> inactiveThumbColor: ,
+                    activeColor: Color.fromARGB(255, 113, 127, 143),
                   ),
                 ],
               ),
@@ -153,16 +195,28 @@ class _SetandNotButtonState extends State<SetandNotButton> {
           ),
           actions: <Widget>[
             ElevatedButton(
-              child: Text('Support'),
+              child: Text('Support',
+                style: TextStyle(fontFamily: "SourceCodePro",),
+              ),
               onPressed: () {
-                // Hier können Sie Ihre Hilfe/Support-Funktion aufrufen
+// Hier können Sie Ihre Hilfe/Support-Funktion aufrufen
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 113, 127, 143),
+                foregroundColor: Colors.white,
+              ),
             ),
             ElevatedButton(
-              child: Text('Schließen'),
+              child: Text('Schließen',
+                style: TextStyle(fontFamily: "SourceCodePro",),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 113, 127, 143),
+                foregroundColor: Colors.white,
+              ),
             ),
           ],
         );
@@ -180,11 +234,13 @@ class _SetandNotButtonState extends State<SetandNotButton> {
             onPressed: widget.onPressedButton1 ?? () => _showFriend(),
             icon: Icon(Icons.notifications),
             shape: GFIconButtonShape.circle,
-            color: Colors.blueGrey,
+            color: Color.fromARGB(255, 113, 127, 143),
             borderSide: BorderSide(color: Colors.white, width: MediaQuery.of(context).size.height * 0.0025),
           ),
           counterChild: GFBadge(
-            child: Text("3"),
+            child: Text("3",
+              style: TextStyle(fontFamily: "SourceCodePro"),
+            ),
           ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
@@ -192,7 +248,7 @@ class _SetandNotButtonState extends State<SetandNotButton> {
           onPressed: widget.onPressedButton1 ?? () => _showSettings(),
           icon: Icon(Icons.settings),
           shape: GFIconButtonShape.circle,
-          color: Colors.blueGrey,
+          color: Color.fromARGB(255, 113, 127, 143),
           borderSide: BorderSide(color: Colors.white, width: MediaQuery.of(context).size.height * 0.0025),
         ),
       ],

@@ -27,7 +27,7 @@ class _TaskScreenState extends State<TaskScreen> {
     "User": 5, // Aktueller XP Wert von User
   };
   final colorList = <Color>[
-    Colors.pinkAccent,
+    Color.fromARGB(255, 217, 37, 166),
   ];
 
   bool _isButtonPressed = false;
@@ -61,10 +61,10 @@ class _TaskScreenState extends State<TaskScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
-                    color: Colors.blueGrey,
+                    color: Color.fromARGB(255, 113, 127, 143),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.pinkAccent.withOpacity(0.5),
+                        color: Color.fromARGB(150, 217, 37, 166),
                         offset: Offset(0, 2),
                         blurRadius: 4,
                       ),
@@ -90,7 +90,7 @@ class _TaskScreenState extends State<TaskScreen> {
                           'Beschreibung: das ist die beschreibung', // TODO Backend
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.03,
-                            fontFamily: "RobotoMono",
+                            fontFamily: "SourceCodePro",
                           ),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.012),
@@ -103,7 +103,7 @@ class _TaskScreenState extends State<TaskScreen> {
                               '200 XP', // TODO Backend
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.03,
-                                fontFamily: "RobotoMono",
+                                fontFamily: "SourceCodePro",
                               ),
                             ),
                             SizedBox(width: MediaQuery.of(context).size.height * 0.045),
@@ -114,7 +114,7 @@ class _TaskScreenState extends State<TaskScreen> {
                               '10 Coins', // TODO Backend
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.03,
-                                fontFamily: "RobotoMono",
+                                fontFamily: "SourceCodePro",
                               ),
                             ),
                           ],
@@ -126,7 +126,7 @@ class _TaskScreenState extends State<TaskScreen> {
                           },
                           icon: Icon(Icons.person_add),
                           shape: GFIconButtonShape.circle,
-                          color: Colors.blueGrey,
+                          color: Color.fromARGB(255, 113, 127, 143),
                           borderSide: BorderSide(color: Colors.white, width: MediaQuery.of(context).size.height * 0.003),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.012),
@@ -138,7 +138,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
                             color: _isButtonPressed
                                 ? Colors.white
-                                : Colors.blueGrey,
+                                : Color.fromARGB(255, 113, 127, 143),
                             // Ändere die Hintergrundfarbe hier
                             border: Border.all(color: Colors.white, width: MediaQuery.of(context).size.height * 0.003),
                           ),
@@ -156,7 +156,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             child: AnimatedDefaultTextStyle(
                               duration: Duration(milliseconds: 200),
                               style: TextStyle(
-                                fontFamily: "RobotoMono",
+                                fontFamily: "SourceCodePro",
                                 color: _isButtonPressed
                                     ? Colors.black
                                     : Colors
@@ -165,7 +165,9 @@ class _TaskScreenState extends State<TaskScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Task erledigt'),
+                                  Text('Task erledigt',
+                                    style: TextStyle(fontFamily:"SourceCodePro"),
+                                  ),
                                   SizedBox(width: MediaQuery.of(context).size.height * 0.012),
                                   Icon(
                                     Icons.check,

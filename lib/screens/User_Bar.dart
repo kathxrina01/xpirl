@@ -34,7 +34,7 @@ class _UserBarState extends State<UserBar> {
     "User": 5, // Aktueller XP Wert von User
   };
   final List<Color> colorList1 = <Color>[
-    Colors.greenAccent,
+    Color.fromARGB(255, 68, 217, 41),
   ];
 
   XPService service = XPService();
@@ -106,7 +106,7 @@ class _UserBarState extends State<UserBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey,
+      color: Color.fromARGB(255, 113, 127, 143),
       height: 200,
       width: double.infinity,
       child: Padding(
@@ -125,7 +125,14 @@ class _UserBarState extends State<UserBar> {
                         'XPirl',
                         style: TextStyle(
                           fontSize: 30, // TODO Responsive machen
-                          fontWeight: FontWeight.bold,
+                          fontFamily: "Righteous",
+                          shadows: [
+                            Shadow(
+                              color: Color.fromARGB(255, 68, 217, 41),
+                              blurRadius: 1,
+                              offset: Offset(2, 2),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -261,7 +268,7 @@ class _UserBarState extends State<UserBar> {
           //fontWeight: FontWeight.bold,
           shadows: [
             Shadow(
-              color: Colors.pinkAccent,
+              color: Color.fromARGB(255, 68, 217, 41),
               blurRadius: 1,
               offset: Offset(2, 2),
             ),

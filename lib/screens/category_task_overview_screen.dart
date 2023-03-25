@@ -43,7 +43,7 @@ class _CategoryTaskOverviewScreenState
   };
 
   final colorList = <Color>[
-    Colors.pinkAccent,
+    Color.fromARGB(255, 217, 37, 166),
   ];
 
   @override
@@ -119,10 +119,10 @@ class _CategoryTaskOverviewScreenState
                     height: MediaQuery.of(context).size.height * 0.17,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
-                      color: Colors.blueGrey, // TODO grauer, wenn nicht freigeschaltet
+                      color: Color.fromARGB(255, 113, 127, 143),// TODO grauer, wenn nicht freigeschaltet
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.pinkAccent.withOpacity(0.5), // TODO grün, wenn freigeschaltet?
+                          color: Color.fromARGB(150, 217, 37, 166), // TODO grün, wenn freigeschaltet?
                           offset: Offset(0, 2),
                           blurRadius: 4,
                         ),

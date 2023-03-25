@@ -2,14 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:xpirl/screens/Back_Bar.dart';
-import 'package:xpirl/xp_service.dart';
 
 import 'User_Bar.dart';
 
 class AchievementScreen extends StatelessWidget {
   AchievementScreen({Key? key}) : super(key: key);
-
-  XPService service = XPService();
 
   final dataMap = <String, double>{
     "User": 5, // Aktueller XP Wert von User
@@ -42,10 +39,7 @@ class AchievementScreen extends StatelessWidget {
           Expanded(
               flex: 75,
               child: Padding(
-                padding: EdgeInsets.all(sqrt(
-                        MediaQuery.of(context).size.height *
-                            MediaQuery.of(context).size.width) *
-                    0.01),
+                padding: EdgeInsets.all(sqrt(MediaQuery.of(context).size.height * MediaQuery.of(context).size.width) * 0.01),
                 child: ListView.builder(
                     itemCount: achievements.length,
                     itemBuilder: (context, index) {
@@ -58,8 +52,7 @@ class AchievementScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(
                                   MediaQuery.of(context).size.height * 0.015),
-                              //color: Colors.blueGrey,
-                              color: service.colorList[0],
+                              color: Colors.blueGrey,
                               // TODO grauer, wenn nicht freigeschaltet
                               boxShadow: [
                                 BoxShadow(
@@ -84,115 +77,58 @@ class AchievementScreen extends StatelessWidget {
                                             Expanded(
                                               flex: 3,
                                               child: Align(
-                                                  alignment:
-                                                      Alignment.bottomLeft,
-                                                  child: Text(
-                                                    achievement,
-                                                    style: TextStyle(
+                                                  alignment: Alignment.bottomLeft,
+                                                  child: Text(achievement,style: TextStyle(
                                                       fontSize:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.022,
-                                                      fontFamily:
-                                                          "SourceCodePro",
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  )),
+                                                      MediaQuery.of(context).size.height * 0.022, fontFamily: "SourceCodePro",
+                                                    fontWeight: FontWeight.bold,),)),
                                             ),
-                                            Expanded(
-                                                flex: 1, child: SizedBox()),
-                                            Expanded(
-                                                flex: 6,
-                                                child: Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Text(
-                                                      "Hier steht die Beschreibung, die in diesem Fall ziemlich lang sein wird. Also so richtig lang. So total  lang.", // TODO Backend
-                                                      style: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.018,
-                                                        fontFamily:
-                                                            "SourceCodePro",
-                                                      ),
-                                                    )))
+                                            Expanded(flex: 1,child: SizedBox()),
+                                            Expanded(flex: 6,child: Align(alignment: Alignment.topLeft, child: Text("Hier steht die Beschreibung",style: TextStyle(
+                                              fontSize: MediaQuery.of(context).size.height * 0.018,
+
+                                              fontFamily: "SourceCodePro",
+                                            ),)))
                                           ],
                                         ),
                                       ),
-                                      Expanded(
-                                          flex: 3,
-                                          child: Column(
-                                            children: [
-                                              Expanded(
-                                                  flex: 3, child: SizedBox()),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Icon(Icons.star_outline,
-                                                        color: Colors.black),
-                                                    SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.006),
-                                                    Text(
-                                                      '200 XP', // TODO Backend
-                                                      style: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.018,
-                                                        fontFamily:
-                                                            "RobotoMono",
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                        Icons
-                                                            .monetization_on_outlined,
-                                                        color: Colors.black),
-                                                    SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.006),
-                                                    Text(
-                                                      '10 Coins', // TODO Backend
-                                                      style: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.018,
-                                                        fontFamily:
-                                                            "RobotoMono",
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Expanded(
-                                                  flex: 3, child: SizedBox()),
-                                            ],
-                                          ))
+                                      Expanded(flex: 3,child: Column(
+                                        children: [
+                                          Expanded(flex: 3, child: SizedBox()),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [Icon(Icons.star_outline, color: Colors.black),
+                                                SizedBox(width: MediaQuery.of(context).size.height * 0.006),
+                                                Text(
+                                                  '200 XP', // TODO Backend
+                                                  style: TextStyle(
+                                                    fontSize: MediaQuery.of(context).size.height * 0.018,
+                                                    fontFamily: "RobotoMono",
+                                                  ),
+                                                ),],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [Icon(Icons.monetization_on_outlined,
+                                                color: Colors.black),
+                                                SizedBox(width: MediaQuery.of(context).size.height * 0.006),
+                                                Text(
+                                                    '10 Coins', // TODO Backend
+                                                  style: TextStyle(
+                                                    fontSize: MediaQuery.of(context).size.height * 0.018,
+                                                    fontFamily: "RobotoMono",
+                                                  ),
+                                                ),],
+                                            ),
+                                          ), Expanded(flex: 3, child: SizedBox()),
+
+                                        ],
+                                      ))
                                     ],
                                   ),
                                 ),
@@ -202,7 +138,7 @@ class AchievementScreen extends StatelessWidget {
                           ),
                           SizedBox(
                               height:
-                                  MediaQuery.of(context).size.height * 0.008),
+                              MediaQuery.of(context).size.height * 0.008),
                         ],
                       );
                     }),

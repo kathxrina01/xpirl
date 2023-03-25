@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   };
 
   final colorList = <Color>[
-    Colors.greenAccent,
+    Color.fromARGB(255, 68, 217, 41),
   ];
 
   @override
@@ -88,6 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: Colors.white,
                                       fontSize: MediaQuery.of(context).size.height * 0.015,
                                       fontWeight: FontWeight.bold,
+                                      fontFamily: "SourceCodePro",
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -105,6 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.height * 0.022,
                           fontWeight: FontWeight.bold,
+                          fontFamily: "SourceCodePro",
                         ),
                       ),
                     ),
@@ -129,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: MediaQuery.of(context).size.height * 0.024,
                                     decoration: BoxDecoration(
                                       //TODO entscheidenmit oder ohne opacity
-                                      color: Colors.pinkAccent.withOpacity(0.8),
+                                      color: Color.fromARGB(205, 68, 217, 41),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
@@ -150,6 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: Colors.black,
                                       fontSize: MediaQuery.of(context).size.height * 0.018,
                                       fontWeight: FontWeight.bold,
+                                      fontFamily: "SourceCodePro",
                                     ),
                                   ),
                                 ),
@@ -203,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               //fontFamily: "JosefinSans",
                             ),
 
-                            backgroundColor: Colors.blueGrey,
+                            backgroundColor: Color.fromARGB(255, 113, 127, 143),
                             minimumSize: Size(50, 30),
                             padding: EdgeInsets.symmetric(horizontal: 10),
                           ),
@@ -224,7 +227,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'Erfolge',
                         style: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.034,
-                            fontWeight: FontWeight.bold),
+                          fontFamily: "Righteous"
+                        ),
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.008,),
@@ -251,7 +255,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 achievements[index]['name'],
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.018),
+                                    fontSize: MediaQuery.of(context).size.height * 0.018,
+                                    fontFamily: "SourceCodePro",
+                                ),
                               ),
                             ],
                           );
@@ -277,9 +283,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           textStyle: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.018,
                             fontFamily: "SourceCodePro",
-                            //fontFamily: "JosefinSans",
                           ),
-                          backgroundColor: Colors.blueGrey,
+                          backgroundColor: Color.fromARGB(255, 113, 127, 143),
                           minimumSize: Size(70, 25),
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
                         ),
@@ -292,7 +297,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'Freunde',
                         style: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.034,
-                            fontWeight: FontWeight.bold),
+                            fontFamily: "Righteous"
+                        ),
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.008,),
@@ -320,7 +326,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 friends[index]['name'],
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.018),
+                                    fontSize: MediaQuery.of(context).size.height * 0.018,
+                                  fontFamily: "SourceCodePro",
+                                ),
                               ),
                             ],
                           );
@@ -339,9 +347,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           textStyle: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.018,
                             fontFamily: "SourceCodePro",
-                            //fontFamily: "JosefinSans",
                           ),
-                          backgroundColor: Colors.blueGrey,
+                          backgroundColor: Color.fromARGB(255, 113, 127, 143),
                           minimumSize: Size(70, 25),
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
                         ),

@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   };
 
   final colorList = <Color>[
-    Colors.greenAccent,
+    Color.fromARGB(255, 68, 217, 41),
   ];
 
   @override
@@ -127,10 +127,10 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(
                   MediaQuery.of(context).size.height * 0.015),
-              color: Colors.blueGrey, // TODO grauer, wenn nicht freigeschaltet
+              color: Color.fromARGB(255, 113, 127, 143), // TODO grauer, wenn nicht freigeschaltet
               boxShadow: [
-                BoxShadow(
-                  color: Colors.pinkAccent.withOpacity(0.5), // TODO grün, wenn freigeschaltet?
+                 BoxShadow(
+                  color: Color.fromARGB(150, 217, 37, 166), // TODO grün, wenn freigeschaltet?
                   offset: Offset(0, 2),
                   blurRadius: 4,
                 ),
@@ -150,7 +150,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             category,
                             style: TextStyle(
                                 fontSize:
-                                    MediaQuery.of(context).size.height * 0.038),
+                                    MediaQuery.of(context).size.height * 0.038,
+                              fontFamily: "SourceCodePro",
+                              fontWeight: FontWeight.bold
+                            ),
+
                           ),
                           alignment: Alignment.centerLeft,
                         ),
@@ -169,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: 5,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
-                                    color: Colors.lightGreenAccent,
+                                    color: Color.fromARGB(255, 68, 217, 41),
                                   ),
                                 ),
                               ),
