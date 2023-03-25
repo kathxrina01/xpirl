@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:getwidget/getwidget.dart';
-//test
+
 class Test extends StatefulWidget {
   const Test({Key? key}) : super(key: key);
 
@@ -61,35 +60,44 @@ class _TestState extends State<Test> {
                   Text('Kategorie 1'),
                   SizedBox(height: 10),
                   if (!_isUnlocked)
-                    ElevatedButton(
-                      child: Text('Freischalten (5 Goldmünzen)'),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('Kategorie freischalten'),
-                              content: Text('Möchtest du diese Kategorie für 5 Goldmünzen freischalten?'),
-                              actions: [
-                                TextButton(
-                                  child: Text('Abbrechen'),
-                                  onPressed: () => Navigator.of(context).pop(),
-                                ),
-                                ElevatedButton(
-                                  child: Text('Freischalten'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    _buyCategory();
-                                  },
-                                ),
-                              ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('Kategorie freischalten'),
+                                  content: Text('Möchtest du diese Kategorie für 5 Goldmünzen freischalten?'),
+                                  actions: [
+                                    TextButton(
+                                      child: Text('Abbrechen'),
+                                      onPressed: () => Navigator.of(context).pop(),
+                                    ),
+                                    ElevatedButton(
+                                      child: Text('Freischalten'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        _buyCategory();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
-                        );
-                      },
+                          icon: Icon(Icons.lock),
+                          tooltip: 'Kategorie freischalten',
+                        ),
+                        SizedBox(width: 10),
+                        Text('Freischalten (5 Goldmünzen)'),
+                      ],
                     ),
                 ],
               ),
+
             ),
             SizedBox(height: 20),
             Container(
@@ -104,37 +112,6 @@ class _TestState extends State<Test> {
                   SizedBox(height: 10),
                   Text('Kategorie 2'),
                 ],
-              ),
-            ),
-            Container(
-              child: GFIconBadge(
-                child: GFIconButton(
-                  onPressed: (){},
-                  icon: Icon(Icons.person_add),
-                  shape: GFIconButtonShape.pills,
-                ),
-                counterChild: GFBadge(
-                  child: Text("12"),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child: Container(
-                  child:  GFProgressBar(
-                      percentage: 0.9,
-                      width:100,
-                      radius: 90,
-                      type: GFProgressType.circular,
-                      backgroundColor : Colors.black26,
-                      progressBarColor: GFColors.DANGER
-                  )
-              ),
-            ),
-            Container(
-              child: CircleAvatar(
-                backgroundImage: AssetImage("assets/sadcat.jpeg"),
-                radius: 40,
               ),
             ),
           ],

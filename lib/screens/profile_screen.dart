@@ -1,7 +1,6 @@
 import 'dart:math';
-
+import 'package:xpirl/xp_service.dart';
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';
 import 'package:xpirl/screens/achievement_screen.dart';
 import 'package:xpirl/screens/friends_screen.dart';
 import '../model/task.dart';
@@ -19,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 
+  XPService service = XPService();
   List<Task> tasks = [];
   List<String> categories = [];
   List<Map<String, dynamic>> friendsreq = [    {'name': 'Max', 'avatar': Icons.person, 'task': 'Hausaufgaben'},    {'name': 'Lisa', 'avatar': Icons.person, 'task': 'Einkaufen'},    {'name': 'Tom', 'avatar': Icons.person, 'task': 'Gartenarbeit'},  ];
@@ -45,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: service.colorList[1],
       body: Column(
         children: [
           Expanded(
@@ -86,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Text(
                                     'Profilbild wechseln',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: service.colorList[1],
                                       fontSize: MediaQuery.of(context).size.height * 0.015,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: "SourceCodePro",
@@ -108,6 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontSize: MediaQuery.of(context).size.height * 0.022,
                           fontWeight: FontWeight.bold,
                           fontFamily: "SourceCodePro",
+                          color: service.colorList[0],
                         ),
                       ),
                     ),
@@ -132,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: MediaQuery.of(context).size.height * 0.024,
                                     decoration: BoxDecoration(
                                       //TODO entscheidenmit oder ohne opacity
-                                      color: Color.fromARGB(205, 68, 217, 41),
+                                      color: service.colorList[4],
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
@@ -150,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Text(
                                     '540/700XP', // TODO Backend
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: service.colorList[0],
                                       fontSize: MediaQuery.of(context).size.height * 0.018,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: "SourceCodePro",
@@ -228,7 +230,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'Erfolge',
                         style: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.034,
-                          fontFamily: "Righteous"
+                          fontFamily: "Righteous",
+                          color: service.colorList[0],
                         ),
                       ),
                     ),
@@ -258,6 +261,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                     fontSize: MediaQuery.of(context).size.height * 0.018,
                                     fontFamily: "SourceCodePro",
+                                  color: service.colorList[0],
                                 ),
                               ),
                             ],
@@ -278,13 +282,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       AchievementScreen()));
 
                         },
-                        child: Text('Alle Erfolge'),
+                        child: Text('Alle Erfolge',
+                          style: TextStyle(color: service.colorList[1]),
+                        ),
                         style: ElevatedButton.styleFrom(
                           textStyle: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.018,
                             fontFamily: "SourceCodePro",
+                            color: service.colorList[1],
                           ),
-                          backgroundColor: Color.fromARGB(255, 113, 127, 143),
+                          backgroundColor: service.colorList[2],
                           minimumSize: Size(70, 25),
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
                         ),
@@ -297,7 +304,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'Freunde',
                         style: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.034,
-                            fontFamily: "Righteous"
+                            fontFamily: "Righteous",
+                          color: service.colorList[0],
                         ),
                       ),
                     ),
@@ -328,6 +336,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                     fontSize: MediaQuery.of(context).size.height * 0.018,
                                   fontFamily: "SourceCodePro",
+                                  color: service.colorList[0],
                                 ),
                               ),
                             ],
@@ -347,13 +356,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   builder: (context) =>
                                       FriendsScreen()));
                         },
-                        child: Text('Alle Freunde'),
+                        child: Text('Alle Freunde',
+                          style: TextStyle(color: service.colorList[1]),),
                         style: ElevatedButton.styleFrom(
                           textStyle: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.018,
                             fontFamily: "SourceCodePro",
+                            color: service.colorList[1],
                           ),
-                          backgroundColor: Color.fromARGB(255, 113, 127, 143),
+                          backgroundColor: service.colorList[2],
                           minimumSize: Size(70, 25),
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
                         ),

@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:xpirl/xp_service.dart';
 import 'package:flutter/material.dart';
 import 'package:xpirl/screens/Back_Bar.dart';
 
@@ -8,6 +8,7 @@ import 'User_Bar.dart';
 class AchievementScreen extends StatelessWidget {
   AchievementScreen({Key? key}) : super(key: key);
 
+  XPService service = XPService();
   final dataMap = <String, double>{
     "User": 5, // Aktueller XP Wert von User
   };
@@ -21,6 +22,7 @@ class AchievementScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: service.colorList[1],
       body: Column(
         children: [
           Expanded(
@@ -52,11 +54,11 @@ class AchievementScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(
                                   MediaQuery.of(context).size.height * 0.015),
-                              color: Color.fromARGB(255, 113, 127, 143),
+                              color: service.colorList[2],
                               // TODO grauer, wenn nicht freigeschaltet
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color.fromARGB(150, 217, 37, 166),
+                                  color: service.colorList[5],
                                   // TODO grün, wenn freigeschaltet?
                                   offset: Offset(0, 2),
                                   blurRadius: 4,
@@ -80,7 +82,7 @@ class AchievementScreen extends StatelessWidget {
                                                   alignment: Alignment.bottomLeft,
                                                   child: Text(achievement,style: TextStyle(
                                                       fontSize:
-                                                      MediaQuery.of(context).size.height * 0.022, fontFamily: "SourceCodePro",
+                                                      MediaQuery.of(context).size.height * 0.022, fontFamily: "SourceCodePro", color: service.colorList[0],
                                                     fontWeight: FontWeight.bold,),)),
                                             ),
                                             Expanded(flex: 1,child: SizedBox()),
@@ -99,13 +101,14 @@ class AchievementScreen extends StatelessWidget {
                                             flex: 2,
                                             child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [Icon(Icons.star_outline, color: Colors.black),
+                                              children: [Icon(Icons.star_outline, color: service.colorList[0],),
                                                 SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                                                 Text(
                                                   '200 XP', // TODO Backend
                                                   style: TextStyle(
                                                     fontSize: MediaQuery.of(context).size.height * 0.018,
                                                     fontFamily: "RobotoMono",
+                                                    color: service.colorList[0],
                                                   ),
                                                 ),],
                                             ),
@@ -115,13 +118,14 @@ class AchievementScreen extends StatelessWidget {
                                             child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [Icon(Icons.monetization_on_outlined,
-                                                color: Colors.black),
+                                                color: service.colorList[0],),
                                                 SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                                                 Text(
                                                     '10 Coins', // TODO Backend
                                                   style: TextStyle(
                                                     fontSize: MediaQuery.of(context).size.height * 0.018,
                                                     fontFamily: "RobotoMono",
+                                                    color: service.colorList[0],
                                                   ),
                                                 ),],
                                             ),

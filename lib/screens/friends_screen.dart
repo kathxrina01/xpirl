@@ -16,7 +16,7 @@ class FriendsScreen extends StatelessWidget {
   };
 
   final colorList = <Color>[
-    Colors.greenAccent,
+    Color.fromARGB(255, 68, 217, 41),
   ];
 
   List<String> friends = ["User1", "User2"];
@@ -25,6 +25,7 @@ class FriendsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: service.colorList[1],
       body: Column(
         children: [
           Expanded(
@@ -60,11 +61,11 @@ class FriendsScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(
                                   MediaQuery.of(context).size.height * 0.015),
                               //color: Colors.blueGrey,
-                              color: service.colorList[0],
+                                color: service.colorList[2],
                               // TODO grauer, wenn nicht freigeschaltet
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.pinkAccent.withOpacity(0.5),
+                                  color: service.colorList[5],
                                   // TODO grün, wenn freigeschaltet?
                                   offset: Offset(0, 2),
                                   blurRadius: 4,
@@ -114,6 +115,7 @@ class FriendsScreen extends StatelessWidget {
                                                       "SourceCodePro",
                                                       fontWeight:
                                                       FontWeight.bold,
+                                                      color: service.colorList[0],
                                                     ),
                                                   )),
                                             ),
@@ -130,11 +132,15 @@ class FriendsScreen extends StatelessWidget {
                                             textStyle: TextStyle(
                                               fontSize: MediaQuery.of(context).size.height * 0.018,
                                               fontFamily: "SourceCodePro",
-                                              //fontFamily: "JosefinSans",
+                                              color: service.colorList[1],
                                             ),
-                                            backgroundColor: Colors.blueGrey,
+                                            backgroundColor: service.colorList[2],
                                             minimumSize: Size(70, 35),
                                             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10.0),
+                                              side: BorderSide(color: service.colorList[1], width: 2),
+                                            ),
                                           ),)),
                                     ],
                                   ),

@@ -8,9 +8,9 @@ import 'model/object_not_found_exception.dart';
 class XPService {
   final colorList = <Color>[
     Color.fromARGB(255, 7, 8, 9),// dunkel blau-grau -> Schrift
-    // weiß -> Schrift
-    Color.fromARGB(255, 113, 127, 143), // blau-grau (dunkel) -> freigeschaltet
-    Color.fromARGB(255, 170, 190, 215),// blau-grau (hell) -> noch nicht freigeschaltet
+    Color.fromARGB(255, 230, 230, 230),// weißgrau -> Schrift und Background
+    Color.fromARGB(255, 113, 127, 143), // blau-grau (dunkel) -> noch nicht freigeschaltet
+    Color.fromARGB(255, 130, 150, 160),// blau-grau (hell) -> freigeschaltet
     Color.fromARGB(255, 68, 217, 41), // grün -> Hintergrund -> freigeschaltet
     Color.fromARGB(150, 217, 37, 166),// pink -> Hintergrund -> noch nicht freigeschaltet
   ];

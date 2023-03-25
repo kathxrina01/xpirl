@@ -36,6 +36,7 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: service.colorList[1],
       body: Container(
         child: Column(
           children: [
@@ -61,10 +62,10 @@ class _TaskScreenState extends State<TaskScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
-                    color: Color.fromARGB(255, 113, 127, 143),
+                    color: service.colorList[2],
                     boxShadow: [
                       BoxShadow(
-                        color: Color.fromARGB(150, 217, 37, 166),
+                        color: service.colorList[5],
                         offset: Offset(0, 2),
                         blurRadius: 4,
                       ),
@@ -83,6 +84,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             fontSize: MediaQuery.of(context).size.height * 0.04,
                             fontWeight: FontWeight.bold,
                             fontFamily: "Righteous",
+                            color: service.colorList[0],
                           ),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -91,6 +93,7 @@ class _TaskScreenState extends State<TaskScreen> {
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.03,
                             fontFamily: "SourceCodePro",
+                            color: service.colorList[0],
                           ),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.012),
@@ -104,6 +107,7 @@ class _TaskScreenState extends State<TaskScreen> {
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.03,
                                 fontFamily: "SourceCodePro",
+                                color: service.colorList[0],
                               ),
                             ),
                             SizedBox(width: MediaQuery.of(context).size.height * 0.045),
@@ -115,6 +119,7 @@ class _TaskScreenState extends State<TaskScreen> {
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.03,
                                 fontFamily: "SourceCodePro",
+                                color: service.colorList[0],
                               ),
                             ),
                           ],
@@ -126,8 +131,8 @@ class _TaskScreenState extends State<TaskScreen> {
                           },
                           icon: Icon(Icons.person_add),
                           shape: GFIconButtonShape.circle,
-                          color: Color.fromARGB(255, 113, 127, 143),
-                          borderSide: BorderSide(color: Colors.white, width: MediaQuery.of(context).size.height * 0.003),
+                          color: service.colorList[2],
+                          borderSide: BorderSide(color: service.colorList[1], width: MediaQuery.of(context).size.height * 0.003),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.012),
                         AnimatedContainer(
@@ -137,10 +142,10 @@ class _TaskScreenState extends State<TaskScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
                             color: _isButtonPressed
-                                ? Colors.white
-                                : Color.fromARGB(255, 113, 127, 143),
+                                ? service.colorList[1]
+                                : service.colorList[2],
                             // Ändere die Hintergrundfarbe hier
-                            border: Border.all(color: Colors.white, width: MediaQuery.of(context).size.height * 0.003),
+                            border: Border.all(color: service.colorList[1], width: MediaQuery.of(context).size.height * 0.003),
                           ),
                           child: ElevatedButton(
                             onPressed: () {
@@ -158,22 +163,21 @@ class _TaskScreenState extends State<TaskScreen> {
                               style: TextStyle(
                                 fontFamily: "SourceCodePro",
                                 color: _isButtonPressed
-                                    ? Colors.black
-                                    : Colors
-                                        .white, // Ändere die Schriftfarbe hier
+                                    ? service.colorList[0]
+                                    : service.colorList[1] // Ändere die Schriftfarbe hier
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text('Task erledigt',
-                                    style: TextStyle(fontFamily:"SourceCodePro"),
+                                    style: TextStyle(fontFamily:"SourceCodePro", color: service.colorList[0],),
                                   ),
                                   SizedBox(width: MediaQuery.of(context).size.height * 0.012),
                                   Icon(
                                     Icons.check,
                                     color: _isButtonPressed
-                                        ? Colors.black
-                                        : Colors.white,
+                                        ? service.colorList[0]
+                                        : service.colorList[1],
                                     // Ändere die Schriftfarbe hier
                                     size: MediaQuery.of(context).size.height * 0.025,
                                   ),
@@ -202,7 +206,10 @@ class _TaskScreenState extends State<TaskScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Freunde zur Task hinzufügen"),
+            backgroundColor: service.colorList[1],
+            title: Text("Freunde zur Task hinzufügen",
+              style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[0],),
+            ),
             content: SingleChildScrollView(
               child: Column(
                 children: friends.map((friend) {
@@ -250,7 +257,8 @@ class _TaskScreenState extends State<TaskScreen> {
       ),
       items: [
         PopupMenuItem(
-          child: Text('Profil aufrufen'),
+          child: Text('Profil aufrufen',
+          style: TextStyle(color: service.colorList[0], fontFamily: "SourceCodePro"),),
           value: 1,
         ),
       ],

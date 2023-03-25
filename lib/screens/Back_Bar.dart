@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:xpirl/xp_service.dart';
 
 class BackBar extends StatelessWidget {
   BackBar({Key? key, required this.title, required this.type})
       : super(key: key);
 
+  XPService service = XPService();
   final String title;
   final int type; // 0-> kein Pfeil, 1->mit Pfeil
 
@@ -15,9 +17,9 @@ class BackBar extends StatelessWidget {
         child: Text(
           this.title,
           style: TextStyle(
-            fontFamily: "Righteous",
+            fontFamily: "Righteous", //todo ändern zu SourceCodePro
             fontSize: MediaQuery.of(context).size.height * 0.032,
-            color: Colors.black,
+            color: service.colorList[0],
             fontStyle: FontStyle.italic,
           ),
         ),
@@ -30,7 +32,7 @@ class BackBar extends StatelessWidget {
           child: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: Colors.black,
+              color: service.colorList[0],
               size: MediaQuery.of(context).size.height * 0.032,
             ),
             onPressed: () {
@@ -45,7 +47,7 @@ class BackBar extends StatelessWidget {
             style: TextStyle(
               fontFamily: "Righteous",
               fontSize: MediaQuery.of(context).size.height * 0.032,
-              color: Colors.black,
+              color: service.colorList[0],
               fontStyle: FontStyle.italic,
             ),
           ),

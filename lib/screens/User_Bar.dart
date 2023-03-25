@@ -26,7 +26,7 @@ class UserBar extends StatefulWidget {
 class _UserBarState extends State<UserBar> {
   User? user;
   var levelXP = 0;
-  var numCoins = 0;
+  var numCoins = 250;
   var tickets = 0;
   late int _type;
 
@@ -125,9 +125,10 @@ class _UserBarState extends State<UserBar> {
                         style: TextStyle(
                           fontSize: 30, // TODO Responsive machen
                           fontFamily: "Righteous",
+                          color: service.colorList[0],
                           shadows: [
                             Shadow(
-                              color: Color.fromARGB(255, 68, 217, 41),
+                              color: service.colorList[4],
                               blurRadius: 1,
                               offset: Offset(2, 2),
                             ),
@@ -140,7 +141,7 @@ class _UserBarState extends State<UserBar> {
                     flex: 2,
                     child: Row(
                       children: [
-                        Icon(Icons.monetization_on_outlined),
+                        Icon(Icons.monetization_on_outlined, color: service.colorList[0],),
                         /*FutureBuilder<String?>(
                           future: loadNumCoins(),
                           builder: (BuildContext context,
@@ -157,7 +158,9 @@ class _UserBarState extends State<UserBar> {
                             }
                           },
                         ),*/
-                        Text("0"),
+                        Text("250",
+                          style: TextStyle(color: service.colorList[0], fontFamily: "SourceCodePro"),
+                        ),
                       ],
                     ),
                   ),
@@ -165,8 +168,10 @@ class _UserBarState extends State<UserBar> {
                     flex: 2,
                     child: Row(
                       children: [
-                        Icon(Icons.airplane_ticket_outlined),
-                        Text("0"), // TODO an User anpassen
+                        Icon(Icons.airplane_ticket_outlined, color: service.colorList[0]),
+                        Text("0",
+                          style: TextStyle(color: service.colorList[0], fontFamily: "SourceCodePro"),
+                        ), // TODO an User anpassen
                       ],
                     ),
                   ),
@@ -238,12 +243,12 @@ class _UserBarState extends State<UserBar> {
               right: MediaQuery.of(context).size.width * 0.06,
               bottom: 0,
               child: CircleAvatar(
-                backgroundColor: Colors.black,
+                backgroundColor: service.colorList[0],
                 radius: MediaQuery.of(context).size.height * 0.03,
                 child: Text(
                   "1", // TODO Level anpassen
                   style: TextStyle(
-                    color: Colors.white,
+                    color: service.colorList[1],
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -265,9 +270,10 @@ class _UserBarState extends State<UserBar> {
               0.035,
           fontFamily: 'Righteous',
           //fontWeight: FontWeight.bold,
+          color: service.colorList[0],
           shadows: [
             Shadow(
-              color: Color.fromARGB(255, 68, 217, 41),
+              color: service.colorList[4],
               blurRadius: 1,
               offset: Offset(2, 2),
             ),

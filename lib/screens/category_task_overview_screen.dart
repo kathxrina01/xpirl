@@ -49,6 +49,7 @@ class _CategoryTaskOverviewScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: service.colorList[1],
       body: Container(
         child: Column(
           children: [
@@ -119,10 +120,10 @@ class _CategoryTaskOverviewScreenState
                     height: MediaQuery.of(context).size.height * 0.17,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
-                      color: Color.fromARGB(255, 113, 127, 143),// TODO grauer, wenn nicht freigeschaltet
+                      color: service.colorList[2],// TODO grauer, wenn nicht freigeschaltet
                       boxShadow: [
                         BoxShadow(
-                          color: Color.fromARGB(150, 217, 37, 166), // TODO grün, wenn freigeschaltet?
+                          color: service.colorList[5], // TODO grün, wenn freigeschaltet?
                           offset: Offset(0, 2),
                           blurRadius: 4,
                         ),
@@ -139,7 +140,7 @@ class _CategoryTaskOverviewScreenState
                               // TODO Kategorie anpassen
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.038,
-
+                              color: service.colorList[0],
                               fontFamily: "SourceCodePro",
                                 fontWeight: FontWeight.bold,
                               ),

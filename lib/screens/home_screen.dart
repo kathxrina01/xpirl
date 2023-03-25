@@ -55,9 +55,15 @@ class _HomeScreenState extends State<HomeScreen> {
     Color.fromARGB(255, 68, 217, 41),
   ];
 
+  bool _isUnlocked = false;
+  int _goldCoins = 250; //todo backend
+  //int _buttonId = 1; // Unique ID for the button
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: service.colorList[1],
       body: Column(
         children: [
           Expanded(
@@ -110,15 +116,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: [
         InkWell(
-          onTap: () {
-            _controller.onDelete(); // TODO weg (war nur für Compiler :D
-            // TODO Animation
-            Navigator.push(
-                context,
-                //PageTransition(type: PageTransitionType.rightToLeftWithFade, child: CategoryTaskOverviewScreen(category: category)));
-                MaterialPageRoute(
-                    builder: (context) =>
-                        CategoryTaskOverviewScreen(category: category)));
+          onTap: ()
+    {
+      _controller.onDelete(); // TODO weg (war nur für Compiler :D
+      // TODO Animation
+      if (_isUnlocked == true) {
+      Navigator.push(
+          context,
+          //PageTransition(type: PageTransitionType.rightToLeftWithFade, child: CategoryTaskOverviewScreen(category: category)));
+          MaterialPageRoute(
+              builder: (context) =>
+                  CategoryTaskOverviewScreen(category: category))
+      );
+    }
           },
           child: Container(
             width: double.infinity,
@@ -127,10 +137,10 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(
                   MediaQuery.of(context).size.height * 0.015),
-              color: Color.fromARGB(255, 113, 127, 143), // TODO grauer, wenn nicht freigeschaltet
+              color: _isUnlocked ? service.colorList[3] : service.colorList[2],
               boxShadow: [
                  BoxShadow(
-                  color: Color.fromARGB(150, 217, 37, 166), // TODO grün, wenn freigeschaltet?
+                  color: _isUnlocked ? service.colorList[4] : service.colorList[5],
                   offset: Offset(0, 2),
                   blurRadius: 4,
                 ),
@@ -152,7 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize:
                                     MediaQuery.of(context).size.height * 0.038,
                               fontFamily: "SourceCodePro",
-                              fontWeight: FontWeight.bold
+                              fontWeight: FontWeight.bold,
+                              color: service.colorList[0],
                             ),
 
                           ),
@@ -173,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: 5,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
-                                    color: Color.fromARGB(255, 68, 217, 41),
+                                    color: service.colorList[4],
                                   ),
                                 ),
                               ),
@@ -197,10 +208,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                     flex: 15,
-                    child: Icon(
-                      // TODO Daraus einen Button machen -> freischalten (+weg, wenn freigeschaltet)
-                        Icons.lock_outline_rounded,
-                        size: MediaQuery.of(context).size.height * 0.05)),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 50),
+                        if (!_isUnlocked)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        backgroundColor: service.colorList[1],
+                                        title: Text('Kategorie freischalten'),
+                                        content: Text('Möchtest du diese Kategorie für 250 Goldmünzen freischalten?'),
+                                        actions: [
+                                          TextButton(
+                                            child: Text('Abbrechen'),
+                                            onPressed: () => Navigator.of(context).pop(),
+                                          ),
+                                          ElevatedButton(
+                                            child: Text('Freischalten'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              _buyCategory();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: Icon(Icons.lock),
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
+
+                ),
               ],
             ),
           ),
@@ -210,6 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 MediaQuery.of(context).size.height * 0.008),
       ],
     );
+
   }
 
   Widget _buildListView(AsyncSnapshot<bool> snapshot) {
@@ -228,5 +277,31 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void _buyCategory() {
+    if (_goldCoins >= 250) {
+      setState(() {
+          _isUnlocked = true;
+          _goldCoins -= 250;
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: service.colorList[1],
+            title: Text('Nicht genügend Goldmünzen'),
+            content: Text('Du hast nicht genügend Goldmünzen, um diese Kategorie freizuschalten.'),
+            actions: [
+              ElevatedButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }
