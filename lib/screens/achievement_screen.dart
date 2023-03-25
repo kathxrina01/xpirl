@@ -13,7 +13,7 @@ class AchievementScreen extends StatelessWidget {
   };
 
   final colorList = <Color>[
-    Colors.greenAccent,
+    Color.fromARGB(255, 68, 217, 41),
   ];
 
   List<String> achievements = ["Erfolg1", "Erfolg2"];
@@ -52,11 +52,11 @@ class AchievementScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(
                                   MediaQuery.of(context).size.height * 0.015),
-                              color: Colors.blueGrey,
+                              color: Color.fromARGB(255, 113, 127, 143),
                               // TODO grauer, wenn nicht freigeschaltet
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.pinkAccent.withOpacity(0.5),
+                                  color: Color.fromARGB(150, 217, 37, 166),
                                   // TODO grün, wenn freigeschaltet?
                                   offset: Offset(0, 2),
                                   blurRadius: 4,
