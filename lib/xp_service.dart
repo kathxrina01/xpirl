@@ -1,9 +1,13 @@
+import 'package:flutter/material.dart';
+
 import 'model/task.dart';
 import 'model/user.dart';
 import 'xpbackend_service_provider.dart';
 import 'model/object_not_found_exception.dart';
 
 class XPService {
+  final colorList = <Color>[Colors.green, Colors.black54];
+
   /* Task */
   Future<List<Task>> getTaskList() async {
     return await XPBackendServiceProvider.getObjectList<Task>(
