@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:xpirl/screens/achievement_screen.dart';
+import 'package:xpirl/screens/friends_screen.dart';
 import '../model/task.dart';
 import 'Back_Bar.dart';
 import 'User_Bar.dart';
@@ -269,7 +270,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       alignment: Alignment.center,
                       child: ElevatedButton(
                         onPressed: () {
-                          //TODO: implement button action
                           Navigator.push(
                               context,
                               //PageTransition(type: PageTransitionType.rightToLeftWithFade, child: CategoryTaskOverviewScreen(category: category)));
@@ -340,7 +340,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       alignment: Alignment.center,
                       child: ElevatedButton(
                         onPressed: () {
-                          //TODO: implement button action
+                          Navigator.push(
+                              context,
+                              //PageTransition(type: PageTransitionType.rightToLeftWithFade, child: CategoryTaskOverviewScreen(category: category)));
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      FriendsScreen()));
                         },
                         child: Text('Alle Freunde'),
                         style: ElevatedButton.styleFrom(

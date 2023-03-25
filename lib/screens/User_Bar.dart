@@ -106,8 +106,7 @@ class _UserBarState extends State<UserBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromARGB(255, 113, 127, 143),
-      height: 200,
+      color: service.colorList[2],
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.all(10),
