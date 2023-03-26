@@ -120,6 +120,16 @@ class XPService {
     return result;
   }
 
+  // new user to database
+  Future<bool> createUserEntry({required User data}) async {
+    var result = await XPBackendServiceProvider.createObjectUser<User>(
+      data: data,
+      resourcePath: "users.json",
+      toJson: userToJson,
+    );
+    return result;
+  }
+
   Future<bool> deleteTaskById({required int id}) async {
     var result = await XPBackendServiceProvider.deleteObjectById(
       id: id,

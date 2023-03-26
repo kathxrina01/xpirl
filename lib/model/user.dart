@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 import '../xp_service.dart';
@@ -49,12 +50,8 @@ class User {
     id: json["id"] as int,
     username: json["username"].toString(),
     avatar: json["avatar"].toString(),
-    /*
-    levelXP: json["levelXP"],
-    numCoins: json["numCoins"],
-    numTickets: json["numTickets"],*/
     hasLevelXP: (json["hasLevelXP"] as List<dynamic>).map((level) => level as int).toList(),
-    isFriendWith: (json["isFriendWith"] as List<dynamic>).map((friend) => friend.toString()).toList(),
+    isFriendWith: (json["isFriendWith"] as List<dynamic>).map((friend) => friend as int).toList(),
 
   );
 
@@ -74,7 +71,7 @@ class User {
   int currentLevel;
   int numCoins;
   int numTickets;
-  List<String> isFriendWith;
+  List<int> isFriendWith;
   List<int> hasLevelXP;
 
   List<String> unlockedCategories;
@@ -118,7 +115,7 @@ class User {
     return numTickets;
   }
 
-  List<String> getIsFriendWith() {
+  List<int> getIsFriendWith() {
     return isFriendWith;
   }
 
@@ -190,7 +187,6 @@ class User {
 
   // User in Datenbank sichern
   saveUser() async {
-    print("saving");
     username = exportUsername();
     await service.updateUser(id: id, data: this).then((worked) {
       // User wurde geupdated
@@ -200,5 +196,43 @@ class User {
 
   bool checkUserUnlockedCategory(String category) {
     return unlockedCategories.contains(category);
+  }
+
+  unlockCategory(String category) {
+    unlockedCategories.add(category);
+  }
+
+  // prepare User for insertion into database
+  void addEntryToDatabase() async {
+    unlockedCategories = [];
+    unlockCategory("category1"); // TODO welche sollen an anfang freigeschaltet sein?
+    unlockCategory("category2"); // TODO "
+    username = exportUsername();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    id = prefs.getInt('id') ?? 10;
+    id++;
+
+    // print("---");
+    // hasLevelXP = [];
+    // hasLevelXP.add(1);
+    // isFriendWith = [];
+    // isFriendWith.add(1);
+    // print("---");
+
+
+    await prefs.setInt('id', id).then((yes) {
+      createUser();
+    });
+
+    // User in DB laden (vorher ID unique machen)
+    // UserHasTask & UserHasAchievement updaten
+  }
+
+  // create new Entry in DB
+  void createUser() async {
+    await service.createUserEntry(data: this).then((worked) {
+      print("User hinzugefügt");
+      // TODO UserHasTask & UserHasAchievement
+    });
   }
 }

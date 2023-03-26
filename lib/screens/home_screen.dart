@@ -231,43 +231,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   flex: 15,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 50),
                       if (!_isUnlocked)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      backgroundColor: service.colorList[1],
-                                      title: Text('Kategorie freischalten'),
-                                      content: Text(
-                                          'Möchtest du diese Kategorie für 250 Goldmünzen freischalten?'),
-                                      actions: [
-                                        TextButton(
-                                          child: Text('Abbrechen'),
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                        ),
-                                        ElevatedButton(
-                                          child: Text('Freischalten'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            _buyCategory();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
+                        IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  backgroundColor: service.colorList[1],
+                                  title: Text('Kategorie freischalten'),
+                                  content: Text(
+                                      'Möchtest du diese Kategorie für 250 Goldmünzen freischalten?'),
+                                  actions: [
+                                    TextButton(
+                                      child: Text('Abbrechen'),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                    ),
+                                    ElevatedButton(
+                                      child: Text('Freischalten'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        _buyCategory(category);
+                                      },
+                                    ),
+                                  ],
                                 );
                               },
-                              icon: Icon(Icons.lock),
-                            ),
-                          ],
+                            );
+                          },
+                          icon: Icon(Icons.lock),
+                          iconSize: sqrt(MediaQuery.of(context).size.height * MediaQuery.of(context).size.width) * 0.05,
                         ),
                     ],
                   ),
@@ -299,11 +296,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _buyCategory() {
+  void _buyCategory(String category) {
     if ((currentUser?.getNumCoins() ?? 0) >= 250) {
       setState(() {
         _isUnlocked = true;
         currentUser?.changeNumCoins(-250); // TODO Backend -> Datenbank updaten
+        currentUser?.unlockCategory(category);
+        currentUser?.saveUser();
       });
     } else {
       showDialog(

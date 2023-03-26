@@ -73,7 +73,7 @@ class XPBackendServiceProvider {
   }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
     var response = await http.get(url);
-    print(url);
+
     if (response.statusCode == 200) {
       List<dynamic> userData = json.decode(response.body);
 /*
@@ -91,12 +91,15 @@ class XPBackendServiceProvider {
       }
 
       currentUser ??= User(id: Random().nextInt(pow(2, 32).toInt()), username: username, avatar: "assets/sadcat.jpeg");
+
       if (currentUser.username.endsWith("]")) {
         // User is from Database
         currentUser.translateUsernameFromDatabase();
+      } else {
+        currentUser.usernameShort = username;
+        currentUser.addEntryToDatabase();
       }
       //List<User> userList = userListFromJson(response.body);
-
       //return userList[0];
       return currentUser;
     } else {
@@ -173,6 +176,30 @@ class XPBackendServiceProvider {
       },
       body: json,
     );
+    if (resonse.statusCode == 201) {
+      return true;
+    }
+    return false;
+  }
+
+  // post new user to database
+  static Future<bool> createObjectUser<T>({
+    required T data,
+    required Function(T) toJson,
+    required String resourcePath,
+  }) async {
+    var url = Uri.https(host, '${apiPath}/${resourcePath}');
+    String json = toJson(data);
+    print(url);
+    print(json);
+    http.Response resonse = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json,
+    );
+    print("Working? " + (resonse.statusCode.toString()));
     if (resonse.statusCode == 201) {
       return true;
     }
