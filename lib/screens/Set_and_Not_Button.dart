@@ -139,7 +139,7 @@ class _SetandNotButtonState extends State<SetandNotButton> {
                       });
                     },
                     activeColor: service.colorList[2],
-                    inactiveThumbColor: service.colorList[3],
+                    inactiveThumbColor: service.colorList[1],
                   ),
                 ],
               ),
@@ -191,7 +191,7 @@ class _SetandNotButtonState extends State<SetandNotButton> {
                         _darkModeEnabled = value ?? false;
                       });
                     },
-                    inactiveThumbColor: service.colorList[3],
+                    inactiveThumbColor: service.colorList[1],
                     activeColor: service.colorList[2],
                   ),
                 ],

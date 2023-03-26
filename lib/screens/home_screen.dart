@@ -132,20 +132,30 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {
             _controller.onDelete(); // TODO weg (war nur für Compiler :D
             // TODO Animation
-            _isUnlocked = currentUser?.checkUserUnlockedCategory(category) ?? false || false;
-            if (_isUnlocked) {
+            _isUnlocked = (currentUser?.getUnlockedCategories().contains(category) ?? false) || false;
+            if (_isUnlocked == true) {
+
               Navigator.push(
-                  context,
-                  //PageTransition(type: PageTransitionType.rightToLeftWithFade, child: CategoryTaskOverviewScreen(category: category)));
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        CategoryTaskOverviewScreen(category: category),
-                    settings: RouteSettings(arguments: {
-                      'user': currentUser,
-                      'taskListAll': taskListAll,
-                    }),
-                  ),
+                context,
+                PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 500),
+                  pageBuilder: (_, __, ___) => CategoryTaskOverviewScreen(category: category),
+                  settings: RouteSettings(arguments: {
+                    'user': currentUser,
+                    'taskListAll': taskListAll,
+                  }),
+                  transitionsBuilder: (_, animation, __, child) {
+                    return SlideTransition(
+                      position: Tween(
+                        begin: Offset(1, 0),
+                        end: Offset(0, 0),
+                      ).animate(animation),
+                      child: child,
+                    );
+                  },
+                ),
               );
+
             }
           },
           child: Container(

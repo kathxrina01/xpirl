@@ -201,8 +201,23 @@ class _UserBarState extends State<UserBar> {
       child: GestureDetector(
         onTap: () async {
           // TODO Animation
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileScreen()));
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: Duration(milliseconds: 500),
+              pageBuilder: (_, __, ___) => ProfileScreen(),
+              transitionsBuilder: (_, animation, __, child) {
+                return SlideTransition(
+                  position: Tween(
+                    begin: Offset(0, 1),
+                    end: Offset(0, 0),
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+            ),
+          );
+
         },
         child: Stack(
           alignment: Alignment.bottomRight,

@@ -121,10 +121,21 @@ class _CategoryTaskOverviewScreenState
                   onTap: () {
                     // TODO Animation
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                TaskScreen())); // TODO Korrekte leitung
+                      context,
+                      PageRouteBuilder(
+                        transitionDuration: Duration(milliseconds: 500),
+                        pageBuilder: (_, __, ___) => TaskScreen(),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return SlideTransition(
+                            position: Tween(
+                              begin: Offset(1, 0),
+                              end: Offset(0, 0),
+                            ).animate(animation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );// TODO Korrekte leitung
                   },
                   child: Container(
                     width: double.infinity,

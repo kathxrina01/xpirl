@@ -80,15 +80,20 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(180, 180, 180, 1),
+      backgroundColor: service.colorList[2],
       body: Center(
         child: Container(
           height: 600.0,
           width: 350.0,
           decoration: BoxDecoration(
-            color: Colors.grey,
+            color: service.colorList[3],
             borderRadius: BorderRadius.circular(20.0),
+            border: Border.all(
+              color: service.colorList[1],
+              width: 3.0,
+            ),
           ),
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -97,10 +102,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 100,
                   width: 100,
                   decoration: BoxDecoration(
+                    border: Border.all(
+                      color: service.colorList[1],
+                      width: 3.0,
+                    ),
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: AssetImage('assets/sadcat.jpeg'),
                       fit: BoxFit.cover,
+
                     ),
                   ),
                 ),
@@ -113,13 +123,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Willkommen bei XPirl!",
                     textStyle: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontFamily: "SourceCodePro",
                       fontSize: 25,
-                      decorationColor: Colors.lightGreenAccent,
+                      decorationColor: service.colorList[4],
                       decorationThickness: 2.0,
                       shadows: [
                         Shadow(
-                          color: Colors.lightGreenAccent.withOpacity(0.7),
-                          blurRadius: 5,
+                          color: service.colorList[4],
+                          blurRadius: 0,
                           offset: Offset(0, 2),
                         ),
                       ],
@@ -137,18 +148,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 300.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
-                  color: Colors.white,
+                  color: service.colorList[1],
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
                     hintText: 'Enter Your Name',
                     hintStyle: TextStyle(
-                      color: Colors.black.withOpacity(0.7),
+                      color: service.colorList[0],
+                      fontFamily: "SourceCodePro",
                     ),
                     prefixIcon: Icon(
                       Icons.person,
-                      color: Colors.black.withOpacity(0.7),
+                      color: service.colorList[0],
                     ),
                     border: InputBorder.none,
                   ),
@@ -163,38 +175,42 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(180, 180, 180, 1),
+                  backgroundColor: service.colorList[3],
+                  foregroundColor: service.colorList[1],
                   elevation: 10,
-                  shadowColor: Colors.lightGreenAccent.withOpacity(0.8),
+                  shadowColor: service.colorList[4],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(color: service.colorList[1], width: 1.5),
+                  ),
                 ),
                 child: Text(
                   "Absenden",
                   style: TextStyle(
-                    color: Colors.black,
+                    fontFamily: "SourceCodePro",
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
-                    decorationColor: Colors.lightGreenAccent,
-                    decorationThickness: 2.0,
                   ),
                 ),
                 onPressed: () {
                   submit();
                   /*
-                  if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
-                    addStringToSF() async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setString('currentUser', "username1");
-                    }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-                      ),
-                    );
-                  }*/
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      addStringToSF() async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('currentUser', "username1");
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
+    }*/
                 },
               ),
+
             ],
           ),
         ),

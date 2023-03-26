@@ -13,6 +13,8 @@ import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:xpirl/screens/Set_and_Not_Button.dart';
 import 'package:getwidget/getwidget.dart';
 
+
+
 class TaskScreen extends StatefulWidget {
   @override
   State<TaskScreen> createState() => _TaskScreenState();
@@ -31,6 +33,8 @@ class _TaskScreenState extends State<TaskScreen> {
   ];
 
   bool _isButtonPressed = false;
+  List<bool> friendCheckboxValues = [false, false, false];
+  List<Map<String, dynamic>> selectedFriends = [];
 
 
   @override
@@ -200,52 +204,95 @@ class _TaskScreenState extends State<TaskScreen> {
   }
 
   void addFriends() {
-    List<String> friends = [    "Freund 1",    "Freund 2",    "Freund 3",    "Freund 4",    "Freund 5"  ];
+    List<Map<String, dynamic>> friends = [    {      'name': 'Arthur Shelby',      'avatar': AssetImage('assets/sadcat.jpeg'),    },    {      'name': 'Thomas Shelby',      'avatar': AssetImage('assets/sadcat.jpeg'),    },    {      'name': 'Shelby Shelby',      'avatar': AssetImage('assets/sadcat.jpeg'),    },  ];
+    //List<bool> friendCheckboxValues = [false, false, false];
+    List<bool> selectedFriends = List.from(friendCheckboxValues);
 
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: service.colorList[1],
-            title: Text("Freunde zur Task hinzufügen",
-              style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[0],),
-            ),
-            content: SingleChildScrollView(
-              child: Column(
-                children: friends.map((friend) {
-                  return ListTile(
-                    leading: GestureDetector(
-                      onTapDown: (TapDownDetails details) {
-                        RenderBox box = context.findRenderObject() as RenderBox;
-                        Offset position = box.localToGlobal(details.globalPosition);
-                        _showProfileMenu(context, position);
-                      },
-                      child: CircleAvatar(
-                        child: Text(friend[0]),
-                      ),
-                    ),
-                    title: Text(friend),
-                    trailing: IconButton(
-                      icon: Icon(Icons.add),
-                      onPressed: () {
-                        // Hier können Sie den Freund zur Task hinzufügen
-                      },
-                    ),
-                  );
-                }).toList(),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              backgroundColor: service.colorList[1],
+              title: Text(
+                "Freunde zur Task hinzufügen",
+                style: TextStyle(
+                  fontFamily: "Righteous",
+                  color: service.colorList[0],
+                ),
               ),
-            ),
-            actions: <Widget>[
-              ElevatedButton(
-                child: Text("Schließen"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
+              content: SingleChildScrollView(
+                child: Column(
+                  children: friends.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    Map<String, dynamic> friend = entry.value;
+                    return GFCheckboxListTile(
+                      title: Text(
+                        friend['name'],
+                        style: TextStyle(
+                          fontFamily: 'SourceCodePro',
+                          color: service.colorList[0],
+                        ),
+                      ),
+                      avatar: GestureDetector(
+                        onTapUp: (TapUpDetails details) {
+                          _showProfileMenu(context, details.globalPosition);
+                        },
+                        child: GFAvatar(
+                          backgroundImage: friend['avatar'],
+                        ),
+                      ),
+                      size: 25,
+                      activeBgColor: service.colorList[4],
+                      type: GFCheckboxType.circle,
+                      activeIcon: Icon(
+                        Icons.check,
+                        size: 15,
+                        color: service.colorList[0],
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedFriends[index] = value;
+                        });
+                      },
+                      value: selectedFriends[index],
+                      inactiveIcon: null,
+                      inactiveBgColor: service.colorList[1],
+                    );
+                  }).toList(),
+                ),
+              ),
+              actions: <Widget>[
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: service.colorList[2],
+                  ),
+                  child: Text(
+                    "Schließen",
+                    style: TextStyle(
+                      fontFamily: "SourceCodePro",
+                      color: service.colorList[1],
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      friendCheckboxValues = List.from(selectedFriends);
+                    });
+                  },
+                )
+              ],
+            );
+
+          },
+        );
+      },
+    );
   }
+
+
+
   void _showProfileMenu(BuildContext context, Offset position) {
     showMenu(
       context: context,

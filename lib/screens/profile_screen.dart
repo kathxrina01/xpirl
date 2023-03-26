@@ -239,6 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,
                       child: GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: achievements.length < 3 ? achievements.length : 3,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -275,12 +276,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              //PageTransition(type: PageTransitionType.rightToLeftWithFade, child: CategoryTaskOverviewScreen(category: category)));
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      AchievementScreen()));
-
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 500),
+                              pageBuilder: (_, __, ___) => AchievementScreen(),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return ScaleTransition(
+                                  scale: Tween(begin: 0.0, end: 1.0).animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.fastOutSlowIn,
+                                    ),
+                                  ),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
                         },
                         child: Text('Alle Erfolge',
                           style: TextStyle(color: service.colorList[1]),
@@ -313,6 +325,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,
                       child: GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         itemCount: friends.length < 3 ? friends.length : 3,
@@ -350,11 +363,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              //PageTransition(type: PageTransitionType.rightToLeftWithFade, child: CategoryTaskOverviewScreen(category: category)));
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      FriendsScreen()));
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 500),
+                              pageBuilder: (_, __, ___) => FriendsScreen(),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return ScaleTransition(
+                                  scale: Tween<double>(begin: 0.0, end: 1.0).animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.fastOutSlowIn,
+                                    ),
+                                  ),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
                         },
                         child: Text('Alle Freunde',
                           style: TextStyle(color: service.colorList[1]),),
