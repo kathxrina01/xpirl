@@ -126,15 +126,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _buildCard(String category) {
     _isUnlocked = currentUser?.checkUserUnlockedCategory(category) ?? false || false;
+    print(_isUnlocked);
     return Column(
       children: [
         InkWell(
           onTap: () {
             _controller.onDelete(); // TODO weg (war nur für Compiler :D
             // TODO Animation
-            //_isUnlocked = (currentUser?.getUnlockedCategories().contains(category) ?? false) || false;
-            if (_isUnlocked == true) {
-
+            _isUnlocked = currentUser?.checkUserUnlockedCategory(category) ?? false || false;
+            if (_isUnlocked) {
               Navigator.push(
                   context,
                   //PageTransition(type: PageTransitionType.rightToLeftWithFade, child: CategoryTaskOverviewScreen(category: category)));
