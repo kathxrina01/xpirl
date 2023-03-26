@@ -80,7 +80,7 @@ class _CategoryTaskOverviewScreenState
               flex: 5,
               child: BackBar(
                 title: "Kategorie",// TODO Kategorie einfügen
-                type: 1,
+                type: 1, // hi
               ),
             ),
             Expanded(
