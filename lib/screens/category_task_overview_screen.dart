@@ -157,7 +157,7 @@ class _CategoryTaskOverviewScreenState
                           flex: 90,
                           child: Align(
                             child: Text(
-                              tasks[index].title,
+                              tasks[index].titleShort,
                               // TODO Kategorie anpassen
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.038,
