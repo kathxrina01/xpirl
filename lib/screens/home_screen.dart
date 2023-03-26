@@ -249,17 +249,26 @@ class _HomeScreenState extends State<HomeScreen> {
                               builder: (context) {
                                 return AlertDialog(
                                   backgroundColor: service.colorList[1],
-                                  title: Text('Kategorie freischalten'),
+                                  title: Text('Kategorie freischalten',
+                                    style: TextStyle(fontFamily: "Righteous", color: service.colorList[0]),
+                                  ),
                                   content: Text(
-                                      'Möchtest du diese Kategorie für 250 Goldmünzen freischalten?'),
+                                      'Möchtest du diese Kategorie für 250 Goldmünzen freischalten?',
+                                  style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[0]),),
                                   actions: [
                                     TextButton(
-                                      child: Text('Abbrechen'),
+                                      child: Text('Abbrechen',
+                                      style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[2]),),
                                       onPressed: () =>
                                           Navigator.of(context).pop(),
                                     ),
                                     ElevatedButton(
-                                      child: Text('Freischalten'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: service.colorList[2], // Hintergrundfarbe des Buttons
+                                      ),
+                                      child: Text('Freischalten',
+                                        style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[1]),
+                                      ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         _buyCategory(category);
@@ -317,12 +326,18 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context) {
           return AlertDialog(
             backgroundColor: service.colorList[1],
-            title: Text('Nicht genügend Goldmünzen'),
+            title: Text('Nicht genügend Goldmünzen',
+                style: TextStyle(fontFamily: "Righteous", color: service.colorList[0])),
             content: Text(
-                'Du hast nicht genügend Goldmünzen, um diese Kategorie freizuschalten.'),
+                'Du hast nicht genügend Goldmünzen, um diese Kategorie freizuschalten.',
+                style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[0]),),
             actions: [
               ElevatedButton(
-                child: Text('OK'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: service.colorList[2], // Hintergrundfarbe des Buttons
+                ),
+                child: Text('OK',
+          style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[1]),),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
