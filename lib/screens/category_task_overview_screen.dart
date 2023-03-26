@@ -44,6 +44,13 @@ class _CategoryTaskOverviewScreenState
     return true;
   }
 
+  final dataMap = <String, double>{
+    "User": 5, // Aktueller XP Wert von User
+  };
+
+  final colorList = <Color>[
+    Color.fromARGB(255, 217, 37, 166),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +67,14 @@ class _CategoryTaskOverviewScreenState
             Expanded(
                 flex: 20,
                 child: UserBar(
+                  dataMap: dataMap,
+                  colorList: colorList,
                   type: 0,
-                  user: currentUser,
                 )),
             Expanded(
               flex: 5,
               child: BackBar(
-                title: widget.category,
+                title: "Kategorie",// TODO Kategorie einfügen
                 type: 1,
               ),
             ),
@@ -106,7 +114,6 @@ class _CategoryTaskOverviewScreenState
         child: ListView.builder(
           itemCount: tasks.length,
           itemBuilder: (context, index) {
-            tasks[index].translateTaskTitleFromDatabase();
             return Column(
               children: [
                 GestureDetector(
@@ -114,15 +121,24 @@ class _CategoryTaskOverviewScreenState
                   onTap: () {
                     // TODO Animation
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                TaskScreen(task: tasks[index]),
-                          settings: RouteSettings(arguments: {
-                            'user': currentUser,
-                            'taskListAll': taskListAll,
-                          }),
-                        )); // TODO Korrekte leitung
+                      context,
+                      PageRouteBuilder(
+                        transitionDuration: Duration(milliseconds: 500),
+                        pageBuilder: (_, __, ___) => TaskScreen(),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return ScaleTransition(
+                            scale: Tween(begin: 0.0, end: 1.0).animate(
+                              CurvedAnimation(
+                                parent: animation,
+                                curve: Curves.easeInOutBack,
+                              ),
+                            ),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                    // TODO Korrekte leitung
                   },
                   child: Container(
                     width: double.infinity,
@@ -145,7 +161,7 @@ class _CategoryTaskOverviewScreenState
                           flex: 90,
                           child: Align(
                             child: Text(
-                              tasks[index].titleShort,
+                              tasks[index].title,
                               // TODO Kategorie anpassen
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.038,
