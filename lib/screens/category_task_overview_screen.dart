@@ -116,7 +116,8 @@ class _CategoryTaskOverviewScreenState
                       context,
                       PageRouteBuilder(
                         transitionDuration: Duration(milliseconds: 500),
-                        pageBuilder: (_, __, ___) => TaskScreen(task: tasks[index],),settings: RouteSettings(arguments: {
+                        pageBuilder: (_, __, ___) => TaskScreen(task: tasks[index],),
+                        settings: RouteSettings(arguments: {
                         'user': currentUser,
                         'taskListAll': taskListAll,
                       }),

@@ -203,6 +203,10 @@ class _UserBarState extends State<UserBar> {
             PageRouteBuilder(
               transitionDuration: Duration(milliseconds: 500),
               pageBuilder: (_, __, ___) => ProfileScreen(),
+              settings: RouteSettings(arguments: {
+              'user': user,
+              'taskListAll': taskListAll,
+            }),
               transitionsBuilder: (_, animation, __, child) {
                 return SlideTransition(
                   position: Tween(

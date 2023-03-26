@@ -42,12 +42,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("juuup");
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     currentUser = args['user'];
     taskListAll = args['taskListAll'];
 
-    var levelPercent = ((currentUser?.getLevelXP() ?? 0)-(service.levelXP[(currentUser?.getCurrentLevel() ?? 0) - 1]))/((service.levelXP[(currentUser?.getCurrentLevel() ?? 0)])-(service.levelXP[(currentUser?.getCurrentLevel() ?? 1) - 1]));
-
+    print(currentUser?.getUsernameShort());
+    //var levelPercent = ((currentUser?.getLevelXP() ?? 0)-(service.levelXP[(currentUser?.getCurrentLevel() ?? 0) - 1]))/((service.levelXP[(currentUser?.getCurrentLevel() ?? 0)])-(service.levelXP[(currentUser?.getCurrentLevel() ?? 1) - 1]));
+    var levelPercent = 0.5;
+    print("juuup");
     return Scaffold(
       backgroundColor: service.colorList[1],
       body: Column(
