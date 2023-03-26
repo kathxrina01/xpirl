@@ -136,7 +136,7 @@ class XPService {
   }
 
   // Update UserHasTasks in database
-  Future<bool> updateUserHasTasks({required int? id, required UserHasTasks data}) async {
+  Future<bool> updateUserHasTasks({required int? id, required UserHasTasks? data}) async {
     print("noch oke");
     var result = await XPBackendServiceProvider.updateObjectUserHasTasksById<UserHasTasks>(
       id: id,

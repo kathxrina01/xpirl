@@ -43,14 +43,42 @@ class _TaskScreenState extends State<TaskScreen> {
   bool unlocked = false;
 
   bool calcUnlocked(int taskID) {
-    return taskListAll?.any((element) => element.whichTask.contains(taskID) && element.status == 1) ?? false;
+    print("Hier kommt was");
+    print(unlocked);
+    // for (UserHasTasks uT in taskListAll!) {
+    //   print("uT: " + uT.id.toString());
+    // }
+    return userTasks?.any((element) => element.whichTask.contains(taskID) && element.status == 1) ?? false;
+  }
+
+  List<UserHasTasks> userTasks = [];
+
+  UserHasTasks? currentUserHasTasks;
+
+  Future<bool> _loadUserHasTasks() async {
+
+    userTasks = (await service.getUserHasTaskListAll(currentUser?.id))!;
+    for (UserHasTasks uT1 in userTasks) {
+      print("uT3:" + uT1.whichUser[0].toString());
+    }
+    return true;
+  }
+
+  // Get ID for Task in UserHasTasks
+  int getUserHasTaskId(int taskID) {
+    return (userTasks?.firstWhere((element) => element.whichTask.contains(taskID)))?.id ?? 1;
+    print (taskListAll.toString());
+    print("gettingThatID: " + ((taskListAll?.firstWhere((element) => element.whichTask.contains(taskID)))?.id ?? 1).toString());
+    //return (taskListAll?.firstWhere((element) => element.whichTask.contains(taskID)))?.id ?? 1;
   }
 
   @override
-  void setState(VoidCallback fn) {
+  Future<void> setState(VoidCallback fn) async {
     // TODO: implement setState
     super.setState(fn);
     // TODO hier prüfen, ob Task schon erledigt
+
+    await _loadUserHasTasks();
   }
 
 
@@ -89,10 +117,10 @@ class _TaskScreenState extends State<TaskScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
-                    color: service.colorList[2],
+                    color: unlocked ? service.colorList[3] : service.colorList[2],
                     boxShadow: [
                       BoxShadow(
-                        color: service.colorList[5],
+                        color: unlocked ? service.colorList[4] : service.colorList[5],
                         offset: Offset(0, 2),
                         blurRadius: 4,
                       ),
@@ -175,9 +203,17 @@ class _TaskScreenState extends State<TaskScreen> {
                             border: Border.all(color: service.colorList[1], width: MediaQuery.of(context).size.height * 0.003),
                           ),
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              if (!_isButtonPressed) {
+                                print("Still oke");
+                                await service.updateUserHasTasks(id: currentUser?.getId(), data: userTasks?.firstWhere((element) => element.whichTask.contains(widget.task.id)));
+                                print("Still oke");
+                              }
                               setState(() {
-                                _isButtonPressed = !_isButtonPressed;
+                                // TODO Hintergrund Container Farbe ändern?
+                                if (!_isButtonPressed) {
+                                  _isButtonPressed = !_isButtonPressed;
+                                }
                               });
                             },
                             style: ElevatedButton.styleFrom(
