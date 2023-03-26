@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:xpirl/screens/achievement_screen.dart';
 import 'package:xpirl/screens/friends_screen.dart';
 import '../model/task.dart';
+import '../model/user.dart';
+import '../model/user_has_tasks.dart';
 import 'Back_Bar.dart';
 import 'User_Bar.dart';
 import 'package:xpirl/screens/Set_and_Not_Button.dart';
@@ -34,16 +36,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     {'name': 'Name Friend', 'image': 'assets/sadcat.jpeg'},
   ];
 
-  final dataMap = <String, double>{
-    "User": 5, // Aktueller XP Wert von User
-  };
-
-  final colorList = <Color>[
-    Color.fromARGB(255, 68, 217, 41),
-  ];
+  // args
+  User? currentUser;
+  List<UserHasTasks>? taskListAll;
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    currentUser = args['user'];
+    taskListAll = args['taskListAll'];
+
+    var levelPercent = ((currentUser?.getLevelXP() ?? 0)-(service.levelXP[(currentUser?.getCurrentLevel() ?? 0) - 1]))/((service.levelXP[(currentUser?.getCurrentLevel() ?? 0)])-(service.levelXP[(currentUser?.getCurrentLevel() ?? 1) - 1]));
+
     return Scaffold(
       backgroundColor: service.colorList[1],
       body: Column(
@@ -51,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Expanded(
             // Leiste oben
             flex: 20,
-            child: UserBar(dataMap: dataMap, colorList: colorList, type: 1,),
+            child: UserBar(type: 1, user: currentUser,),
           ),
           Expanded(
           flex: 5,
@@ -104,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Padding(
                       padding:EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),
                       child: Text(
-                        "Level 3",
+                        "Level " +( currentUser?.getCurrentLevel().toString() ?? ""),
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.height * 0.022,
                           fontWeight: FontWeight.bold,
@@ -129,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Row(
                                 children: [
                                   Expanded(
-                                    flex: 70, // TODO Backend
+                                    flex: (levelPercent * 100).toInt(),
                                     child: Container(
                                     height: MediaQuery.of(context).size.height * 0.024,
                                     decoration: BoxDecoration(
@@ -139,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   ),Expanded(
-                                    flex: 30, // TODO Backend
+                                    flex: 100 - (levelPercent * 100).toInt(),
                                     child: SizedBox(),
                                   ),
 
@@ -150,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    '540/700XP', // TODO Backend
+                                    (currentUser?.getLevelXP().toString() ?? '') + '/' + ((service.levelXP[(currentUser?.getCurrentLevel() ?? 0)]).toString() ?? '') + 'XP', // TODO Backend  Darf nicht Null sein
                                     style: TextStyle(
                                       color: service.colorList[0],
                                       fontSize: MediaQuery.of(context).size.height * 0.018,

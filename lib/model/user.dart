@@ -19,7 +19,7 @@ class User {
   XPService service = XPService();
 
   User({
-    required this.id,
+    this.id = 10,
     required this. username,
     this.usernameShort = "User123",
     this.avatar = "assets/sadcat.jpeg",
@@ -146,7 +146,7 @@ class User {
     print("adding XP");
     if (add <= 0) return; // Falsche Eingabe
     this.levelXP += add;
-
+    updateCurrentLevel();
     await saveUser();
     //model.value.currentUser!.levelXP += add;
     //changed++;
@@ -179,6 +179,7 @@ class User {
     unlockedCategories = (username.substring(username.indexOf("{") + 1, username.indexOf("}"))).split(",");
     List<String> rest = (username.substring(username.indexOf("[") + 1, username.indexOf(",{"))).split(",");
     levelXP = int.parse(rest[0]);
+    updateCurrentLevel();
     numCoins = int.parse(rest[1]);
     numTickets = int.parse(rest[2]);
   }
@@ -210,10 +211,14 @@ class User {
     unlockCategory("category2"); // TODO "
     username = exportUsername();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    id = prefs.getInt('id') ?? 10;
-    id++;
+    this.id = await prefs.getInt('id') ?? 10;
+    this.id++;
 
-    await prefs.setInt('id', id).then((yes) {
+    await prefs.setInt('id', this.id).then((_) {
+      print("---> ID: " + this.id.toString());
+      return prefs.getInt('id');
+    }).then((id) {
+      this.id = id!;
       createUser();
     });
 
@@ -231,21 +236,32 @@ class User {
 
   linkUserAndTasks() async {
     List<Task> tasks = await service.getTaskList();
-    createTasksForUser(tasks, id);
+    createTasksForUser(tasks);
   }
 
-  Future<void> createTasksForUser(List<Task> tasks, int id) async {
+  Future<void> createTasksForUser(List<Task> tasks) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int idUserHastasks = prefs.getInt('idUserHastasks') ?? 10;
     idUserHastasks++;
     await prefs.setInt('idUserHastasks', idUserHastasks);
     print("idUserHasTask: " + idUserHastasks.toString());
-    UserHasTasks userTask = UserHasTasks(id: idUserHastasks, status: 0, dateAchieved: DateTime.now(), whichUser: [id], whichTask: [tasks.first.id]);
-
+    print("UserId: " + id.toString());
+    UserHasTasks userTask = UserHasTasks(id: idUserHastasks, status: 0, dateAchieved: DateTime.now(), whichUser: [id], whichTask: [tasks[0].id]);
+print("TaskID: " + tasks[0].id.toString());
     await service.createUserHasTaskEntry(userTask: userTask).then((worked) async {
       if (tasks.length > 1) {
-        await createTasksForUser(tasks.sublist(1), id);
+        await createTasksForUser(tasks.sublist(1));
       }
     });
+  }
+
+  void updateCurrentLevel() {
+    if (levelXP >= service.levelXP[currentLevel]) {
+      // Level Aufstieg
+      for (var i = currentLevel; i < service.levelXP.length; i++) {
+        if (levelXP >= service.levelXP[i]) currentLevel++;
+        else break;
+      }
+    }
   }
 }

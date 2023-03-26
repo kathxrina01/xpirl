@@ -78,8 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
               flex: 20,
               child: UserBar(
-                dataMap: dataMap,
-                colorList: colorList,
                 type: 0,
                 user: currentUser,
               )),
