@@ -55,6 +55,7 @@ class _CategoryTaskOverviewScreenState
   bool unlocked = false;
 
   bool calcUnlocked(int taskID) {
+
     return userTasks.any((element) => element.whichTask.contains(taskID) && element.status == 1);
   }
 
@@ -64,6 +65,10 @@ class _CategoryTaskOverviewScreenState
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     currentUser = args['user'];
     taskListAll = args['taskListAll'];
+
+    // for (UserHasTasks uT5 in taskListAll!) {
+    //   print("uT5: " + uT5.whichTask[0].toString());
+    // }
 
     return Scaffold(
       backgroundColor: service.colorList[1],

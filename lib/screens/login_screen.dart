@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xpirl/controller/user_controller.dart';
 import '../controller/xp_state_controller.dart';
 import '../model/user.dart';
+import '../model/user_has_tasks.dart';
 import '../xp_service.dart';
 import 'home_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -45,6 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
     await service
         .getUserHasTaskListAll(currentUser?.getId())
         .then((taskListAll) {
+      for (UserHasTasks uT5 in taskListAll!) {
+        print("uT5: " + uT5.whichUser[0].toString());
+      }
       Navigator.push(
         context,
         MaterialPageRoute(

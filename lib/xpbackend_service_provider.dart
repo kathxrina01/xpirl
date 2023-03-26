@@ -53,15 +53,18 @@ class XPBackendServiceProvider {
         Map<String, dynamic> userJson = userTaskMap as Map<String, dynamic>;
         for (int curID in userJson['whichUser']) {
           if (curID == id) {
+            print("unser User " + curID.toString());
             userTasks.add(UserHasTasks.fromJson(userJson));
+            print("unsere Task: " + userTasks.last.whichTask[0].toString());
             break;
           }
         }
       }
 
-      // for (UserHasTasks uT1 in userTasks) {
-      //   print("uT2:" + uT1.whichUser[0].toString());
-      // }
+      for (UserHasTasks uT1 in userTasks) {
+        print("uT1:" + uT1.whichUser[0].toString());
+        print("uT2:" + uT1.whichTask[0].toString());
+      }
       userTasks ??= [];
       return (userTasks);
     } else {

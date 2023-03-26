@@ -58,7 +58,7 @@ class UserHasTasks {
     status: json["status"],
     dateAchieved: DateTime.parse(json["dateAchieved"]),
     whichUser: List<int>.from(json["whichUser"].map((x) => x)),
-    whichTask: List<int>.from(json["whichUser"].map((x) => x)),
+    whichTask: List<int>.from(json["whichTask"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
