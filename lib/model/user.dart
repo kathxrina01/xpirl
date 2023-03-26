@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
+import 'package:xpirl/model/user_has_tasks.dart';
 
 import '../xp_service.dart';
+import 'task.dart';
 
 User userFromJson(String str, String username) => User.fromJson(json.decode(str));
 
@@ -190,7 +192,6 @@ class User {
     username = exportUsername();
     await service.updateUser(id: id, data: this).then((worked) {
       // User wurde geupdated
-      print(worked);
     });
   }
 
@@ -212,14 +213,6 @@ class User {
     id = prefs.getInt('id') ?? 10;
     id++;
 
-    // print("---");
-    // hasLevelXP = [];
-    // hasLevelXP.add(1);
-    // isFriendWith = [];
-    // isFriendWith.add(1);
-    // print("---");
-
-
     await prefs.setInt('id', id).then((yes) {
       createUser();
     });
@@ -231,8 +224,28 @@ class User {
   // create new Entry in DB
   void createUser() async {
     await service.createUserEntry(data: this).then((worked) {
-      print("User hinzugefügt");
       // TODO UserHasTask & UserHasAchievement
+      linkUserAndTasks();
+    });
+  }
+
+  linkUserAndTasks() async {
+    List<Task> tasks = await service.getTaskList();
+    createTasksForUser(tasks, id);
+  }
+
+  Future<void> createTasksForUser(List<Task> tasks, int id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int idUserHastasks = prefs.getInt('idUserHastasks') ?? 10;
+    idUserHastasks++;
+    await prefs.setInt('idUserHastasks', idUserHastasks);
+    print("idUserHasTask: " + idUserHastasks.toString());
+    UserHasTasks userTask = UserHasTasks(id: idUserHastasks, status: 0, dateAchieved: DateTime.now(), whichUser: [id], whichTask: [tasks.first.id]);
+
+    await service.createUserHasTaskEntry(userTask: userTask).then((worked) async {
+      if (tasks.length > 1) {
+        await createTasksForUser(tasks.sublist(1), id);
+      }
     });
   }
 }

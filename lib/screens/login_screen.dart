@@ -33,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> saveUsername() async {
     await service.getUser(username).then((currentUser) {
-      print(currentUser?.username);
       // if (currentUser != null) {
       //   if (currentUser.username.endsWith("]")) {
       //     // User is from Database

@@ -126,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _buildCard(String category) {
     _isUnlocked = currentUser?.checkUserUnlockedCategory(category) ?? false || false;
-    print(_isUnlocked);
     return Column(
       children: [
         InkWell(

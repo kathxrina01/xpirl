@@ -190,17 +190,48 @@ class XPBackendServiceProvider {
   }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}');
     String json = toJson(data);
-    print(url);
-    print(json);
-    http.Response resonse = await http.post(
+    http.Response response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: json,
     );
-    print("Working? " + (resonse.statusCode.toString()));
-    if (resonse.statusCode == 201) {
+    if (response.statusCode == 201) {
+      return true;
+    }
+    return false;
+  }
+
+  // post new userHasTask to database
+  static Future<bool> createObjectUserHasTasks<T>({
+    required T data,
+    required Function(T) toJson,
+    required String resourcePath,
+  }) async {
+    var url = Uri.https(host, '${apiPath}/${resourcePath}');
+    print(url);
+    print("davor");
+    String json = toJson(data);
+    String goodjson = '{"id":20,"status":0,"dateAchieved":"2023-03-26","whichUser":[13],"whichTask":[378]}';
+    // String json1 = goodjson.substring(goodjson.indexOf("dateAchieved") + "dateAchieved".length + 2, goodjson.indexOf("dateAchieved") + "dateAchieved".length + 14);
+    // json = json.substring(0, json.indexOf("dateAchieved") + "dateAchieved".length) + json1 + json.substring(json.indexOf("dateAchieved") + "dateAchieved".length + 14, json.length);
+    //json = goodjson.substring(0, goodjson.indexOf(',"status')) + json.substring(json.indexOf(',"status'), json.length);
+
+    //print(json1);
+    print(json);
+
+    json = goodjson;
+    print(json);
+    http.Response response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json,
+    );
+    print("Code: " + response.statusCode.toString());
+    if (response.statusCode == 201) {
       return true;
     }
     return false;
@@ -237,7 +268,30 @@ class XPBackendServiceProvider {
     required String resourcePath,
   }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}/${id}.json');
-    print(url);
+    String? json = objectToJson!(data);
+
+    http.Response resonse = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json,
+    );
+    if (resonse.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+
+  // Update User in Database
+  static Future<bool> updateObjectUserHasTasksById<T>({
+    required int? id,
+    required T data,
+    required String Function(T) objectToJson,
+    required String resourcePath,
+  }) async {
+    var url = Uri.https(host, '${apiPath}/${resourcePath}/${id}.json');
     String? json = objectToJson!(data);
 
     http.Response resonse = await http.put(
