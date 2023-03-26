@@ -56,7 +56,7 @@ class UserHasTasks {
   factory UserHasTasks.fromJson(Map<String, dynamic> json) => UserHasTasks(
     //id: json["id"],
     status: json["status"],
-    dateAchieved: DateTime.parse(json["dateAchieved"]),
+    dateAchieved: json["dateAchieved"],
     whichUser: List<int>.from(json["whichUser"].map((x) => x)),
     whichTask: List<int>.from(json["whichUser"].map((x) => x)),
   );

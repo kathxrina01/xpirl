@@ -58,47 +58,12 @@ class XPBackendServiceProvider {
           }
         }
       }
-
-      // for (UserHasTasks uT1 in userTasks) {
-      //   print("uT2:" + uT1.whichUser[0].toString());
-      // }
       userTasks ??= [];
       return (userTasks);
     } else {
       return [];
     }
   }
-  //
-  // // Get list of specific tasks a specific user has
-  // static Future<List<UserHasTasks>> getObjectListUserHasTaskListByID<T>({
-  //   required String resourcePath,
-  //   required Function(String, int) listFromJson,
-  //   required int? userID,
-  //   required
-  // }) async {
-  //
-  //   var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
-  //   var response = await http.get(url);
-  //   if (response.statusCode == 200) {
-  //
-  //     List<dynamic> userData = json.decode(response.body);
-  //
-  //     List<UserHasTasks> userTasks = [];
-  //     for (dynamic userTaskMap in userData) {
-  //       Map<String, dynamic> userJson = userTaskMap as Map<String, dynamic>;
-  //       for (int curID in userJson['whichUser']) {
-  //         if (curID == id) {
-  //           userTasks.add(UserHasTasks.fromJson(userJson));
-  //           break;
-  //         }
-  //       }
-  //     }
-  //     userTasks ??= [];
-  //     return (userTasks);
-  //   } else {
-  //     return [];
-  //   }
-  // }
 
   // Get specific User
   static Future<User?> getUser({
@@ -361,13 +326,12 @@ class XPBackendServiceProvider {
   // Update User in Database
   static Future<bool> updateObjectUserHasTasksById<T>({
     required int? id,
-    required T? data,
+    required T data,
     required String Function(T) objectToJson,
     required String resourcePath,
-  }) async {print("Oke");
+  }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}/${id}.json');
-    print("jdhoaiwd");
-    String? json = objectToJson!(data!);
+    String? json = objectToJson!(data);
 
     http.Response resonse = await http.put(
       url,
