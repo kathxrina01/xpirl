@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'model/task.dart';
 import 'model/user.dart';
+import 'model/user_has_tasks.dart';
 import 'xpbackend_service_provider.dart';
 import 'model/object_not_found_exception.dart';
 
 class XPService {
+
+  User? user;
+
+  User? get currentUser => user;
+
   final colorList = <Color>[
     Color.fromARGB(255, 7, 8, 9),// dunkel blau-grau -> Schrift
     Color.fromARGB(255, 230, 230, 230),// weißgrau -> Schrift und Background
@@ -15,11 +21,26 @@ class XPService {
     Color.fromARGB(150, 217, 37, 166),// pink -> Hintergrund -> noch nicht freigeschaltet
   ];
 
+
+  setUser(User user) {
+    this.user = user;
+  }
+
+
   /* Task */
   Future<List<Task>> getTaskList() async {
     return await XPBackendServiceProvider.getObjectList<Task>(
       resourcePath: "tasks",
       listFromJson: taskListFromJson,
+    );
+  }
+
+  Future<List<UserHasTasks>?> getUserHasTaskListAll(int? id) async {
+    return await XPBackendServiceProvider.getObjectListUserHasTaskListAll<UserHasTasks?>(
+      resourcePath: "userhastasks",
+      id: id,
+      listFromJson: taskListByUserIdFromJson,
+
     );
   }
 
@@ -84,6 +105,17 @@ class XPService {
       data: data,
       resourcePath: "tasks",
       objectToJson: taskToJson,
+    );
+    return result;
+  }
+
+  // Update User in database
+  Future<bool> updateUser({required int? id, required User data}) async {
+    var result = await XPBackendServiceProvider.updateObjectUserById<User>(
+      id: id,
+      data: data,
+      resourcePath: "users",
+      objectToJson: userToJson,
     );
     return result;
   }

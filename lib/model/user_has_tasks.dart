@@ -6,30 +6,49 @@ List<UserHasTasks> userTasksFromJson(String str) =>
 String userTasksToJson(List<UserHasTasks> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+
+List<UserHasTasks> taskListByUserIdFromJson(String jsonString, int? userId) {
+  final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
+  List<UserHasTasks> filteredTasks = parsed
+      .map((json) => UserHasTasks.fromJson(json))
+      .where((userTask) => userTask.whichUser.contains(userId))
+      .toList();
+  print(filteredTasks.toString());
+  return filteredTasks;
+}
+
 class UserHasTasks {
   UserHasTasks({
-    required this.username,
-    required this.taskID,
+    required this.id,
     required this.status,
-    required this.dateCompleted,
+    required this.dateAchieved,
+    required this.whichUser,
+    required this.whichTask
   });
-  
-  String username;
-  int taskID;
-  String status;
-  String dateCompleted;
-  
+
+  int id;
+  int status;
+  String dateAchieved;
+  List<int> whichUser;
+  List<int> whichTask;
+
   factory UserHasTasks.fromJson(Map<String, dynamic> json) => UserHasTasks(
-    username: json["username"],
-    taskID: json["taskid"],
+    id: json["id"],
     status: json["status"],
-    dateCompleted: json["dateCompleted"],
+    dateAchieved: json["dateAchieved"],
+    whichUser: List<int>.from(json["whichUser"].map((x) => x)),
+    whichTask: List<int>.from(json["whichUser"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
-    "username": username,
-    "taskID": taskID,
+    "id": id,
     "status": status,
-    "dateCompleted": dateCompleted,
+    "dateAchieved": dateAchieved,
+    "whichUser": List<dynamic>.from(whichUser.map((x) => x)),
+    "whichTask": List<dynamic>.from(whichTask.map((x) => x)),
   };
+
+  bool checkUserHasTask(int userID, int taskID) {
+    return whichUser.contains(userID) && whichTask.contains(taskID);
+  }
 }

@@ -1,53 +1,84 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:uuid/uuid.dart';
+
+import '../xp_service.dart';
+
 User userFromJson(String str, String username) => User.fromJson(json.decode(str));
 
 List<User> userListFromJson(String str) => List<User>.from(json.decode(str).map((x) => User.fromJson(x)));
 
+String userToJson(User data) => json.encode(data.toJson());
+
 class User {
 
+  XPService service = XPService();
+
   User({
-    this.id = 0,
-   required this. username,
+    required this.id,
+    required this. username,
+    this.usernameShort = "User123",
     this.avatar = "assets/sadcat.jpeg",
     this.levelXP = 0,
+    this.currentLevel = 1,
     this.numCoins = 0,
     this.numTickets = 0,
     this.isFriendWith = const [],
-    this.hasLevelXP = const []
+    this.hasLevelXP = const [],
+    this.unlockedCategories = const []
 }) {
     // TODO hier einen neuen Datenbankeintrag schreiben!
   }
+
   User.empty({
-    this.id = 0,
+    this.id = 10,
     this.username = 'User123',
+    this.usernameShort = 'User123',
     this.avatar = "assets/sadcat.jpeg",
     this.levelXP = 0,
+    this.currentLevel = 1,
     this.numCoins = 0,
     this.numTickets = 0,
     this.isFriendWith = const [],
-    this.hasLevelXP = const []
+    this.hasLevelXP = const [],
+    this.unlockedCategories = const []
 });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    username: json["username"],
-    avatar: json["avatar"],
+    id: json["id"] as int,
+    username: json["username"].toString(),
+    avatar: json["avatar"].toString(),
+    /*
     levelXP: json["levelXP"],
     numCoins: json["numCoins"],
-    numTickets: json["numTickets"],
-    isFriendWith: json["isFriendWith"],
-    hasLevelXP: json["hasLevelXP"]
+    numTickets: json["numTickets"],*/
+    hasLevelXP: (json["hasLevelXP"] as List<dynamic>).map((level) => level as int).toList(),
+    isFriendWith: (json["isFriendWith"] as List<dynamic>).map((friend) => friend.toString()).toList(),
+
   );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "username": username,
+    "avatar": avatar,
+    "hasLevelXP": hasLevelXP,
+    "isFriendWith": isFriendWith
+  };
 
   int id;
   String username;
+  String usernameShort;
   String avatar;
   int levelXP;
+  int currentLevel;
   int numCoins;
   int numTickets;
   List<String> isFriendWith;
   List<int> hasLevelXP;
+
+  List<String> unlockedCategories;
+
 
   /*
   User(String username, {String? avatar}) {
@@ -55,44 +86,119 @@ class User {
     if (avatar != null) this.avatar = "assets/sadcat.jpeg";
   }*/
 
-  User? getInstance(String username) {
-    if (true) // username schon vorhanden
-      return null;
-    //return new Users(username);
+  int getId() {
+    return id;
   }
 
-  bool isUsernameTaken(String username) {
-    // TODO
-    // Datenbank durchschauen, ob es schon User mit Username gibt
-
-    return true;
+  String getUsername() {
+    return username;
   }
 
-  // den aktuellen User einloggen
-  // wenn der username neu ist, wird eine neue Instanz erstellt
-  userLogin(String username) {
-
+  String getUsernameShort() {
+    return usernameShort;
   }
 
-  getLevelXP() {
-    return this.levelXP;
+  String getAvatar() {
+    return avatar;
   }
 
-  getNumCoins() {
-    return this.numCoins;
+  int getLevelXP() {
+    return levelXP;
   }
+
+  int getCurrentLevel() {
+    return currentLevel;
+  }
+
+  int getNumCoins() {
+    return numCoins;
+  }
+
+  int getNumTickets() {
+    return numTickets;
+  }
+
+  List<String> getIsFriendWith() {
+    return isFriendWith;
+  }
+
+  List<int> getHasLevelXP() {
+    return hasLevelXP;
+  }
+
+  List<String> getUnlockedCategories() {
+    return unlockedCategories;
+  }
+
+
+
+  String getUnlockedCategoriesString() {
+    String result = unlockedCategories.toString();
+    result = result.replaceAll(" ", "");
+    result = result.replaceAll("[", "");
+    result = result.replaceAll("]", "");
+    return result;
+  }
+
+
 
   // XP Punkte hinzufügen
-  addLevelXP(int add) {
+   addLevelXP(int add) async {
+    print("adding XP");
     if (add <= 0) return; // Falsche Eingabe
     this.levelXP += add;
+
+    await saveUser();
     //model.value.currentUser!.levelXP += add;
     //changed++;
     //model.update((val) {});
+  }/*
+
+  // XP Punkte hinzufügen
+  addLevelXP(int add) {
+    print("adding XP");
+    if (add <= 0) return; // Falsche Eingabe
+    this.levelXP += add;
+
+    //await saveUser();
+    //model.value.currentUser!.levelXP += add;
+    //changed++;
+    //model.update((val) {});
+  }*/
+
+  changeNumCoins(int change) {
+    if (numCoins - change < 0) {
+      print("zu wenig Coins");
+      return;
+    }
+    numCoins += change;
   }
 
-  /*
-  void createUser() {
-    if ()
-  }*/
+
+  translateUsernameFromDatabase() {
+    usernameShort = username.substring(0, username.indexOf(" "));
+    unlockedCategories = (username.substring(username.indexOf("{") + 1, username.indexOf("}"))).split(",");
+    List<String> rest = (username.substring(username.indexOf("[") + 1, username.indexOf(",{"))).split(",");
+    levelXP = int.parse(rest[0]);
+    numCoins = int.parse(rest[1]);
+    numTickets = int.parse(rest[2]);
+  }
+
+  String exportUsername() {
+    return usernameShort + " [" + levelXP.toString() + "," + numCoins.toString() + "," + numTickets.toString() + ",{" + getUnlockedCategoriesString() + "}]";
+  }
+
+  // User in Datenbank sichern
+  saveUser() async {
+    print("saving");
+    username = exportUsername();
+    await service.updateUser(id: id, data: this).then((worked) {
+      // User wurde geupdated
+      print(worked);
+    });
+  }
+
+  bool checkUserUnlockedCategory(String category) {
+    return unlockedCategories.contains(category);
+  }
 }

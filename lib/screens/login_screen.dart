@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xpirl/controller/user_controller.dart';
 import '../controller/xp_state_controller.dart';
+import '../model/user.dart';
 import '../xp_service.dart';
 import 'home_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -30,6 +31,37 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  Future<void> saveUsername() async {
+    await service.getUser(username).then((currentUser) {
+      if (currentUser != null) {
+        if (currentUser.username.endsWith("]")) {
+          // User is from Database
+          currentUser.translateUsernameFromDatabase();
+        }
+      }
+      loadUserTasks(currentUser!);
+    });
+  }
+
+  Future<void> loadUserTasks(User currentUser) async {
+    print(currentUser.getAvatar());
+    await service
+        .getUserHasTaskListAll(currentUser?.getId())
+        .then((taskListAll) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+          settings: RouteSettings(arguments: {
+            'user': currentUser,
+            'taskListAll': taskListAll,
+          }),
+        ),
+      );
+    });
+  }
+
+  /*
   saveUsername() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', username);
@@ -41,8 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context) => HomeScreen(),
       ),
     );
-  }
-
+  }*/
 
   //TODO den rest der seite erst erscheinen lassen, wenn das willkommen vollständig animiert ist
   @override
@@ -171,9 +202,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   submit() {
-    if (username.isEmpty) {
+    if (username.isEmpty || username.contains(" ")) {
       // TODO Fehermeldung -> was eintragen
-      print("leeres Feld");
+      print("leeres Feld oder Leerzeichen in Name");
       return;
     }
     saveUsername();

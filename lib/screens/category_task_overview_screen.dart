@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 
 import '../controller/xp_state_controller.dart';
 import '../model/task.dart';
+import '../model/user.dart';
+import '../model/user_has_tasks.dart';
 import '../xp_service.dart';
 import 'Back_Bar.dart';
 import 'User_Bar.dart';
@@ -33,6 +35,10 @@ class _CategoryTaskOverviewScreenState
 
   List<Task> tasks = [];
 
+  // args
+  User? currentUser;
+  List<UserHasTasks>? taskListAll;
+
   Future<bool> _loadTasksInCategory() async {
     tasks = await service.getTasksByCategory(this.widget.category);
     return true;
@@ -48,6 +54,11 @@ class _CategoryTaskOverviewScreenState
 
   @override
   Widget build(BuildContext context) {
+
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    currentUser = args['user'];
+    taskListAll = args['taskListAll'];
+
     return Scaffold(
       backgroundColor: service.colorList[1],
       body: Container(

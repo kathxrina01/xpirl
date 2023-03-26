@@ -58,16 +58,20 @@ class Task {
   Task({
     required this.id,
     required this.title,
+    this.titleShort = "title",
+    this.description = "description",
     required this.category,
     required this.rewardCoins,
     required this.rewardTickets,
-    required this.hasRewardXp
+    this.hasRewardXp = const []
   }) {
     _addCategory();
   }
 
   int id;
   String title;
+  String titleShort;
+  String description;
   String category;
   int rewardCoins;
   int rewardTickets;
@@ -76,7 +80,9 @@ class Task {
   Task.empty({
     this.id = 0,
     this.title = "title",
-    this.category = "category",
+    this.titleShort = "shortTitle",
+    this.description = "description",
+    this.category = "category1",
     this.rewardCoins = 0,
     this.rewardTickets = 0,
     this.hasRewardXp = const [],
@@ -102,13 +108,8 @@ class Task {
     "hasRewardXP": List<dynamic>.from(hasRewardXp.map((x) => x)),
   };
 
-  /*
-  // get list with all categories
-  List<String> _getAllCategories() {
-    return _categories;
-  }
-  */
 
+  // TODO weg?
   // add a category
   _addCategory() {
     // only if category is new
@@ -118,6 +119,11 @@ class Task {
       Task._categories.add(this.category);
       Task.nrCategories++;
     }
+  }
+
+  translateUsernameFromDatabase() {
+    titleShort = title.substring(0, title.indexOf(" | "));
+    description = title.substring(title.indexOf("|") + 1, title.length);
   }
 }
 

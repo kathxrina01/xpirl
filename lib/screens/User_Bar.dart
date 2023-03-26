@@ -13,11 +13,13 @@ class UserBar extends StatefulWidget {
     required this.dataMap,
     required this.colorList,
     required this.type,
+    this.user,
   }) : super(key: key);
 
   final Map<String, double> dataMap;
   final List<Color> colorList;
   final int type;
+  final User? user;
 
   @override
   State<UserBar> createState() => _UserBarState();
@@ -100,6 +102,7 @@ class _UserBarState extends State<UserBar> {
     super.initState();
     _type = widget.type;
     loadUsername();
+    user = widget.user;
     // loadUserStats();
   }
 
@@ -158,7 +161,7 @@ class _UserBarState extends State<UserBar> {
                             }
                           },
                         ),*/
-                        Text("250",
+                        Text(user?.getNumCoins().toString() ?? "0",
                           style: TextStyle(color: service.colorList[0], fontFamily: "SourceCodePro"),
                         ),
                       ],
@@ -169,7 +172,7 @@ class _UserBarState extends State<UserBar> {
                     child: Row(
                       children: [
                         Icon(Icons.airplane_ticket_outlined, color: service.colorList[0]),
-                        Text("0",
+                        Text(user?.getNumTickets().toString() ?? "0",
                           style: TextStyle(color: service.colorList[0], fontFamily: "SourceCodePro"),
                         ), // TODO an User anpassen
                       ],
@@ -196,7 +199,7 @@ class _UserBarState extends State<UserBar> {
     return Align(
       alignment: Alignment.centerRight,
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
           // TODO Animation
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => ProfileScreen()));
@@ -208,7 +211,7 @@ class _UserBarState extends State<UserBar> {
               child: FittedBox(
                 fit: BoxFit.fitHeight,
                 child: CircleAvatar(
-                  backgroundImage: AssetImage("assets/sadcat.jpeg"),
+                  backgroundImage: AssetImage(user?.getAvatar() ?? "assets/sadcat.jpeg"),
                 ),
               ),
               // TODO Größe responsive machen

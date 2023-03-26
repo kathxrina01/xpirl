@@ -1,7 +1,9 @@
 //import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:http/http.dart' as http;
+import 'package:xpirl/model/user_has_tasks.dart';
 
 import 'model/task.dart';
 import 'model/user.dart';
@@ -32,6 +34,36 @@ class XPBackendServiceProvider {
     }
   }
 
+  // Get list of all tasks a specific user has
+  static Future<List<UserHasTasks>> getObjectListUserHasTaskListAll<T>({
+    required String resourcePath,
+    required Function(String, int) listFromJson,
+    required int? id
+  }) async {
+
+    var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+
+      List<dynamic> userData = json.decode(response.body);
+
+      List<UserHasTasks> userTasks = [];
+      for (dynamic userTaskMap in userData) {
+        Map<String, dynamic> userJson = userTaskMap as Map<String, dynamic>;
+        for (int curID in userJson['whichUser']) {
+          if (curID == id) {
+            userTasks.add(UserHasTasks.fromJson(userJson));
+            break;
+          }
+        }
+      }
+      userTasks ??= [];
+      return (userTasks);
+    } else {
+      return [];
+    }
+  }
+
   // Get specific User
   static Future<User?> getUser({
     required String resourcePath,
@@ -43,36 +75,31 @@ class XPBackendServiceProvider {
     var response = await http.get(url);
     print(url);
     if (response.statusCode == 200) {
-      print("-----ok1------");
-      print(username);
-
-
       List<dynamic> userData = json.decode(response.body);
-      print(userData.toString());
 /*
       User? user = userData
           .map((e) => userFromJson(json.encode(e), username))
           .firstWhere((e) => e!.username == username, orElse: () => User(username: username, avatar: "assets/sadcat.jpeg", levelXP: 0, numCoins: 0, numTickets: 0)); // TODO hier Fehler?
 */
       User? currentUser;
-      for (var user in userData) {
-        if (user['username'] == username) {
-          currentUser = User.fromJson(user); // Konvertiere das JSON-Objekt in eine User-Instanz
-          break; // Beende die Schleife, wenn die gesuchte Instanz gefunden wurde
+      for (dynamic userMap in userData) {
+        Map<String, dynamic> userJson = userMap as Map<String, dynamic>;
+        if (userJson['username'].startsWith(username)) {
+          currentUser = User.fromJson(userJson); // Konvertiere das JSON-Objekt in eine User-Instanz
+          break;// Beende die Schleife, wenn die gesuchte Instanz gefunden wurde
         }
       }
 
-      currentUser ??= User(username: username, avatar: "assets/sadcat.jpeg", levelXP: 0, numCoins: 0, numTickets: 0);
-
-      print(response.body);
+      currentUser ??= User(id: Random().nextInt(pow(2, 32).toInt()), username: username, avatar: "assets/sadcat.jpeg");
+      if (currentUser.username.endsWith("]")) {
+        // User is from Database
+        currentUser.translateUsernameFromDatabase();
+      }
       //List<User> userList = userListFromJson(response.body);
 
-
-      print("-----ok2------");
       //return userList[0];
       return currentUser;
     } else {
-      print("-----nicht------");
       return null;
     }
   }
@@ -112,6 +139,8 @@ class XPBackendServiceProvider {
     }
   }
 
+
+  // TODO weg?
   static Future<List<T>> getObjectById<T>({
     required int id,
     required String resourcePath,
@@ -128,6 +157,7 @@ class XPBackendServiceProvider {
     }
   }
 
+  // TODO weg?
   static Future<bool> createObject<T>({
     required T data,
     required Function(T) toJson,
@@ -149,14 +179,15 @@ class XPBackendServiceProvider {
     return false;
   }
 
+  // TODO weg?
   static Future<bool> updateObjectById<T>({
     required int id,
     required T data,
-    required Function(T) objectToJson,
+    required Function(T)? objectToJson,
     required String resourcePath,
   }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}/${id}.json');
-    String json = objectToJson(data);
+    String json = objectToJson!(data);
 
     http.Response resonse = await http.put(
       url,
@@ -171,6 +202,32 @@ class XPBackendServiceProvider {
     return false;
   }
 
+  // Update User in Database
+  static Future<bool> updateObjectUserById<T>({
+    required int? id,
+    required T data,
+    required String Function(T) objectToJson,
+    required String resourcePath,
+  }) async {
+    var url = Uri.https(host, '${apiPath}/${resourcePath}/${id}.json');
+    print(url);
+    String? json = objectToJson!(data);
+
+    http.Response resonse = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json,
+    );
+    if (resonse.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+
+  // TODO weg?
   static Future<bool> deleteObjectById({
     required int id,
     required String resourcePath,
