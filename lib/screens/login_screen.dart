@@ -32,21 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> saveUsername() async {
+    print("1.");
     await service.getUser(username).then((currentUser) {
-      // if (currentUser != null) {
-      //   if (currentUser.username.endsWith("]")) {
-      //     // User is from Database
-      //     currentUser.translateUsernameFromDatabase();
-      //   } else {
-      //     currentUser.addEntryToDatabase();
-      //   }
-      // }
+      //prepareUserID(currentUser!);
       loadUserTasks(currentUser!);
     });
   }
 
   Future<void> loadUserTasks(User currentUser) async {
     print("UserID: " + currentUser.id.toString());
+    await Future.delayed(Duration(seconds: 1));
     await service
         .getUserHasTaskListAll(currentUser?.getId())
         .then((taskListAll) {

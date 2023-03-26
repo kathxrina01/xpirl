@@ -116,7 +116,6 @@ class Task {
   // add a category
   _addCategory() {
     // only if category is new
-
     if (!Task._categories.contains(this.category)) {
       // New Category
       Task._categories.add(this.category);
@@ -131,29 +130,3 @@ class Task {
     rewardXP = int.parse(parts[2]);
   }
 }
-
-
-/*
-class Tasks {
-  int _taskID = 0;
-  String title = "";
-  String category = "";
-  int rewardXP = 0;
-  int rewardCoins = 0;
-  int rewardTickets = 0;
-
-  Task(taskID, title, category, rewardXP, rewardCoins, rewardTickets) {
-    this._taskID = taskID;
-    this.title = title;
-    this.rewardXP = rewardXP;
-    this.rewardCoins = this.rewardCoins;
-    this.rewardTickets = this.rewardTickets;
-  }
-
-  //Task getInstance()
-
-  int getRewardXP(int id) {
-    return this.rewardXP;
-  }
-}
-*/

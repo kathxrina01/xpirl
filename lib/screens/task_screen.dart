@@ -40,7 +40,11 @@ class _TaskScreenState extends State<TaskScreen> {
   List<bool> friendCheckboxValues = [false, false, false];
   List<Map<String, dynamic>> selectedFriends = [];
 
+  bool unlocked = false;
 
+  bool calcUnlocked(int taskID) {
+    return taskListAll?.any((element) => element.whichTask.contains(taskID) && element.status == 1) ?? false;
+  }
 
   @override
   void setState(VoidCallback fn) {
@@ -56,6 +60,8 @@ class _TaskScreenState extends State<TaskScreen> {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     currentUser = args['user'];
     taskListAll = args['taskListAll'];
+
+    unlocked = calcUnlocked(widget.task.id);
 
     return Scaffold(
       backgroundColor: service.colorList[1],
@@ -124,7 +130,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             Icon(Icons.star_outline, color: Colors.black),
                             SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                             Text(
-                              (widget.task.rewardXP.toString() ?? '') + ' XP', // TODO Backend
+                              (widget.task.rewardXP.toString() ?? '') + ' XP',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.03,
                                 fontFamily: "SourceCodePro",
@@ -136,7 +142,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                 color: Colors.black),
                             SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                             Text(
-                              (widget.task.rewardCoins.toString() ?? '') + ' Coins', // TODO Backend
+                              (widget.task.rewardCoins.toString() ?? '') + ' Coins',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.03,
                                 fontFamily: "SourceCodePro",

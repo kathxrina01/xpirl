@@ -23,6 +23,7 @@ class XPBackendServiceProvider {
     required String resourcePath,
     required Function(String) listFromJson,
   }) async {
+    print("7.");
     var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
     var response = await http.get(url);
 
@@ -74,6 +75,7 @@ class XPBackendServiceProvider {
     var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
     var response = await http.get(url);
 
+    print("2.");
     if (response.statusCode == 200) {
       List<dynamic> userData = json.decode(response.body);
 /*
@@ -93,7 +95,7 @@ class XPBackendServiceProvider {
       //currentUser ??= User(id: Random().nextInt(pow(2, 32).toInt()), username: username, avatar: "assets/sadcat.jpeg");
       currentUser ??= User(username: username, avatar: "assets/sadcat.jpeg");
 
-      print("CID: " + currentUser.id.toString());
+      // print("CID: " + currentUser.id.toString());
       if (currentUser.username.endsWith("]")) {
         // User is from Database
         currentUser.translateUsernameFromDatabase();
@@ -101,10 +103,43 @@ class XPBackendServiceProvider {
         currentUser.usernameShort = username;
         currentUser.addEntryToDatabase();
       }
-      print("CID: " + currentUser.id.toString());
+      // print("CID: " + currentUser.id.toString());
       //List<User> userList = userListFromJson(response.body);
       //return userList[0];
+
+      print("User wurde erstellt oder aus der Datenbank geladen");
       return currentUser;
+    } else {
+      return null;
+    }
+  }
+
+  // Get specific User
+  static Future<int?> getUserIDByUsername({
+    required String resourcePath,
+    required String username,
+    required Function(String, String) userFromJson,
+    required Function(String) userListFromJson,
+  }) async {
+    var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<dynamic> userData = json.decode(response.body);
+
+      print("Useritus");
+      int id = 0;
+      for (dynamic userMap in userData) {
+        print(userMap.toString());
+        Map<String, dynamic> userJson = userMap as Map<String, dynamic>;
+        if (userJson['username'] == username) {
+          id = userJson['id'];
+          break;// Beende die Schleife, wenn die gesuchte Instanz gefunden wurde
+        }
+      }
+      print("UseritusID: " + id.toString());
+
+      return id;
     } else {
       return null;
     }
@@ -213,8 +248,9 @@ class XPBackendServiceProvider {
     required String resourcePath,
   }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}');
-    print(url);
-    print("davor");
+    print("10.");
+    // print(url);
+    // print("davor");
     String json = toJson(data);
     String goodjson = '{"id":20,"status":0,"dateAchieved":"2023-03-26","whichUser":[13],"whichTask":[378]}';
     // String json1 = goodjson.substring(goodjson.indexOf("dateAchieved") + "dateAchieved".length + 2, goodjson.indexOf("dateAchieved") + "dateAchieved".length + 14);
@@ -222,10 +258,10 @@ class XPBackendServiceProvider {
     //json = goodjson.substring(0, goodjson.indexOf(',"status')) + json.substring(json.indexOf(',"status'), json.length);
 
     //print(json1);
-    print(json);
+    // print(json);
 
     //json = goodjson;
-    print(json);
+    // print(json);
     http.Response response = await http.post(
       url,
       headers: <String, String>{
@@ -233,7 +269,7 @@ class XPBackendServiceProvider {
       },
       body: json,
     );
-    print("Code: " + response.statusCode.toString());
+    // print("Code: " + response.statusCode.toString());
     if (response.statusCode == 201) {
       return true;
     }

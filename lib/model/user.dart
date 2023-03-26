@@ -140,6 +140,15 @@ class User {
   }
 
 
+  getIDFromDatabase() async {
+    await service.getUserID(username).then((gottenID) {
+      id = gottenID!;
+      print("Hier ID: " + id.toString());
+    });
+
+  }
+
+
 
   // XP Punkte hinzufügen
    addLevelXP(int add) async {
@@ -206,6 +215,7 @@ class User {
 
   // prepare User for insertion into database
   void addEntryToDatabase() async {
+    print("3.");
     unlockedCategories = [];
     unlockCategory("category1"); // TODO welche sollen an anfang freigeschaltet sein?
     unlockCategory("category2"); // TODO "
@@ -219,6 +229,7 @@ class User {
       return prefs.getInt('id');
     }).then((id) {
       this.id = id!;
+
       createUser();
     });
 
@@ -228,26 +239,41 @@ class User {
 
   // create new Entry in DB
   void createUser() async {
+    print("4.");
+    await Future.delayed(Duration(seconds: 1));
     await service.createUserEntry(data: this).then((worked) {
       // TODO UserHasTask & UserHasAchievement
+      prepareUserID();
       linkUserAndTasks();
     });
   }
 
+  Future<void> prepareUserID() async {
+    //print("2.");
+    await Future.delayed(Duration(seconds: 1));
+    await this.getIDFromDatabase().then((oki) {
+      //loadUserTasks(currentUser);
+    });
+  }
+
   linkUserAndTasks() async {
-    List<Task> tasks = await service.getTaskList();
-    createTasksForUser(tasks);
+    print("6.");
+    await service.getTaskList().then((tasks) {
+      createTasksForUser(tasks);
+    });
+
   }
 
   Future<void> createTasksForUser(List<Task> tasks) async {
+    print("8.");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int idUserHastasks = prefs.getInt('idUserHastasks') ?? 10;
     idUserHastasks++;
     await prefs.setInt('idUserHastasks', idUserHastasks);
-    print("idUserHasTask: " + idUserHastasks.toString());
-    print("UserId: " + id.toString());
+    // print("idUserHasTask: " + idUserHastasks.toString());
+    // print("UserId: " + id.toString());
     UserHasTasks userTask = UserHasTasks(id: idUserHastasks, status: 0, dateAchieved: DateTime.now(), whichUser: [id], whichTask: [tasks[0].id]);
-print("TaskID: " + tasks[0].id.toString());
+// print("TaskID: " + tasks[0].id.toString());
     await service.createUserHasTaskEntry(userTask: userTask).then((worked) async {
       if (tasks.length > 1) {
         await createTasksForUser(tasks.sublist(1));

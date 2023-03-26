@@ -35,13 +35,27 @@ class _CategoryTaskOverviewScreenState
 
   List<Task> tasks = [];
 
+  List<UserHasTasks> userTasks = [];
+
   // args
   User? currentUser;
   List<UserHasTasks>? taskListAll;
 
   Future<bool> _loadTasksInCategory() async {
     tasks = await service.getTasksByCategory(this.widget.category);
+    await _loadUserHasTasks();
     return true;
+  }
+
+  Future<bool> _loadUserHasTasks() async {
+    userTasks = (await service.getUserHasTaskListAll(currentUser?.id))!;
+    return true;
+  }
+
+  bool unlocked = false;
+
+  bool calcUnlocked(int taskID) {
+    return userTasks.any((element) => element.whichTask.contains(taskID) && element.status == 1);
   }
 
   @override
@@ -105,7 +119,10 @@ class _CategoryTaskOverviewScreenState
         child: ListView.builder(
           itemCount: tasks.length,
           itemBuilder: (context, index) {
+
             tasks[index].translateTaskTitleFromDatabase();
+            unlocked = calcUnlocked(tasks[index].id);
+
             return Column(
               children: [
                 GestureDetector(
@@ -139,10 +156,10 @@ class _CategoryTaskOverviewScreenState
                     height: MediaQuery.of(context).size.height * 0.17,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.015),
-                      color: service.colorList[2],// TODO grauer, wenn nicht freigeschaltet
+                      color: unlocked ? service.colorList[3] : service.colorList[2],
                       boxShadow: [
                         BoxShadow(
-                          color: service.colorList[5], // TODO grün, wenn freigeschaltet?
+                          color: unlocked ? service.colorList[4] : service.colorList[5],
                           offset: Offset(0, 2),
                           blurRadius: 4,
                         ),
@@ -156,7 +173,6 @@ class _CategoryTaskOverviewScreenState
                           child: Align(
                             child: Text(
                               tasks[index].titleShort,
-                              // TODO Kategorie anpassen
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.038,
                               color: service.colorList[0],

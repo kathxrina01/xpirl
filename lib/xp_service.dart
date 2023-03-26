@@ -70,6 +70,17 @@ class XPService {
     );
   }
 
+  // get userID from specific
+  Future<int?> getUserID(String username) async {
+    return await XPBackendServiceProvider.getUserIDByUsername(
+      resourcePath: "users",
+      username: username,
+      userFromJson: userFromJson,
+      userListFromJson: userListFromJson,
+    );
+  }
+
+
   /*
   // set user
   Future<User?> setUser(String username) async {
@@ -139,6 +150,7 @@ class XPService {
 
   // new user to database
   Future<bool> createUserEntry({required User data}) async {
+    print("5.");
     var result = await XPBackendServiceProvider.createObjectUser<User>(
       data: data,
       resourcePath: "users.json",
@@ -148,7 +160,7 @@ class XPService {
   }
 
   Future<bool> createUserHasTaskEntry({required UserHasTasks userTask}) async {
-    print("jup");
+    print("9.");
     var result = await XPBackendServiceProvider.createObjectUserHasTasks<UserHasTasks>(
       data: userTask,
       resourcePath: "userhastasks.json",
