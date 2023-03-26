@@ -31,8 +31,6 @@ class FriendsScreen extends StatelessWidget {
           Expanded(
               flex: 20,
               child: UserBar(
-                dataMap: dataMap,
-                colorList: colorList,
                 type: 1,
               )),
           Expanded(

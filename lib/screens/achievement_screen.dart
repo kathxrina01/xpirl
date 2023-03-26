@@ -9,13 +9,6 @@ class AchievementScreen extends StatelessWidget {
   AchievementScreen({Key? key}) : super(key: key);
 
   XPService service = XPService();
-  final dataMap = <String, double>{
-    "User": 5, // Aktueller XP Wert von User
-  };
-
-  final colorList = <Color>[
-    Color.fromARGB(255, 68, 217, 41),
-  ];
 
   List<String> achievements = ["Erfolg1", "Erfolg2"];
 
@@ -28,8 +21,6 @@ class AchievementScreen extends StatelessWidget {
           Expanded(
               flex: 20,
               child: UserBar(
-                dataMap: dataMap,
-                colorList: colorList,
                 type: 1,
               )),
           Expanded(

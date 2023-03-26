@@ -67,9 +67,8 @@ class _CategoryTaskOverviewScreenState
             Expanded(
                 flex: 20,
                 child: UserBar(
-                  dataMap: dataMap,
-                  colorList: colorList,
                   type: 0,
+                  user: currentUser,
                 )),
             Expanded(
               flex: 5,
@@ -124,7 +123,12 @@ class _CategoryTaskOverviewScreenState
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                TaskScreen())); // TODO Korrekte leitung
+                                TaskScreen(),
+                          settings: RouteSettings(arguments: {
+                            'user': currentUser,
+                            'taskListAll': taskListAll,
+                          }),
+                        )); // TODO Korrekte leitung
                   },
                   child: Container(
                     width: double.infinity,

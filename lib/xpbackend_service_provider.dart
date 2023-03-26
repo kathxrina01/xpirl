@@ -90,8 +90,10 @@ class XPBackendServiceProvider {
         }
       }
 
-      currentUser ??= User(id: Random().nextInt(pow(2, 32).toInt()), username: username, avatar: "assets/sadcat.jpeg");
+      //currentUser ??= User(id: Random().nextInt(pow(2, 32).toInt()), username: username, avatar: "assets/sadcat.jpeg");
+      currentUser ??= User(username: username, avatar: "assets/sadcat.jpeg");
 
+      print("CID: " + currentUser.id.toString());
       if (currentUser.username.endsWith("]")) {
         // User is from Database
         currentUser.translateUsernameFromDatabase();
@@ -99,6 +101,7 @@ class XPBackendServiceProvider {
         currentUser.usernameShort = username;
         currentUser.addEntryToDatabase();
       }
+      print("CID: " + currentUser.id.toString());
       //List<User> userList = userListFromJson(response.body);
       //return userList[0];
       return currentUser;
@@ -221,7 +224,7 @@ class XPBackendServiceProvider {
     //print(json1);
     print(json);
 
-    json = goodjson;
+    //json = goodjson;
     print(json);
     http.Response response = await http.post(
       url,

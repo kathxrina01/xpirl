@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/xp_state_controller.dart';
 import '../model/task.dart';
+import '../model/user.dart';
+import '../model/user_has_tasks.dart';
 import '../xp_service.dart';
 import 'Back_Bar.dart';
 import 'User_Bar.dart';
@@ -23,18 +25,21 @@ class _TaskScreenState extends State<TaskScreen> {
   XPStateController _controller = Get.find();
   XPService service = XPService();
   List<Task> tasks = [];
-  final dataMap = <String, double>{
-    "User": 5, // Aktueller XP Wert von User
-  };
-  final colorList = <Color>[
-    Color.fromARGB(255, 217, 37, 166),
-  ];
+
+  // args
+  User? currentUser;
+  List<UserHasTasks>? taskListAll;
 
   bool _isButtonPressed = false;
 
 
   @override
   Widget build(BuildContext context) {
+
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    currentUser = args['user'];
+    taskListAll = args['taskListAll'];
+
     return Scaffold(
       backgroundColor: service.colorList[1],
       body: Container(
@@ -43,9 +48,8 @@ class _TaskScreenState extends State<TaskScreen> {
             Expanded(
               flex: 20,
               child: UserBar(
-                dataMap: dataMap,
-                colorList: colorList,
                 type: 0,
+                user: currentUser,
               ),
             ),
             Expanded(

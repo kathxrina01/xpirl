@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> loadUserTasks(User currentUser) async {
+    print("UserID: " + currentUser.id.toString());
     await service
         .getUserHasTaskListAll(currentUser?.getId())
         .then((taskListAll) {

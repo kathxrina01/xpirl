@@ -4,20 +4,17 @@ import 'package:pie_chart/pie_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/user.dart';
+import '../model/user_has_tasks.dart';
 import '../xp_service.dart';
 import 'profile_screen.dart';
 
 class UserBar extends StatefulWidget {
   const UserBar({
     Key? key,
-    required this.dataMap,
-    required this.colorList,
     required this.type,
     this.user,
   }) : super(key: key);
 
-  final Map<String, double> dataMap;
-  final List<Color> colorList;
   final int type;
   final User? user;
 
@@ -32,14 +29,11 @@ class _UserBarState extends State<UserBar> {
   var tickets = 0;
   late int _type;
 
-  final Map<String, double> dataMap1 = <String, double>{
-    "User": 5, // Aktueller XP Wert von User
-  };
-  final List<Color> colorList1 = <Color>[
-    Color.fromARGB(255, 68, 217, 41),
-  ];
-
   XPService service = XPService();
+
+  // args
+  User? currentUser;
+  List<UserHasTasks>? taskListAll;
 
   String? username;
 
@@ -174,7 +168,7 @@ class _UserBarState extends State<UserBar> {
                         Icon(Icons.airplane_ticket_outlined, color: service.colorList[0]),
                         Text(user?.getNumTickets().toString() ?? "0",
                           style: TextStyle(color: service.colorList[0], fontFamily: "SourceCodePro"),
-                        ), // TODO an User anpassen
+                        ),
                       ],
                     ),
                   ),
@@ -196,13 +190,20 @@ class _UserBarState extends State<UserBar> {
   }
 
   Widget buildProfile(BuildContext context) {
+
+    var levelPercent = ((user?.getLevelXP() ?? 0)-(service.levelXP[(user?.getCurrentLevel() ?? 0) - 1]))/((service.levelXP[(user?.getCurrentLevel() ?? 0)])-(service.levelXP[(user?.getCurrentLevel() ?? 1) - 1]));
+
     return Align(
       alignment: Alignment.centerRight,
       child: GestureDetector(
         onTap: () async {
           // TODO Animation
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileScreen()));
+              MaterialPageRoute(builder: (context) => ProfileScreen(),
+                settings: RouteSettings(arguments: {
+                  'user': user,
+                  'taskListAll': taskListAll,
+                }),));
         },
         child: Stack(
           alignment: Alignment.bottomRight,
@@ -226,14 +227,13 @@ class _UserBarState extends State<UserBar> {
               child: IgnorePointer(
                 ignoring: true,
                 child: GFProgressBar(
-                  percentage: 0.1,
-                  // TODO according to levelXP
+                  percentage: levelPercent,
                   // width:100,
                   circleWidth: MediaQuery.of(context).size.height * 0.015,
                   radius: MediaQuery.of(context).size.height * 0.178,
                   type: GFProgressType.circular,
                   backgroundColor: Colors.black12,
-                  progressBarColor: colorList1[0],
+                  progressBarColor: service.colorList[4],
                   circleStartAngle: 145,
                 ),
               ),
@@ -249,7 +249,7 @@ class _UserBarState extends State<UserBar> {
                 backgroundColor: service.colorList[0],
                 radius: MediaQuery.of(context).size.height * 0.03,
                 child: Text(
-                  "1", // TODO Level anpassen
+                  user?.getCurrentLevel().toString() ?? "1",
                   style: TextStyle(
                     color: service.colorList[1],
                     fontWeight: FontWeight.bold,
@@ -267,7 +267,7 @@ class _UserBarState extends State<UserBar> {
     return Align(
       alignment: Alignment.bottomRight,
       child: Text(
-        "Username",
+        user?.getUsernameShort() ?? "",
         style: TextStyle(
           fontSize: MediaQuery.of(context).size.height *
               0.035,
