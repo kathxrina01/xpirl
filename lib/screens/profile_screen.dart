@@ -75,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Stack(
                         children: [
                           CircleAvatar(
-                            backgroundImage: AssetImage('assets/sadcat.jpeg'),
+                            backgroundImage: AssetImage(currentUser?.getAvatar() ?? 'assets/sadcat.jpeg'),
                             radius: MediaQuery.of(context).size.width * 0.1,
                           ),
                           Positioned.fill(

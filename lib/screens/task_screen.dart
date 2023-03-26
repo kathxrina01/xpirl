@@ -18,6 +18,10 @@ import 'package:getwidget/getwidget.dart';
 
 
 class TaskScreen extends StatefulWidget {
+  TaskScreen({Key? key, required this.task}) : super(key: key);
+
+  Task task;
+
   @override
   State<TaskScreen> createState() => _TaskScreenState();
 }
@@ -35,6 +39,13 @@ class _TaskScreenState extends State<TaskScreen> {
   bool _isButtonPressed = false;
   List<bool> friendCheckboxValues = [false, false, false];
   List<Map<String, dynamic>> selectedFriends = [];
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    // TODO hier prüfen, ob Task schon erledigt
+  }
 
 
   @override
@@ -87,7 +98,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Titel: Das ist der titel',
+                          widget.task.titleShort,
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.04,
                             fontWeight: FontWeight.bold,
@@ -97,7 +108,7 @@ class _TaskScreenState extends State<TaskScreen> {
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                         Text(
-                          'Beschreibung: das ist die beschreibung', // TODO Backend
+                          widget.task.description,
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * 0.03,
                             fontFamily: "SourceCodePro",
@@ -111,7 +122,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             Icon(Icons.star_outline, color: Colors.black),
                             SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                             Text(
-                              '200 XP', // TODO Backend
+                              (widget.task.rewardXP.toString() ?? '') + ' XP', // TODO Backend
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.03,
                                 fontFamily: "SourceCodePro",
@@ -123,7 +134,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                 color: Colors.black),
                             SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                             Text(
-                              '10 Coins', // TODO Backend
+                              (widget.task.rewardCoins.toString() ?? '') + ' Coins', // TODO Backend
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.03,
                                 fontFamily: "SourceCodePro",

@@ -60,6 +60,7 @@ class Task {
     required this.title,
     this.titleShort = "title",
     this.description = "description",
+    this.rewardXP = 0,
     required this.category,
     required this.rewardCoins,
     required this.rewardTickets,
@@ -72,6 +73,7 @@ class Task {
   String title;
   String titleShort;
   String description;
+  int rewardXP;
   String category;
   int rewardCoins;
   int rewardTickets;
@@ -82,6 +84,7 @@ class Task {
     this.title = "title",
     this.titleShort = "shortTitle",
     this.description = "description",
+    this.rewardXP = 0,
     this.category = "category1",
     this.rewardCoins = 0,
     this.rewardTickets = 0,
@@ -121,9 +124,13 @@ class Task {
     }
   }
 
-  translateUsernameFromDatabase() {
-    titleShort = title.substring(0, title.indexOf(" | "));
-    description = title.substring(title.indexOf("|") + 1, title.length);
+  translateTaskTitleFromDatabase() {
+    print("Höh");
+    List<String> parts = title.split(" | ");
+    titleShort = parts[0];
+    description = parts[1];
+    rewardXP = int.parse(parts[2]);
+    print("Hoh");
   }
 }
 

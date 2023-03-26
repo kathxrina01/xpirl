@@ -44,13 +44,6 @@ class _CategoryTaskOverviewScreenState
     return true;
   }
 
-  final dataMap = <String, double>{
-    "User": 5, // Aktueller XP Wert von User
-  };
-
-  final colorList = <Color>[
-    Color.fromARGB(255, 217, 37, 166),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +60,13 @@ class _CategoryTaskOverviewScreenState
             Expanded(
                 flex: 20,
                 child: UserBar(
-                  dataMap: dataMap,
-                  colorList: colorList,
                   type: 0,
+                  user: currentUser,
                 )),
             Expanded(
               flex: 5,
               child: BackBar(
-                title: "Kategorie",// TODO Kategorie einfügen
+                title: widget.category,
                 type: 1,
               ),
             ),
@@ -114,6 +106,7 @@ class _CategoryTaskOverviewScreenState
         child: ListView.builder(
           itemCount: tasks.length,
           itemBuilder: (context, index) {
+            tasks[index].translateTaskTitleFromDatabase();
             return Column(
               children: [
                 GestureDetector(
@@ -124,7 +117,12 @@ class _CategoryTaskOverviewScreenState
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                TaskScreen())); // TODO Korrekte leitung
+                                TaskScreen(task: tasks[index]),
+                          settings: RouteSettings(arguments: {
+                            'user': currentUser,
+                            'taskListAll': taskListAll,
+                          }),
+                        )); // TODO Korrekte leitung
                   },
                   child: Container(
                     width: double.infinity,
@@ -147,7 +145,7 @@ class _CategoryTaskOverviewScreenState
                           flex: 90,
                           child: Align(
                             child: Text(
-                              tasks[index].title,
+                              tasks[index].titleShort,
                               // TODO Kategorie anpassen
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height * 0.038,
