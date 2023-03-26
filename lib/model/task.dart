@@ -125,12 +125,10 @@ class Task {
   }
 
   translateTaskTitleFromDatabase() {
-    print("Höh");
     List<String> parts = title.split(" | ");
     titleShort = parts[0];
     description = parts[1];
     rewardXP = int.parse(parts[2]);
-    print("Hoh");
   }
 }
 

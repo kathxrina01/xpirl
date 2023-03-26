@@ -44,14 +44,6 @@ class _CategoryTaskOverviewScreenState
     return true;
   }
 
-  final dataMap = <String, double>{
-    "User": 5, // Aktueller XP Wert von User
-  };
-
-  final colorList = <Color>[
-    Color.fromARGB(255, 217, 37, 166),
-  ];
-
   @override
   Widget build(BuildContext context) {
 
@@ -67,9 +59,8 @@ class _CategoryTaskOverviewScreenState
             Expanded(
                 flex: 20,
                 child: UserBar(
-                  dataMap: dataMap,
-                  colorList: colorList,
                   type: 0,
+                  user: currentUser,
                 )),
             Expanded(
               flex: 5,
@@ -114,6 +105,7 @@ class _CategoryTaskOverviewScreenState
         child: ListView.builder(
           itemCount: tasks.length,
           itemBuilder: (context, index) {
+            tasks[index].translateTaskTitleFromDatabase();
             return Column(
               children: [
                 GestureDetector(
@@ -124,7 +116,10 @@ class _CategoryTaskOverviewScreenState
                       context,
                       PageRouteBuilder(
                         transitionDuration: Duration(milliseconds: 500),
-                        pageBuilder: (_, __, ___) => TaskScreen(),
+                        pageBuilder: (_, __, ___) => TaskScreen(task: tasks[index],),settings: RouteSettings(arguments: {
+                        'user': currentUser,
+                        'taskListAll': taskListAll,
+                      }),
                         transitionsBuilder: (_, animation, __, child) {
                           return ScaleTransition(
                             scale: Tween(begin: 0.0, end: 1.0).animate(
