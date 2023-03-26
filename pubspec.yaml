@@ -61,13 +61,9 @@ dev_dependencies:
   flutter_native_splash: any
 
 flutter_native_splash:
-#die farbe ändert sich, scheint auch nicht ganz zu funktionieren, hat maybe was zu tun mit
-# TODO android / app / src / main / res / drawable zu tun und drawable v21 ?
-#color: "#f5cb42" # gelb
-#TODO das hier hat nicht funktioniert also have a look for this at gleicher link wie 2 zeilen oben nur mipmap
-#image: assets/sadcat.jpeg
-#TODO background image eventuell dann auch
-#background_image:
+  color: "#f2f0f1"
+  image: assets/splash.png
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -83,6 +79,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/sadcat.jpeg
+    - assets/mouse.png
+    - assets/xppotion.jpg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

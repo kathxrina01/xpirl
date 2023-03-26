@@ -197,7 +197,6 @@ class _UserBarState extends State<UserBar> {
       alignment: Alignment.centerRight,
       child: GestureDetector(
         onTap: () async {
-          // TODO Animation
           Navigator.push(
             context,
             PageRouteBuilder(
