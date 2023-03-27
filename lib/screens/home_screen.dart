@@ -37,6 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> categories = [];
   String username = '';
 
+  List<UserHasTasks> userTasks = [];
+
   // Load to-do list from the server
   Future<bool> _loadUsers() async {
     tasks = await service.getTaskList();
@@ -45,6 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<bool> _loadCategories() async {
     categories = await service.getCategoryList();
+    await _loadUserHasTasks();
+    await _loadAllTasks();
+    return true;
+  }
+
+  List<Task> allTasks = [];
+  Future<bool> _loadAllTasks() async {
+    allTasks = (await service.getTaskList())!;
     return true;
   }
 
@@ -60,6 +70,35 @@ class _HomeScreenState extends State<HomeScreen> {
   final colorList = <Color>[
     Color.fromARGB(255, 68, 217, 41),
   ];
+
+  Future<bool> _loadUserHasTasks() async {
+    userTasks = (await service.getUserHasTaskListAll(currentUser?.id))!;
+    return true;
+  }
+
+  int getPercentageForCategory(String category) {
+    int achieved = 0;
+    int notAchieved = 0;
+    for (Task nextTask in allTasks) {
+      for (UserHasTasks userTask in userTasks) {
+        if (nextTask.category == category) {
+          if (nextTask.id == userTask.whichTask[0]) {
+            if (userTask.status == 1) {
+              achieved++;
+            } else {
+              notAchieved++;
+            }
+          }
+        }
+      }
+    }
+    if (achieved == 0 && notAchieved == 0) notAchieved = 1;
+    int result = achieved + notAchieved;
+    result = ((achieved * 100) / result).round();
+
+    //int result = ((achieved / (achieved + notAchieved)) * 100).round();
+    return result;
+  }
 
   bool _isUnlocked = false;
   //int _buttonId = 1; // Unique ID for the button
@@ -204,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               // TODO flex anpassn an %
                               Expanded(
-                                flex: 66,
+                                flex: getPercentageForCategory(category),
                                 child: Container(
                                   height: 5,
                                   decoration: BoxDecoration(
@@ -217,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
 
                               Expanded(
-                                flex: 34,
+                                flex: 100 - getPercentageForCategory(category), // TODO hier auch
                                 child: Container(
                                   height: 5,
                                   decoration: BoxDecoration(
