@@ -157,8 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         InkWell(
           onTap: () {
-            _controller.onDelete(); // TODO weg (war nur für Compiler :D
-            // TODO Animation
+            _controller.onDelete(); // weg (war nur für Compiler :D
             _isUnlocked = (currentUser?.getUnlockedCategories().contains(category) ?? false) || false;
             if (_isUnlocked == true) {
 
@@ -231,7 +230,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           alignment: Alignment.topCenter,
                           child: Row(
                             children: [
-                              // TODO flex anpassn an %
                               Expanded(
                                 flex: getPercentageForCategory(category),
                                 child: Container(
@@ -246,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
 
                               Expanded(
-                                flex: 100 - getPercentageForCategory(category), // TODO hier auch
+                                flex: 100 - getPercentageForCategory(category),
                                 child: Container(
                                   height: 5,
                                   decoration: BoxDecoration(
@@ -357,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if ((currentUser?.getNumCoins() ?? 0) >= 250) {
       setState(() {
         _isUnlocked = true;
-        currentUser?.changeNumCoins(-250); // TODO Backend -> Datenbank updaten
+        currentUser?.changeNumCoins(-250);
         currentUser?.unlockCategory(category);
         currentUser?.saveUser();
       });
@@ -391,7 +389,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if ((currentUser?.getNumTickets() ?? 0) >= 1) {
       setState(() {
         _isUnlocked = true;
-        currentUser?.changeNumTickets(-1); // TODO Backend -> Datenbank updaten
+        currentUser?.changeNumTickets(-1);
         currentUser?.unlockCategory(category);
         currentUser?.saveUser();
       });

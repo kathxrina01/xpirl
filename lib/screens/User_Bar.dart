@@ -37,58 +37,21 @@ class _UserBarState extends State<UserBar> {
   String? username;
 
   Future<String> loadUsername() async {
-    print("loadUsername() ausgeführt");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String loadedUsername = await prefs.getString('username') ?? '';
     return loadedUsername;
-    /*
-    setState(() {
-      username = loadedUsername;
-    });
-
-    getUser();*/
   }
 
   Future<User?> getUser() async {
-    print("getUser() ausgeführt");
     String currentUsername = username ?? await loadUsername();
     return await service.getUser(currentUsername);
-    /*
-    setState(() {
-      user = currentUser;
-    });
-    print("XP: " + user!.getLevelXP().toString());*/
-    return user;
   }
 
   Future<String?> loadNumCoins() async {
-    print("loadNumCoins() ausgeführt");
     User? currentUser = user ?? await getUser();
     return currentUser?.numCoins.toString();
   }
 
-/*
-  loadUsername() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      username = prefs.getString('username') ?? '';
-    });
-  }*/
-
-  /*
-  Future<bool> _loadUser() async {
-    user = await service.getUser();
-    return true;
-  }*/
-
-  /*
-  loadUserStats() async {
-    user = await service.getUser(username);
-    levelXP = user?.getLevelXP();
-    numCoins = user?.getNumCoins();
-
-    return true;
-  }*/
 
   @override
   void initState() {
@@ -138,22 +101,6 @@ class _UserBarState extends State<UserBar> {
                     child: Row(
                       children: [
                         Icon(Icons.monetization_on_outlined, color: service.colorList[0],),
-                        /*FutureBuilder<String?>(
-                          future: loadNumCoins(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String?> snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return CircularProgressIndicator(); // Ladeindikator anzeigen
-                            } else if (snapshot.hasError) {
-                              return Text(
-                                  "Fehler beim Laden"); // Fehlermeldung anzeigen
-                            } else {
-                              return Text(
-                                  snapshot.data ?? '0'); // Text anzeigen
-                            }
-                          },
-                        ),*/
                         Text(user?.getNumCoins().toString() ?? "0",
                           style: TextStyle(color: service.colorList[0], fontFamily: "SourceCodePro"),
                         ),
@@ -242,10 +189,6 @@ class _UserBarState extends State<UserBar> {
                   circleStartAngle: 145,
                 ),
               ),
-              //bottom: MediaQuery.of(context).size.height * 0.01,
-              // left: MediaQuery.of(context).size.height * 0.01,
-              // right: MediaQuery.of(context).size.height * 0.01,
-              //top: MediaQuery.of(context).size.height * 0.01,
             ),
             Positioned(
               right: MediaQuery.of(context).size.width * 0.06,
@@ -277,7 +220,6 @@ class _UserBarState extends State<UserBar> {
           fontSize: MediaQuery.of(context).size.height *
               0.035,
           fontFamily: 'Righteous',
-          //fontWeight: FontWeight.bold,
           color: service.colorList[0],
           shadows: [
             Shadow(

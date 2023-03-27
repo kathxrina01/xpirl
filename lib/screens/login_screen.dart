@@ -17,8 +17,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   XPStateController _controller = Get.put(XPStateController());
 
-  final _formKey = GlobalKey<FormState>();
-
   XPService service = XPService();
 
   String username = "";
@@ -31,22 +29,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> saveUsername() async {
-    print("1.");
     await service.getUser(username).then((currentUser) {
-      //prepareUserID(currentUser!);
       loadUserTasks(currentUser!);
     });
   }
 
   Future<void> loadUserTasks(User currentUser) async {
-    print("UserID: " + currentUser.id.toString());
     await Future.delayed(Duration(seconds: 1));
     await service
         .getUserHasTaskListAll(currentUser?.getId())
         .then((taskListAll) {
-      // for (UserHasTasks uT5 in taskListAll!) {
-      //   print("uT5: " + uT5.whichUser[0].toString());
-      // }
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -74,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }*/
 
-  //TODO den rest der seite erst erscheinen lassen, wenn das willkommen vollständig animiert ist
+  // Zukunft: den rest der seite erst erscheinen lassen, wenn das willkommen vollständig animiert ist
   @override
   Widget build(BuildContext context) {
     return Scaffold(

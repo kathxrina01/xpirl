@@ -25,7 +25,7 @@ class TaskScreen extends StatefulWidget {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
-  // current category that we are in
+  // current task that we are in
   XPStateController _controller = Get.find();
   XPService service = XPService();
   List<Task> tasks = [];
@@ -57,33 +57,15 @@ class _TaskScreenState extends State<TaskScreen> {
   UserHasTasks? currentUserHasTasks;
 
   Future<bool> _loadUserHasTasks() async {
-
     userTasks = (await service.getUserHasTaskListAll(currentUser?.id))!;
-
-    //await service.getUserHasTasksByID(currentUser?.id, widget.task.id);
-    //print("--> " + userTasks[0].whichTask[0].toString() ?? " ");
-    print(widget.task.id.toString());
     await Future.forEach(userTasks, (UserHasTasks userTask) async {
-      print("Nö");
-      if (userTask.whichTask.contains(widget.task.id)) {print("Huii");
+      if (userTask.whichTask.contains(widget.task.id)) {
         curentUserTask = userTask;
         return true;
       }
     });
-    // print(curentUserTask?.whichTask[0]);
     return true;
   }
-
-
-
-  /*@override
-  Future<void> setState(VoidCallback fn) async {
-    // TODO: implement setState
-    super.setState(fn);
-    // TODO hier prüfen, ob Task schon erledigt
-    print("Ayy");
-    await _loadUserHasTasks();
-  }*/
 
   @override
   void initState() {
@@ -144,7 +126,7 @@ class _TaskScreenState extends State<TaskScreen> {
             Expanded(
               flex: 5,
               child: BackBar(
-                title: "Aufgabe", // TODO Backend?
+                title: "Aufgabe",
                 type: 1,
               ),
             ),
@@ -164,8 +146,6 @@ class _TaskScreenState extends State<TaskScreen> {
                       ),
                     ],
                   ),
-                  //width: MediaQuery.of(context).size.width - 20, // brauchen wir das?
-                  //height: 300,// TODO responsive bzw brauchen wir das überhaupt?
                   child: Padding(
                     padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
                     child: Column(
@@ -303,7 +283,6 @@ class _TaskScreenState extends State<TaskScreen> {
 
   void addFriends() {
     List<Map<String, dynamic>> friends = [    {      'name': 'Arthur Shelby',      'avatar': AssetImage('assets/sadcat.jpeg'),    },    {      'name': 'Thomas Shelby',      'avatar': AssetImage('assets/sadcat.jpeg'),    },    {      'name': 'Shelby Shelby',      'avatar': AssetImage('assets/sadcat.jpeg'),    },  ];
-    //List<bool> friendCheckboxValues = [false, false, false];
     List<bool> selectedFriends = List.from(friendCheckboxValues);
 
     showDialog(

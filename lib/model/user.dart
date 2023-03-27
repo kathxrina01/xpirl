@@ -218,7 +218,6 @@ class User {
   void createUser() async {
     await Future.delayed(Duration(seconds: 1));
     await service.createUserEntry(data: this).then((worked) {
-      // TODO UserHasTask & UserHasAchievement
       prepareUserID();
       linkUserAndTasks();
     });

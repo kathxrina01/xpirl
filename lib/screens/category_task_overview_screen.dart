@@ -64,10 +64,6 @@ class _CategoryTaskOverviewScreenState
     currentUser = args['user'];
     taskListAll = args['taskListAll'];
 
-    // for (UserHasTasks uT5 in taskListAll!) {
-    //   print("uT5: " + uT5.whichTask[0].toString());
-    // }
-
     return Scaffold(
       backgroundColor: service.colorList[1],
       body: Container(
@@ -82,7 +78,7 @@ class _CategoryTaskOverviewScreenState
             Expanded(
               flex: 5,
               child: BackBar(
-                title: "Kategorie",// TODO Kategorie einfügen
+                title: "Kategorie",
                 type: 1, // hi
               ),
             ),
@@ -131,7 +127,6 @@ class _CategoryTaskOverviewScreenState
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    // TODO Animation
                     Navigator.push(
                       context,
                       PageRouteBuilder(
@@ -152,7 +147,6 @@ class _CategoryTaskOverviewScreenState
                         },
                       ),
                     );
-                    // TODO Korrekte leitung
                   },
                   child: Container(
                     width: double.infinity,

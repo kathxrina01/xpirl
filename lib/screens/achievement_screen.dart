@@ -48,11 +48,11 @@ class AchievementScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(
                                   MediaQuery.of(context).size.height * 0.015),
                               color: service.colorList[2],
-                              // TODO grauer, wenn nicht freigeschaltet
+                              // Zukunft: grauer, wenn nicht freigeschaltet
                               boxShadow: [
                                 BoxShadow(
                                   color: service.colorList[5],
-                                  // TODO grün, wenn freigeschaltet?
+                                  // Zukunft: grün, wenn freigeschaltet?
                                   offset: Offset(0, 2),
                                   blurRadius: 4,
                                 ),
@@ -97,7 +97,7 @@ class AchievementScreen extends StatelessWidget {
                                               children: [Icon(Icons.star_outline, color: service.colorList[0],),
                                                 SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                                                 Text(
-                                                  '500 XP', // TODO Backend
+                                                  '500 XP', // Zukunft: in Backend einbinden
                                                   style: TextStyle(
                                                     fontSize: MediaQuery.of(context).size.height * 0.018,
                                                     fontFamily: "RobotoMono",
@@ -114,7 +114,7 @@ class AchievementScreen extends StatelessWidget {
                                                 color: service.colorList[0],),
                                                 SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                                                 Text(
-                                                    '20 Coins', // TODO Backend
+                                                    '20 Coins', // Zukunft: in Backend einbinden
                                                   style: TextStyle(
                                                     fontSize: MediaQuery.of(context).size.height * 0.018,
                                                     fontFamily: "RobotoMono",

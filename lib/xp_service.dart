@@ -31,7 +31,7 @@ class XPService {
   }
 
 
-  /* Task */
+  // get list of all tasks
   Future<List<Task>> getTaskList() async {
     return await XPBackendServiceProvider.getObjectList<Task>(
       resourcePath: "tasks",
@@ -39,6 +39,7 @@ class XPService {
     );
   }
 
+  // get list of all tasks of a specific user
   Future<List<UserHasTasks>?> getUserHasTaskListAll(int? id) async {
     return await XPBackendServiceProvider.getObjectListUserHasTaskListAll<UserHasTasks?>(
       resourcePath: "userhastasks",
@@ -53,14 +54,13 @@ class XPService {
     return await XPBackendServiceProvider.getObjectsByCategory<Task>(
       resourcePath: "tasks",
       categoryName: category,
-      //listByCategoryFromJson: taskListByCategoryFromJson,
       listByCategoryFromJson: (jsonString) =>
           taskListByCategoryFromJson(jsonString, category),
     );
   }
 
-  /* User */
-  // get user
+
+  // get user by username
   Future<User?> getUser(String username) async {
     return await XPBackendServiceProvider.getUser(
       resourcePath: "users",
@@ -92,16 +92,6 @@ class XPService {
   }
 
 
-  /*
-  // set user
-  Future<User?> setUser(String username) async {
-    return await XPBackendServiceProvider.setUser(
-      resourcePath: "users",
-      username: username,
-      userFromJson: userFromJson,
-    );
-  }*/
-
   // get a list of all categories
   Future<List<String>> getCategoryList() async {
     return await XPBackendServiceProvider.getObjectCategoryList<String>(
@@ -110,30 +100,6 @@ class XPService {
     );
   }
 
-
-  Future<Task> getTaskById({required int id}) async {
-    var result = await XPBackendServiceProvider.getObjectById<Task>(
-      id: id,
-      resourcePath: "tasks",
-      objectFromJson: taskFromJson,
-    );
-
-    if (result.isEmpty) {
-      throw ObjectNotFoundException();
-    }
-
-    return result[0]; // sollte nur ein Element enthalten
-  }
-
-  Future<bool> updateTaskById({required int id, required Task data}) async {
-    var result = await XPBackendServiceProvider.updateObjectById<Task>(
-      id: id,
-      data: data,
-      resourcePath: "tasks",
-      objectToJson: taskToJson,
-    );
-    return result;
-  }
 
   // Update User in database
   Future<bool> updateUser({required int? id, required User data}) async {
@@ -167,19 +133,12 @@ class XPService {
     return result;
   }
 
+  // create UserHasTask Entry in database
   Future<bool> createUserHasTaskEntry({required UserHasTasks userTask}) async {
     var result = await XPBackendServiceProvider.createObjectUserHasTasks<UserHasTasks>(
       data: userTask,
       resourcePath: "userhastasks.json",
       toJson: userTasksSingleToJson,
-    );
-    return result;
-  }
-
-  Future<bool> deleteTaskById({required int id}) async {
-    var result = await XPBackendServiceProvider.deleteObjectById(
-      id: id,
-      resourcePath: "tasks",
     );
     return result;
   }

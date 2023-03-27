@@ -90,13 +90,10 @@ class FriendsScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(
                                   MediaQuery.of(context).size.height * 0.015),
-                              //color: Colors.blueGrey,
                                 color: service.colorList[2],
-                              // TODO grauer, wenn nicht freigeschaltet
                               boxShadow: [
                                 BoxShadow(
                                   color: service.colorList[4],
-                                  // TODO grün, wenn freigeschaltet?
                                   offset: Offset(0, 2),
                                   blurRadius: 4,
                                 ),

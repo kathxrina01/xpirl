@@ -79,10 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
 
-    print(currentUser?.getUsernameShort());
-    //var levelPercent = ((currentUser?.getLevelXP() ?? 0)-(service.levelXP[(currentUser?.getCurrentLevel() ?? 0) - 1]))/((service.levelXP[(currentUser?.getCurrentLevel() ?? 0)])-(service.levelXP[(currentUser?.getCurrentLevel() ?? 1) - 1]));
     var levelPercent = 0.5;
-    print("juuup");
     return Scaffold(
       backgroundColor: service.colorList[1],
       body: Column(
@@ -105,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        // TODO: navigate to profile picture change screen
+                        // Zukunft: navigate to profile picture change screen
                       },
                       child: Stack(
                         children: [
@@ -172,7 +169,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                     height: MediaQuery.of(context).size.height * 0.024,
                                     decoration: BoxDecoration(
-                                      //TODO entscheidenmit oder ohne opacity
                                       color: service.colorList[4],
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
@@ -189,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    (currentUser?.getLevelXP().toString() ?? '') + '/' + ((service.levelXP[(currentUser?.getCurrentLevel() ?? 0)]).toString() ?? '') + 'XP', // TODO Backend  Darf nicht Null sein
+                                    (currentUser?.getLevelXP().toString() ?? '') + '/' + ((service.levelXP[(currentUser?.getCurrentLevel() ?? 0)]).toString() ?? '') + 'XP',
                                     style: TextStyle(
                                       color: service.colorList[0],
                                       fontSize: MediaQuery.of(context).size.height * 0.018,
@@ -205,7 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Expanded(flex: 30, child: SizedBox()),
                       ],
                     ),
-                    //Name ändern
+                    // Zukunft: Name ändern
                     /* Container(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 80, right: 80, top: 15),
@@ -232,36 +228,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
           ), */
-                    /*
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: Container(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            //TODO: implement button action
-                          },
-                          child: Text('Änderungen speichern'),
-                          style: ElevatedButton.styleFrom(
-                            textStyle: TextStyle(
-                              fontSize: 15,
-                              fontFamily: "SourceCodePro",
-                              //fontFamily: "JosefinSans",
-                            ),
-
-                            backgroundColor: Color.fromARGB(255, 113, 127, 143),
-                            minimumSize: Size(50, 30),
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Expanded(
-                      // War mal Expanded
-                      flex: 6,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                      ),
-                    ),*/
                     SizedBox(height: MediaQuery.of(context).size.height * 0.035,),
                     Align(
                       alignment: Alignment.center,
@@ -282,7 +248,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         itemCount: achievements.length < 3 ? achievements.length : 3,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
-                          //mainAxisSpacing: 16,
                           childAspectRatio: 1,
                         ),
                         itemBuilder: (BuildContext context, int index) {
@@ -369,7 +334,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         itemCount: text.length,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
-                          //mainAxisSpacing: 16,
                           childAspectRatio: 1,
                         ),
                         itemBuilder: (BuildContext context, int index) {
@@ -379,7 +343,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 backgroundImage: AssetImage(
                                   image[index],
                                 ),
-                                //radius: 25,
                                 radius: MediaQuery.of(context).size.height * 0.055 / 2,
                               ),
                               SizedBox(height: MediaQuery.of(context).size.height * 0.01),

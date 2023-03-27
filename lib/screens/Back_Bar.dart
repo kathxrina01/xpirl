@@ -17,7 +17,7 @@ class BackBar extends StatelessWidget {
         child: Text(
           this.title,
           style: TextStyle(
-            fontFamily: "Righteous", //todo ändern zu SourceCodePro
+            fontFamily: "Righteous",
             fontSize: MediaQuery.of(context).size.height * 0.032,
             color: service.colorList[0],
             fontStyle: FontStyle.italic,
