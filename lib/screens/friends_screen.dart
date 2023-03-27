@@ -95,7 +95,7 @@ class FriendsScreen extends StatelessWidget {
                               // TODO grauer, wenn nicht freigeschaltet
                               boxShadow: [
                                 BoxShadow(
-                                  color: service.colorList[5],
+                                  color: service.colorList[4],
                                   // TODO grün, wenn freigeschaltet?
                                   offset: Offset(0, 2),
                                   blurRadius: 4,
