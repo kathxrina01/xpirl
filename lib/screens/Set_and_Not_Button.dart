@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:xpirl/model/user_has_tasks.dart';
 import 'package:xpirl/xp_service.dart';
+
+import '../model/user.dart';
 
 class SetandNotButton extends StatefulWidget {
   final VoidCallback? onPressedButton1;
   final VoidCallback? onPressedButton2;
+  final User? currentUser;
+
 
   const SetandNotButton({
     Key? key,
     this.onPressedButton1,
     this.onPressedButton2,
+    this.currentUser,
   }) : super(key: key);
+
+
 
   @override
   _SetandNotButtonState createState() => _SetandNotButtonState();
 }
 
 
+
 class _SetandNotButtonState extends State<SetandNotButton> {
   XPService service = XPService();
+  int whichU = 0;
+  List<String> text = [];
+
   void _showFriend() {
-    List<Map<String, dynamic>> friends = [    {'name': 'Max', 'avatar': Icons.person, 'task': 'Hausaufgaben'},    {'name': 'Lisa', 'avatar': Icons.person, 'task': 'Einkaufen'},    {'name': 'Tom', 'avatar': Icons.person, 'task': 'Gartenarbeit'},  ]; // Hier werden Freunde mit ihren Avataren und Aufgaben definiert
 
     showDialog(
       context: context,
@@ -33,7 +44,7 @@ class _SetandNotButtonState extends State<SetandNotButton> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${friends.length} ${friends.length == 1 ? "Freund" : "Freunde"} möchten mit dir eine Task zusammen lösen.',
+              Text('${text.length} ${text.length == 1 ? "Freund" : "Freunde"} möchten mit dir eine Task zusammen lösen.',
                 style: TextStyle(fontFamily: "SourceCodePro",color: service.colorList[0],),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -41,22 +52,19 @@ class _SetandNotButtonState extends State<SetandNotButton> {
                 style: TextStyle(fontFamily: "SourceCodePro",color: service.colorList[0],),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-              ...friends.map((friend) {
+              ...text.map((text) {
                 return Column(
                   children: [
                     Row(
                       children: [
-                        //TODO anstatt icon avatar bilder hinzufügen
-                        CircleAvatar(
-                          child: Icon(friend['avatar'], color: Colors.white),
-                        ),
+
                         SizedBox(width: MediaQuery.of(context).size.height * 0.015),
-                        Text(friend['name'],
+                        Text(text,
                         style: TextStyle(fontFamily: "SourceCodePro",color: service.colorList[0],),),
                       ],
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.005),
-                    Text('Möchte ${friend['task']} erledigen.',
+                    Text('Möchte mit dir zusammen eine Task erledigen.',
                     style: TextStyle(fontFamily: "SourceCodePro",color: service.colorList[0],),),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   ],
@@ -232,6 +240,31 @@ class _SetandNotButtonState extends State<SetandNotButton> {
 
   @override
   Widget build(BuildContext context) {
+    if(widget.currentUser?.usernameShort =="Cari") {
+      whichU = 1;
+    }
+    if(widget.currentUser?.usernameShort =="Veronika") {
+      whichU = 2;
+    }
+    if(widget.currentUser?.usernameShort =="Blake") {
+      whichU = 3;
+    }
+    if(widget.currentUser?.usernameShort =="Malte") {
+      whichU = 4;
+    }
+
+    if (whichU == 1) {
+      text = ['Blake', 'Malte', 'Veronika'];
+    }
+    if (whichU == 2) {
+      text = ['Blake', 'Malte', 'Cari'];
+    }
+    if (whichU == 3) {
+      text = ['Veronika', 'Malte', 'Cari'];
+    }
+    if (whichU == 4) {
+      text = ['Blake', 'Veronika', 'Cari'];
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

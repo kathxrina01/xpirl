@@ -1,15 +1,16 @@
 import 'dart:math';
 import 'package:xpirl/xp_service.dart';
 import 'package:flutter/material.dart';
-import 'package:xpirl/screens/Back_Bar.dart';
-
-import 'Set_and_Not_Button.dart';
+import '../model/user.dart';
+import 'Back_Bar.dart';
 import 'User_Bar.dart';
+import 'package:xpirl/screens/Set_and_Not_Button.dart';
 
 class AchievementScreen extends StatelessWidget {
   AchievementScreen({Key? key}) : super(key: key);
 
   XPService service = XPService();
+  User? currentUser;
 
   List<String> achievements = ["Der Puls senkt sich", "Ahoy Abenteuer", "Breiter als der Türsteher","Achtung, Nerd Alarm", "Der Held von nebenan"];
   List<String> descrip = ["4 berufliche Herausforderungen erfolgreich meistern, wie z.B. eine schwierige Präsentation halten", "5 besondere Events erfolgreich besucht haben und eine unvergessliche Erfahrung machen", "Erreiche Level 80", "2 neue Fachgebiete erfolgreich studieren und eine Prüfung bestehen", " 4 ehrenamtliche Tätigkeiten erfolgreich ausgeübt und dabei eine positive Wirkung erzielt haben"];
@@ -141,7 +142,7 @@ class AchievementScreen extends StatelessWidget {
               ))
         ],
       ),
-      floatingActionButton: SetandNotButton(),
+      floatingActionButton: SetandNotButton(currentUser: currentUser),
     );
   }
 }

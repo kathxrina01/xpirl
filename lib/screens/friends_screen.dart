@@ -198,7 +198,7 @@ class FriendsScreen extends StatelessWidget {
               ))
         ],
       ),
-      floatingActionButton: SetandNotButton(),
+      floatingActionButton: SetandNotButton(currentUser: currentUser),
     );
   }
 }

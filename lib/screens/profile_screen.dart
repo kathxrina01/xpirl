@@ -446,7 +446,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
-      floatingActionButton: SetandNotButton(),
+      floatingActionButton: SetandNotButton(currentUser: currentUser),
     );
   }
 }
