@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               AnimatedTextKit(
                 repeatForever: false,
                 animatedTexts: [
@@ -143,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   print("Tap Event");
                 },
               ),
-              SizedBox(height: 25),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               Container(
                 width: 300.0,
                 decoration: BoxDecoration(
