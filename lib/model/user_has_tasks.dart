@@ -4,28 +4,9 @@ List<UserHasTasks> userTasksFromJson(String str) =>
     List<UserHasTasks>.from(json.decode(str).map((x) => UserHasTasks.fromJson(x)));
 
 UserHasTasks userTaskFromJson(String str, String username) => UserHasTasks.fromJson(json.decode(str));
-// String userTasksByIdFromJSON(String str, int userId) {
-//   final List<Map<String, dynamic>> jsonList = List<Map<String, dynamic>>.from(json.decode(str));
-//   final List<UserHasTasks> matchingTasks = <UserHasTasks>[];
-//
-//   for (final Map<String, dynamic> jsonMap in jsonList) {
-//     if (jsonMap['whichUser'] == userId) {
-//       matchingTasks.add(UserHasTasks.fromJson(jsonMap));
-//     }
-//   }
-//
-//   return json.encode(matchingTasks);
-// }
 
 String userTasksToJson(List<UserHasTasks> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-// String userTasksSingleToJson(UserHasTasks data) => json.encode(data.toJson());
-// String userTasksSingleToJson(UserHasTasks data) {
-//   final Map<String, dynamic> jsonMap = data.toJson();
-//   // jsonMap["dateAchieved"] = data.dateAchieved.toString().substring(0, 10);
-//   return json.encode(jsonMap);
-// }
 
 String userTasksSingleToJson(UserHasTasks data) => json.encode(data.toJson());
 
@@ -38,6 +19,7 @@ List<UserHasTasks> taskListByUserIdFromJson(String jsonString, int? userId) {
   print(filteredTasks.toString());
   return filteredTasks;
 }
+
 
 class UserHasTasks {
   UserHasTasks({
@@ -55,7 +37,6 @@ class UserHasTasks {
   List<int> whichTask;
 
   factory UserHasTasks.fromJson(Map<String, dynamic> json) => UserHasTasks(
-    //id: json["id"],
     status: json["status"],
     dateAchieved: DateTime.parse(json["dateAchieved"]),
     whichUser: List<int>.from(json["whichUser"].map((x) => x)),
@@ -73,9 +54,4 @@ class UserHasTasks {
   bool checkUserHasTask(int userID, int taskID) {
     return whichUser.contains(userID) && whichTask.contains(taskID);
   }
-
-
-
-
-
 }

@@ -1,8 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 import 'package:xpirl/model/user_has_tasks.dart';
 
 import '../xp_service.dart';
@@ -30,9 +27,7 @@ class User {
     this.isFriendWith = const [],
     this.hasLevelXP = const [],
     this.unlockedCategories = const []
-}) {
-    // TODO hier einen neuen Datenbankeintrag schreiben!
-  }
+});
 
   User.empty({
     this.id = 10,
@@ -79,12 +74,6 @@ class User {
   List<String> unlockedCategories;
 
 
-  /*
-  User(String username, {String? avatar}) {
-    this.username = username;
-    if (avatar != null) this.avatar = "assets/sadcat.jpeg";
-  }*/
-
   int getId() {
     return id;
   }
@@ -129,8 +118,7 @@ class User {
     return unlockedCategories;
   }
 
-
-
+  // translate categories from database
   String getUnlockedCategoriesString() {
     String result = unlockedCategories.toString();
     result = result.replaceAll(" ", "");
@@ -139,7 +127,7 @@ class User {
     return result;
   }
 
-
+  // get UserID
   getIDFromDatabase() async {
     await service.getUserID(username).then((gottenID) {
       id = gottenID!;
@@ -155,20 +143,9 @@ class User {
     this.levelXP += add;
     updateCurrentLevel();
     await saveUser();
-  }/*
+  }
 
-  // XP Punkte hinzufügen
-  addLevelXP(int add) {
-    print("adding XP");
-    if (add <= 0) return; // Falsche Eingabe
-    this.levelXP += add;
-
-    //await saveUser();
-    //model.value.currentUser!.levelXP += add;
-    //changed++;
-    //model.update((val) {});
-  }*/
-
+  // change coins
   changeNumCoins(int change) async {
     if (numCoins - change < 0) {
       print("zu wenig Coins");
@@ -178,6 +155,7 @@ class User {
     await saveUser();
   }
 
+  // change tickets
   changeNumTickets(int change) async {
     if (numTickets - change < 0) {
       print("zu wenig Tickets");
@@ -187,7 +165,7 @@ class User {
     await saveUser();
   }
 
-
+  // translate long username from database to sth usefull
   translateUsernameFromDatabase() {
     usernameShort = username.substring(0, username.indexOf(" "));
     unlockedCategories = (username.substring(username.indexOf("{") + 1, username.indexOf("}"))).split(",");
@@ -234,9 +212,6 @@ class User {
 
       createUser();
     });
-
-    // User in DB laden (vorher ID unique machen)
-    // UserHasTask & UserHasAchievement updaten
   }
 
   // create new Entry in DB
@@ -249,13 +224,14 @@ class User {
     });
   }
 
+  // Prepare better userID
   Future<void> prepareUserID() async {
     await Future.delayed(Duration(seconds: 1));
     await this.getIDFromDatabase().then((oki) {
-      //loadUserTasks(currentUser);
     });
   }
 
+  // Link user with task
   linkUserAndTasks() async {
     await service.getTaskList().then((tasks) {
       createTasksForUser(tasks);
@@ -263,15 +239,13 @@ class User {
 
   }
 
+  // create all UserHasTasks for User
   Future<void> createTasksForUser(List<Task> tasks) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int idUserHastasks = prefs.getInt('idUserHastasks') ?? 10;
     idUserHastasks++;
     await prefs.setInt('idUserHastasks', idUserHastasks);
-    // print("idUserHasTask: " + idUserHastasks.toString());
-    // print("UserId: " + id.toString());
     UserHasTasks userTask = UserHasTasks(id: idUserHastasks, status: 0, dateAchieved: DateTime.now(), whichUser: [id], whichTask: [tasks[0].id]);
-// print("TaskID: " + tasks[0].id.toString());
     await service.createUserHasTaskEntry(userTask: userTask).then((worked) async {
       if (tasks.length > 1) {
         await createTasksForUser(tasks.sublist(1));
@@ -279,6 +253,7 @@ class User {
     });
   }
 
+  // update user level
   void updateCurrentLevel() {
     if (levelXP >= service.levelXP[currentLevel]) {
       // Level Aufstieg

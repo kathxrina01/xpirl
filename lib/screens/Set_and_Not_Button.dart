@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:xpirl/model/user_has_tasks.dart';
 import 'package:xpirl/xp_service.dart';
 
 import '../model/user.dart';

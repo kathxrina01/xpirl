@@ -1,0 +1,1 @@
+// Hier werden zukünftig die Kategorien gehandhabt

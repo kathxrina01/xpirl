@@ -2,10 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:pie_chart/pie_chart.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xpirl/model/user_has_tasks.dart';
 import 'package:xpirl/screens/category_task_overview_screen.dart';
 

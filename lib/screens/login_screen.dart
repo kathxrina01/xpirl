@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:xpirl/controller/user_controller.dart';
 import '../controller/xp_state_controller.dart';
 import '../model/user.dart';
-import '../model/user_has_tasks.dart';
 import '../xp_service.dart';
 import 'home_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';

@@ -5,21 +5,6 @@ import 'dart:convert';
 List<Task> taskListFromJson(String str) =>
     List<Task>.from(json.decode(str).map((x) => Task.fromJson(x)));
 
-
-/*
-List<Task> taskListByCategoryFromJson(String str, String categoryName) {
-  List<dynamic> jsonData = json.decode(str);
-  List<Task> tasks = [];
-
-  for (var i = 0; i < jsonData.length; i++) {
-    Map<String, dynamic> taskData = jsonData[i];
-    if (taskData['category'] == categoryName) {
-      tasks.add(Task.fromJson(taskData));
-    }
-  }
-
-  return tasks;
-}*/
 List<Task> taskListByCategoryFromJson(String jsonString, String categoryName) {
   final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
   List<Task> filteredTasks = parsed
@@ -37,18 +22,14 @@ List<String> categoryListFromTaskJson(String jsonData) {
   }
   return categories.toList();
 }
-/*
-List<String> categoryListFromJson(String str) =>
-    List<String>.from(json.decode(str).map((x) => Task.fromJson(x)));
-*/
+
 String taskListToJson(List<Task> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 Task taskFromJson(String str) => Task.fromJson(json.decode(str));
 
-
-
 String taskToJson(Task data) => json.encode(data.toJson());
+
 
 class Task {
 
@@ -111,8 +92,6 @@ class Task {
     "hasRewardXP": List<dynamic>.from(hasRewardXp.map((x) => x)),
   };
 
-
-  // TODO weg?
   // add a category
   _addCategory() {
     // only if category is new
@@ -123,6 +102,7 @@ class Task {
     }
   }
 
+  // Translate the long task title from the database to sth usefull
   translateTaskTitleFromDatabase() {
     List<String> parts = title.split(" | ");
     titleShort = parts[0];
