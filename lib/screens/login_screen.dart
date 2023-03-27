@@ -219,19 +219,42 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   submit() {
+    // Wenn der Benutzername leer ist oder Leerzeichen enthält, geben Sie eine Fehlermeldung aus und kehren Sie zurück
     if (username.isEmpty || username.contains(" ")) {
-      // TODO Fehermeldung -> was eintragen
-      print("leeres Feld oder Leerzeichen in Name");
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Fehler",
+          style: TextStyle(fontFamily: "Righteous", color: service.colorList[0]),),
+          content: Text("Bitte geben Sie einen gültigen Benutzernamen ein.",
+          style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[0]),),
+          actions: [
+            ElevatedButton(
+              child: Text('OK',
+                style: TextStyle(fontFamily: "SourceCodePro",),
+              ),
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: service.colorList[2],
+                foregroundColor: service.colorList[1],
+              ),
+            ),
+          ],
+        ),
+      );
       return;
     }
+
     saveUsername();
-    //saveUsername().then((value) => loadUsername());
+
     /*
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(),
-      ),
-    );*/
+  saveUsername().then((value) => loadUsername());
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => HomeScreen(),
+    ),
+  );
+  */
   }
 }
