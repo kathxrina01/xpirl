@@ -268,7 +268,7 @@ class _TaskScreenState extends State<TaskScreen> {
           ],
         ),
       ),
-      floatingActionButton: SetandNotButton(),
+      floatingActionButton: SetandNotButton(currentUser: currentUser),
     );
   }
 
