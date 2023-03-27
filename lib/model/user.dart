@@ -252,7 +252,6 @@ class User {
   }
 
   Future<void> prepareUserID() async {
-    //print("2.");
     await Future.delayed(Duration(seconds: 1));
     await this.getIDFromDatabase().then((oki) {
       //loadUserTasks(currentUser);
