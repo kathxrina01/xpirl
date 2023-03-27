@@ -16,6 +16,7 @@ class SetandNotButton extends StatefulWidget {
   _SetandNotButtonState createState() => _SetandNotButtonState();
 }
 
+
 class _SetandNotButtonState extends State<SetandNotButton> {
   XPService service = XPService();
   void _showFriend() {

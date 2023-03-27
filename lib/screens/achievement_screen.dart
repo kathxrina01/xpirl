@@ -3,6 +3,7 @@ import 'package:xpirl/xp_service.dart';
 import 'package:flutter/material.dart';
 import 'package:xpirl/screens/Back_Bar.dart';
 
+import 'Set_and_Not_Button.dart';
 import 'User_Bar.dart';
 
 class AchievementScreen extends StatelessWidget {
@@ -140,6 +141,7 @@ class AchievementScreen extends StatelessWidget {
               ))
         ],
       ),
+      floatingActionButton: SetandNotButton(),
     );
   }
 }

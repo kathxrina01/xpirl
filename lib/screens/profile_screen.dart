@@ -407,6 +407,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             PageRouteBuilder(
                               transitionDuration: Duration(milliseconds: 500),
                               pageBuilder: (_, __, ___) => FriendsScreen(),
+                              settings: RouteSettings(arguments: {
+                                'user': currentUser,
+                                'taskListAll': taskListAll,
+                              }),
                               transitionsBuilder: (_, animation, __, child) {
                                 return ScaleTransition(
                                   scale: Tween<double>(begin: 0.0, end: 1.0).animate(
