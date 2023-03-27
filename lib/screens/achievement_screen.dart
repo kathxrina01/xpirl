@@ -10,8 +10,8 @@ class AchievementScreen extends StatelessWidget {
 
   XPService service = XPService();
 
-  List<String> achievements = ["Erfolg1", "Erfolg2"];
-
+  List<String> achievements = ["Der Puls senkt sich", "Ahoy Abenteuer", "Breiter als der Türsteher","Achtung, Nerd Alarm", "Der Held von nebenan"];
+  List<String> descrip = ["4 berufliche Herausforderungen erfolgreich meistern, wie z.B. eine schwierige Präsentation halten", "5 besondere Events erfolgreich besucht haben und eine unvergessliche Erfahrung machen", "Erreiche Level 80", "2 neue Fachgebiete erfolgreich studieren und eine Prüfung bestehen", " 4 ehrenamtliche Tätigkeiten erfolgreich ausgeübt und dabei eine positive Wirkung erzielt haben"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +77,7 @@ class AchievementScreen extends StatelessWidget {
                                                     fontWeight: FontWeight.bold,),)),
                                             ),
                                             Expanded(flex: 1,child: SizedBox()),
-                                            Expanded(flex: 6,child: Align(alignment: Alignment.topLeft, child: Text("Hier steht die Beschreibung",style: TextStyle(
+                                            Expanded(flex: 6,child: Align(alignment: Alignment.topLeft, child: Text(descrip[index],style: TextStyle(
                                               fontSize: MediaQuery.of(context).size.height * 0.018,
 
                                               fontFamily: "SourceCodePro",
@@ -95,7 +95,7 @@ class AchievementScreen extends StatelessWidget {
                                               children: [Icon(Icons.star_outline, color: service.colorList[0],),
                                                 SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                                                 Text(
-                                                  '200 XP', // TODO Backend
+                                                  '500 XP', // TODO Backend
                                                   style: TextStyle(
                                                     fontSize: MediaQuery.of(context).size.height * 0.018,
                                                     fontFamily: "RobotoMono",
@@ -112,7 +112,7 @@ class AchievementScreen extends StatelessWidget {
                                                 color: service.colorList[0],),
                                                 SizedBox(width: MediaQuery.of(context).size.height * 0.006),
                                                 Text(
-                                                    '10 Coins', // TODO Backend
+                                                    '20 Coins', // TODO Backend
                                                   style: TextStyle(
                                                     fontSize: MediaQuery.of(context).size.height * 0.018,
                                                     fontFamily: "RobotoMono",

@@ -25,20 +25,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<String> categories = [];
   List<Map<String, dynamic>> friendsreq = [    {'name': 'Max', 'avatar': Icons.person, 'task': 'Hausaufgaben'},    {'name': 'Lisa', 'avatar': Icons.person, 'task': 'Einkaufen'},    {'name': 'Tom', 'avatar': Icons.person, 'task': 'Gartenarbeit'},  ];
 
-  List<Map<String, dynamic>> achievements = [
-    {'name': 'Name Erfolg'},
-    {'name': 'Name Erfolg'},
-    {'name': 'Name Erfolg'},
-  ];
-  List<Map<String, dynamic>> friends = [
-    {'name': 'Name Friend', 'image': 'assets/sadcat.jpeg'},
-    {'name': 'Name Friend', 'image': 'assets/sadcat.jpeg'},
-    {'name': 'Name Friend', 'image': 'assets/sadcat.jpeg'},
-  ];
 
   // args
   User? currentUser;
   List<UserHasTasks>? taskListAll;
+
+
+  List<Map<String, dynamic>> achievements = [
+    {'name': 'Der Puls senkt sich'},
+    {'name': 'Ahoy Abenteuer'},
+    {'name': 'Breiter als der Türsteher'},
+  ];
+
+  int whichU = 0;
+  List<String> text = [];
+  List<String> image = [];
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     currentUser = args['user'];
     taskListAll = args['taskListAll'];
+
+    if(currentUser?.getUsernameShort() == "Cari") {
+      whichU = 1;
+    }
+    if(currentUser?.getUsernameShort() == "Veronika") {
+      whichU = 2;
+    }
+    if(currentUser?.getUsernameShort() == "Blake") {
+      whichU = 3;
+    }
+    if(currentUser?.getUsernameShort() == "Malte") {
+      whichU = 4;
+    }
+
+    if (whichU == 1) {
+      text = ['Blake', 'Malte', 'Veronika'];
+      image = ["assets/sadcat.jpeg", "assets/blush.jpg", "assets/yummy.jpg"];
+    }
+    if (whichU == 2) {
+      text = ['Blake', 'Malte', 'Cari'];
+      image = ["assets/sadcat.jpeg", "assets/blush.jpg", "assets/mouse.png"];
+    }
+    if (whichU == 3) {
+      text = ['Veronika', 'Malte', 'Cari'];
+      image = ["assets/yummy.jpg", "assets/blush.jpg", "assets/mouse.png"];
+    }
+    if (whichU == 4) {
+      text = ['Blake', 'Veronika', 'Cari'];
+      image = ["assets/sadcat.jpeg", "assets/yummy.jpg", "assets/mouse.png"];
+    }
+
 
     print(currentUser?.getUsernameShort());
     //var levelPercent = ((currentUser?.getLevelXP() ?? 0)-(service.levelXP[(currentUser?.getCurrentLevel() ?? 0) - 1]))/((service.levelXP[(currentUser?.getCurrentLevel() ?? 0)])-(service.levelXP[(currentUser?.getCurrentLevel() ?? 1) - 1]));
@@ -246,7 +278,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,
                       child: GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: achievements.length < 3 ? achievements.length : 3,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -335,7 +366,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: friends.length < 3 ? friends.length : 3,
+                        itemCount: text.length,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           //mainAxisSpacing: 16,
@@ -345,13 +376,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           return Column(
                             children: [
                               CircleAvatar(
-                                backgroundImage: AssetImage(friends[index]['image']),
+                                backgroundImage: AssetImage(
+                                  image[index],
+                                ),
                                 //radius: 25,
                                 radius: MediaQuery.of(context).size.height * 0.055 / 2,
                               ),
                               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                               Text(
-                                friends[index]['name'],
+                                text[index],
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: MediaQuery.of(context).size.height * 0.018,
