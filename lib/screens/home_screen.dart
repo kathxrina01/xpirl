@@ -282,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyle(fontFamily: "Righteous", color: service.colorList[0]),
                                   ),
                                   content: Text(
-                                      'Möchtest du diese Kategorie für 250 Goldmünzen freischalten?',
+                                      'Möchtest du diese Kategorie für 250 Münzen oder für 1 Ticket freischalten?',
                                   style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[0]),),
                                   actions: [
                                     TextButton(
@@ -295,12 +295,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: service.colorList[2], // Hintergrundfarbe des Buttons
                                       ),
-                                      child: Text('Freischalten',
+                                      child: Text('Münzen',
                                         style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[1]),
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        _buyCategory(category);
+                                        _buyCategoryM(category);
+                                      },
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: service.colorList[2], // Hintergrundfarbe des Buttons
+                                      ),
+                                      child: Text('Ticket',
+                                        style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[1]),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        _buyCategoryT(category);
                                       },
                                     ),
                                   ],
@@ -341,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _buyCategory(String category) {
+  void _buyCategoryM(String category) {
     if ((currentUser?.getNumCoins() ?? 0) >= 250) {
       setState(() {
         _isUnlocked = true;
@@ -367,6 +379,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Text('OK',
           style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[1]),),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+  void _buyCategoryT(String category) {
+    if ((currentUser?.getNumTickets() ?? 0) >= 1) {
+      setState(() {
+        _isUnlocked = true;
+        currentUser?.changeNumTickets(-1); // TODO Backend -> Datenbank updaten
+        currentUser?.unlockCategory(category);
+        currentUser?.saveUser();
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: service.colorList[1],
+            title: Text('Nicht genügend Tickets',
+                style: TextStyle(fontFamily: "Righteous", color: service.colorList[0])),
+            content: Text(
+              'Du hast nicht genügend Tickets, um diese Kategorie freizuschalten.',
+              style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[0]),),
+            actions: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: service.colorList[2], // Hintergrundfarbe des Buttons
+                ),
+                child: Text('OK',
+                  style: TextStyle(fontFamily: "SourceCodePro", color: service.colorList[1]),),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
