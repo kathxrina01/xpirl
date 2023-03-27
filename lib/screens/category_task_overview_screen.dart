@@ -109,7 +109,7 @@ class _CategoryTaskOverviewScreenState
           ],
         ),
       ),
-      floatingActionButton: SetandNotButton(),
+      floatingActionButton: SetandNotButton(currentUser: currentUser),
     );
   }
 

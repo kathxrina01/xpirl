@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: SetandNotButton(),
+      floatingActionButton: SetandNotButton(currentUser: currentUser),
     );
   }
 

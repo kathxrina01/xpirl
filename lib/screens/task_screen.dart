@@ -33,6 +33,9 @@ class _TaskScreenState extends State<TaskScreen> {
   // args
   User? currentUser;
   List<UserHasTasks>? taskListAll;
+  int whichU = 0;
+  List<String> text = [];
+  List<String> image = [];
 
   UserHasTasks? curentUserTask;
 
@@ -95,7 +98,35 @@ class _TaskScreenState extends State<TaskScreen> {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     currentUser = args['user'];
     taskListAll = args['taskListAll'];
+    if(currentUser?.getUsernameShort() == "Cari") {
+      whichU = 1;
+    }
+    if(currentUser?.getUsernameShort() == "Veronika") {
+      whichU = 2;
+    }
+    if(currentUser?.getUsernameShort() == "Blake") {
+      whichU = 3;
+    }
+    if(currentUser?.getUsernameShort() == "Malte") {
+      whichU = 4;
+    }
 
+    if (whichU == 1) {
+      text = ['Blake', 'Malte', 'Veronika'];
+      image = ["assets/sadcat.jpeg", "assets/blush.jpg", "assets/yummy.jpg"];
+    }
+    if (whichU == 2) {
+      text = ['Blake', 'Malte', 'Cari'];
+      image = ["assets/sadcat.jpeg", "assets/blush.jpg", "assets/mouse.png"];
+    }
+    if (whichU == 3) {
+      text = ['Veronika', 'Malte', 'Cari'];
+      image = ["assets/yummy.jpg", "assets/blush.jpg", "assets/mouse.png"];
+    }
+    if (whichU == 4) {
+      text = ['Blake', 'Veronika', 'Cari'];
+      image = ["assets/sadcat.jpeg", "assets/yummy.jpg", "assets/mouse.png"];
+    }
     unlocked = calcUnlocked();
 
     return Scaffold(
@@ -266,7 +297,7 @@ class _TaskScreenState extends State<TaskScreen> {
           ],
         ),
       ),
-      floatingActionButton: SetandNotButton(),
+      floatingActionButton: SetandNotButton(currentUser: currentUser),
     );
   }
 
@@ -296,7 +327,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     Map<String, dynamic> friend = entry.value;
                     return GFCheckboxListTile(
                       title: Text(
-                        friend['name'],
+                        text[index],
                         style: TextStyle(
                           fontFamily: 'SourceCodePro',
                           color: service.colorList[0],
@@ -307,7 +338,7 @@ class _TaskScreenState extends State<TaskScreen> {
                           _showProfileMenu(context, details.globalPosition);
                         },
                         child: GFAvatar(
-                          backgroundImage: friend['avatar'],
+                          backgroundImage: AssetImage(image[index]),
                         ),
                       ),
                       size: MediaQuery.of(context).size.height * 0.025,
