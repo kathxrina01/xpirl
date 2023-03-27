@@ -39,6 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<UserHasTasks> userTasks = [];
 
+  bool notClaimedToday = true;
+
   // Load to-do list from the server
   Future<bool> _loadUsers() async {
     tasks = await service.getTaskList();
@@ -96,6 +98,10 @@ class _HomeScreenState extends State<HomeScreen> {
     int result = achieved + notAchieved;
     result = ((achieved * 100) / result).round();
 
+    if (category == "Daily" && achieved == 8 && notClaimedToday) {
+      // User bekommt ein Ticket
+      notClaimedToday = false;
+    }
     //int result = ((achieved / (achieved + notAchieved)) * 100).round();
     return result;
   }

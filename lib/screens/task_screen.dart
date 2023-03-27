@@ -42,13 +42,9 @@ class _TaskScreenState extends State<TaskScreen> {
 
   bool unlocked = false;
 
-  bool calcUnlocked(int taskID) {
+  bool calcUnlocked() {
     print("Hier kommt was");
-    print(unlocked);
-    // for (UserHasTasks uT in taskListAll!) {
-    //   print("uT: " + uT.id.toString());
-    // }
-    return userTasks?.any((element) => element.whichTask.contains(taskID) && element.status == 1) ?? false;
+    return userTasks?.any((element) => element.whichTask.contains(widget.task.id) && element.status == 1) ?? false;
   }
 
   List<UserHasTasks> userTasks = [];
@@ -56,21 +52,18 @@ class _TaskScreenState extends State<TaskScreen> {
   UserHasTasks? currentUserHasTasks;
 
   Future<bool> _loadUserHasTasks() async {
-
     userTasks = (await service.getUserHasTaskListAll(currentUser?.id))!;
-    for (UserHasTasks uT1 in userTasks) {
-      print("uT3:" + uT1.whichUser[0].toString());
-    }
     return true;
   }
 
+  /*
   // Get ID for Task in UserHasTasks
   int getUserHasTaskId(int taskID) {
     return (userTasks?.firstWhere((element) => element.whichTask.contains(taskID)))?.id ?? 1;
     print (taskListAll.toString());
     print("gettingThatID: " + ((taskListAll?.firstWhere((element) => element.whichTask.contains(taskID)))?.id ?? 1).toString());
     //return (taskListAll?.firstWhere((element) => element.whichTask.contains(taskID)))?.id ?? 1;
-  }
+  }*/
 
   @override
   Future<void> setState(VoidCallback fn) async {
@@ -89,7 +82,7 @@ class _TaskScreenState extends State<TaskScreen> {
     currentUser = args['user'];
     taskListAll = args['taskListAll'];
 
-    unlocked = calcUnlocked(widget.task.id);
+    unlocked = calcUnlocked();
 
     return Scaffold(
       backgroundColor: service.colorList[1],
@@ -209,11 +202,12 @@ class _TaskScreenState extends State<TaskScreen> {
                                 await service.updateUserHasTasks(id: currentUser?.getId(), data: userTasks?.firstWhere((element) => element.whichTask.contains(widget.task.id)));
                                 print("Still oke");
                               }
+
                               setState(() {
                                 // TODO Hintergrund Container Farbe ändern?
-                                if (!_isButtonPressed) {
+                                // if (!_isButtonPressed) {
                                   _isButtonPressed = !_isButtonPressed;
-                                }
+                                // }
                               });
                             },
                             style: ElevatedButton.styleFrom(

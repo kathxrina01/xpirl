@@ -157,9 +157,6 @@ class User {
     this.levelXP += add;
     updateCurrentLevel();
     await saveUser();
-    //model.value.currentUser!.levelXP += add;
-    //changed++;
-    //model.update((val) {});
   }/*
 
   // XP Punkte hinzufügen
@@ -174,12 +171,22 @@ class User {
     //model.update((val) {});
   }*/
 
-  changeNumCoins(int change) {
+  changeNumCoins(int change) async {
     if (numCoins - change < 0) {
       print("zu wenig Coins");
       return;
     }
     numCoins += change;
+    await saveUser();
+  }
+
+  changeNumTickets(int change) async {
+    if (numTickets - change < 0) {
+      print("zu wenig Tickets");
+      return;
+    }
+    numTickets += change;
+    await saveUser();
   }
 
 
@@ -215,17 +222,14 @@ class User {
 
   // prepare User for insertion into database
   void addEntryToDatabase() async {
-    print("3.");
     unlockedCategories = [];
-    unlockCategory("category1"); // TODO welche sollen an anfang freigeschaltet sein?
-    unlockCategory("category2"); // TODO "
+    unlockCategory("Daily");
     username = exportUsername();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     this.id = await prefs.getInt('id') ?? 10;
     this.id++;
 
     await prefs.setInt('id', this.id).then((_) {
-      print("---> ID: " + this.id.toString());
       return prefs.getInt('id');
     }).then((id) {
       this.id = id!;
@@ -239,7 +243,6 @@ class User {
 
   // create new Entry in DB
   void createUser() async {
-    print("4.");
     await Future.delayed(Duration(seconds: 1));
     await service.createUserEntry(data: this).then((worked) {
       // TODO UserHasTask & UserHasAchievement
