@@ -46,9 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
     await service
         .getUserHasTaskListAll(currentUser?.getId())
         .then((taskListAll) {
-      for (UserHasTasks uT5 in taskListAll!) {
-        print("uT5: " + uT5.whichUser[0].toString());
-      }
+      // for (UserHasTasks uT5 in taskListAll!) {
+      //   print("uT5: " + uT5.whichUser[0].toString());
+      // }
       Navigator.push(
         context,
         MaterialPageRoute(

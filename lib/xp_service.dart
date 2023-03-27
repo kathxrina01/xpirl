@@ -75,6 +75,17 @@ class XPService {
     return await XPBackendServiceProvider.getUserIDByUsername(
       resourcePath: "users",
       username: username,
+      userFromJson: userTaskFromJson,
+      userListFromJson: userTasksFromJson,
+    );
+  }
+
+  // get UserhasTasks from specific IDs
+  Future<int?> getUserHasTasksByID(int? userID, int taskID) async {
+    return await XPBackendServiceProvider.getUserHasTasksByID(
+      resourcePath: "users",
+      userID: userID,
+      taskID: taskID,
       userFromJson: userFromJson,
       userListFromJson: userListFromJson,
     );
@@ -137,20 +148,17 @@ class XPService {
 
   // Update UserHasTasks in database
   Future<bool> updateUserHasTasks({required int? id, required UserHasTasks? data}) async {
-    print("noch oke");
     var result = await XPBackendServiceProvider.updateObjectUserHasTasksById<UserHasTasks>(
       id: id,
       data: data,
       resourcePath: "userhastasks",
       objectToJson: userTasksSingleToJson,
     );
-    print("noch oke");
     return result;
   }
 
   // new user to database
   Future<bool> createUserEntry({required User data}) async {
-    print("5.");
     var result = await XPBackendServiceProvider.createObjectUser<User>(
       data: data,
       resourcePath: "users.json",
@@ -160,7 +168,6 @@ class XPService {
   }
 
   Future<bool> createUserHasTaskEntry({required UserHasTasks userTask}) async {
-    print("9.");
     var result = await XPBackendServiceProvider.createObjectUserHasTasks<UserHasTasks>(
       data: userTask,
       resourcePath: "userhastasks.json",

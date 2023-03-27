@@ -3,6 +3,7 @@ import 'dart:convert';
 List<UserHasTasks> userTasksFromJson(String str) =>
     List<UserHasTasks>.from(json.decode(str).map((x) => UserHasTasks.fromJson(x)));
 
+UserHasTasks userTaskFromJson(String str, String username) => UserHasTasks.fromJson(json.decode(str));
 // String userTasksByIdFromJSON(String str, int userId) {
 //   final List<Map<String, dynamic>> jsonList = List<Map<String, dynamic>>.from(json.decode(str));
 //   final List<UserHasTasks> matchingTasks = <UserHasTasks>[];
@@ -72,4 +73,9 @@ class UserHasTasks {
   bool checkUserHasTask(int userID, int taskID) {
     return whichUser.contains(userID) && whichTask.contains(taskID);
   }
+
+
+
+
+
 }

@@ -143,9 +143,7 @@ class User {
   getIDFromDatabase() async {
     await service.getUserID(username).then((gottenID) {
       id = gottenID!;
-      print("Hier ID: " + id.toString());
     });
-
   }
 
 
@@ -259,7 +257,6 @@ class User {
   }
 
   linkUserAndTasks() async {
-    print("6.");
     await service.getTaskList().then((tasks) {
       createTasksForUser(tasks);
     });
@@ -267,7 +264,6 @@ class User {
   }
 
   Future<void> createTasksForUser(List<Task> tasks) async {
-    print("8.");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int idUserHastasks = prefs.getInt('idUserHastasks') ?? 10;
     idUserHastasks++;

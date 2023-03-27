@@ -36,6 +36,10 @@ class _TaskScreenState extends State<TaskScreen> {
   User? currentUser;
   List<UserHasTasks>? taskListAll;
 
+  UserHasTasks? curentUserTask;
+
+  int userTaskID = 0;
+
   bool _isButtonPressed = false;
   List<bool> friendCheckboxValues = [false, false, false];
   List<Map<String, dynamic>> selectedFriends = [];
@@ -43,8 +47,8 @@ class _TaskScreenState extends State<TaskScreen> {
   bool unlocked = false;
 
   bool calcUnlocked() {
-    print("Hier kommt was");
-    return userTasks?.any((element) => element.whichTask.contains(widget.task.id) && element.status == 1) ?? false;
+    if (curentUserTask?.status == 1) return true;
+    return false;
   }
 
   List<UserHasTasks> userTasks = [];
@@ -52,26 +56,38 @@ class _TaskScreenState extends State<TaskScreen> {
   UserHasTasks? currentUserHasTasks;
 
   Future<bool> _loadUserHasTasks() async {
+
     userTasks = (await service.getUserHasTaskListAll(currentUser?.id))!;
+
+    //await service.getUserHasTasksByID(currentUser?.id, widget.task.id);
+    //print("--> " + userTasks[0].whichTask[0].toString() ?? " ");
+    print(widget.task.id.toString());
+    await Future.forEach(userTasks, (UserHasTasks userTask) async {
+      print("Nö");
+      if (userTask.whichTask.contains(widget.task.id)) {print("Huii");
+        curentUserTask = userTask;
+        return true;
+      }
+    });
+    // print(curentUserTask?.whichTask[0]);
     return true;
   }
 
-  /*
-  // Get ID for Task in UserHasTasks
-  int getUserHasTaskId(int taskID) {
-    return (userTasks?.firstWhere((element) => element.whichTask.contains(taskID)))?.id ?? 1;
-    print (taskListAll.toString());
-    print("gettingThatID: " + ((taskListAll?.firstWhere((element) => element.whichTask.contains(taskID)))?.id ?? 1).toString());
-    //return (taskListAll?.firstWhere((element) => element.whichTask.contains(taskID)))?.id ?? 1;
-  }*/
 
-  @override
+
+  /*@override
   Future<void> setState(VoidCallback fn) async {
     // TODO: implement setState
     super.setState(fn);
     // TODO hier prüfen, ob Task schon erledigt
-
+    print("Ayy");
     await _loadUserHasTasks();
+  }*/
+
+  @override
+  void initState() {
+    super.initState();
+    //_loadUserHasTasks();
   }
 
 
@@ -198,24 +214,24 @@ class _TaskScreenState extends State<TaskScreen> {
                           child: ElevatedButton(
                             onPressed: () async {
                               if (!_isButtonPressed) {
-                                print("Still oke");
-                                await service.updateUserHasTasks(id: currentUser?.getId(), data: userTasks?.firstWhere((element) => element.whichTask.contains(widget.task.id)));
-                                print("Still oke");
-                              }
-
-                              setState(() {
-                                // TODO Hintergrund Container Farbe ändern?
-                                // if (!_isButtonPressed) {
+                                await _loadUserHasTasks();
+                                if (curentUserTask != null) {  // Überprüfen, ob curentUserTask nicht null ist
+                                  // Zukunft: In Datenbank in Tabelle UserHasTasks im passenden Eintrag status auf 1 setzen
+                                  await service.updateUserHasTasks(id: curentUserTask!.id, data: curentUserTask!);
+                                } else {
+                                  print('curentUserTask is null');
+                                }
+                                setState(() {
                                   _isButtonPressed = !_isButtonPressed;
-                                // }
-                              });
+                                });
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
                               padding: EdgeInsets.zero,
                             ),
-                            child: AnimatedDefaultTextStyle(
+                                                        child: AnimatedDefaultTextStyle(
                               duration: Duration(milliseconds: 200),
                               style: TextStyle(
                                 fontFamily: "SourceCodePro",

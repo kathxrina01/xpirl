@@ -23,7 +23,6 @@ class XPBackendServiceProvider {
     required String resourcePath,
     required Function(String) listFromJson,
   }) async {
-    print("7.");
     var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
     var response = await http.get(url);
 
@@ -53,18 +52,12 @@ class XPBackendServiceProvider {
         Map<String, dynamic> userJson = userTaskMap as Map<String, dynamic>;
         for (int curID in userJson['whichUser']) {
           if (curID == id) {
-            print("unser User " + curID.toString());
             userTasks.add(UserHasTasks.fromJson(userJson));
-            print("unsere Task: " + userTasks.last.whichTask[0].toString());
             break;
           }
         }
       }
 
-      for (UserHasTasks uT1 in userTasks) {
-        print("uT1:" + uT1.whichUser[0].toString());
-        print("uT2:" + uT1.whichTask[0].toString());
-      }
       userTasks ??= [];
       return (userTasks);
     } else {
@@ -113,7 +106,6 @@ class XPBackendServiceProvider {
     var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
     var response = await http.get(url);
 
-    print("2.");
     if (response.statusCode == 200) {
       List<dynamic> userData = json.decode(response.body);
 /*
@@ -145,7 +137,7 @@ class XPBackendServiceProvider {
       //List<User> userList = userListFromJson(response.body);
       //return userList[0];
 
-      print("User wurde erstellt oder aus der Datenbank geladen");
+      //print("User wurde erstellt oder aus der Datenbank geladen");
       return currentUser;
     } else {
       return null;
@@ -165,17 +157,47 @@ class XPBackendServiceProvider {
     if (response.statusCode == 200) {
       List<dynamic> userData = json.decode(response.body);
 
-      print("Useritus");
       int id = 0;
       for (dynamic userMap in userData) {
-        print(userMap.toString());
         Map<String, dynamic> userJson = userMap as Map<String, dynamic>;
         if (userJson['username'] == username) {
           id = userJson['id'];
           break;// Beende die Schleife, wenn die gesuchte Instanz gefunden wurde
         }
       }
-      print("UseritusID: " + id.toString());
+
+      return id;
+    } else {
+      return null;
+    }
+  }
+
+  // Get specific UserHasTasks by userID & taskID
+  static Future<int?> getUserHasTasksByID({
+    required String resourcePath,
+    required int? userID,
+    required int taskID,
+    required Function(String, String) userFromJson,
+    required Function(String) userListFromJson,
+  }) async {
+    var url = Uri.https(host, '${apiPath}/${resourcePath}.json');
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<dynamic> userData = json.decode(response.body);
+
+      int id = 0;
+      for (dynamic userMap in userData) {
+        Map<String, dynamic> userJson = userMap as Map<String, dynamic>;
+        for (var i = 0; i < userJson['whichUser'].length; i++) {
+          for (var j = 0; j < userJson['whichUser'].length; j++) {
+            if ((userJson['whichUser'][i] == userID) && (userJson['whichTask'][j] == taskID)) {
+              id = userJson['id'];
+              break;// Beende die Schleife, wenn die gesuchte Instanz gefunden wurde
+            }
+          }
+        }
+      }
 
       return id;
     } else {
@@ -286,7 +308,6 @@ class XPBackendServiceProvider {
     required String resourcePath,
   }) async {
     var url = Uri.https(host, '${apiPath}/${resourcePath}');
-    print("10.");
     // print(url);
     // print("davor");
     String json = toJson(data);
@@ -361,7 +382,7 @@ class XPBackendServiceProvider {
   }
 
 
-  // Update User in Database
+  // Update UserHasTasks in Database
   static Future<bool> updateObjectUserHasTasksById<T>({
     required int? id,
     required T? data,
@@ -370,8 +391,11 @@ class XPBackendServiceProvider {
   }) async {print("Oke");
     var url = Uri.https(host, '${apiPath}/${resourcePath}/${id}.json');
     print("jdhoaiwd");
+    print(url);
+    print(id.toString());
+    print(data.toString());
     String? json = objectToJson!(data!);
-
+  print(json);
     http.Response resonse = await http.put(
       url,
       headers: <String, String>{

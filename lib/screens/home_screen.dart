@@ -60,19 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return true;
   }
 
-  /*Future<String> _loadUsername() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('username') ?? '';
-  }*/
-
-  final dataMap = <String, double>{
-    "User": 5, // Aktueller XP Wert von User
-  };
-
-  final colorList = <Color>[
-    Color.fromARGB(255, 68, 217, 41),
-  ];
-
   Future<bool> _loadUserHasTasks() async {
     userTasks = (await service.getUserHasTaskListAll(currentUser?.id))!;
     return true;

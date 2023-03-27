@@ -55,7 +55,6 @@ class _CategoryTaskOverviewScreenState
   bool unlocked = false;
 
   bool calcUnlocked(int taskID) {
-
     return userTasks.any((element) => element.whichTask.contains(taskID) && element.status == 1);
   }
 
