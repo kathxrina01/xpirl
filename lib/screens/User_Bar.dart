@@ -120,7 +120,7 @@ class _UserBarState extends State<UserBar> {
                       child: Text(
                         'XPirl',
                         style: TextStyle(
-                          fontSize: 30, // TODO Responsive machen
+                          fontSize: MediaQuery.of(context).size.height * 0.04,
                           fontFamily: "Righteous",
                           color: service.colorList[0],
                           shadows: [
@@ -228,12 +228,6 @@ class _UserBarState extends State<UserBar> {
                   backgroundImage: AssetImage(user?.getAvatar() ?? "assets/sadcat.jpeg"),
                 ),
               ),
-              // TODO Größe responsive machen
-              //bottom: MediaQuery.of(context).size.height * 0.01,
-              //left: MediaQuery.of(context).size.height * 0.01,
-              //right: MediaQuery.of(context).size.height * 0.01,
-              //top: MediaQuery.of(context).size.height * 0.01,
-              //right: 0,
             ),
             Positioned.fill(
               //right: 0,
@@ -241,7 +235,6 @@ class _UserBarState extends State<UserBar> {
                 ignoring: true,
                 child: GFProgressBar(
                   percentage: levelPercent,
-                  // width:100,
                   circleWidth: MediaQuery.of(context).size.height * 0.015,
                   radius: MediaQuery.of(context).size.height * 0.178,
                   type: GFProgressType.circular,

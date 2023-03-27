@@ -302,12 +302,12 @@ class _TaskScreenState extends State<TaskScreen> {
                           backgroundImage: friend['avatar'],
                         ),
                       ),
-                      size: 25,
+                      size: MediaQuery.of(context).size.height * 0.025,
                       activeBgColor: service.colorList[4],
                       type: GFCheckboxType.circle,
                       activeIcon: Icon(
                         Icons.check,
-                        size: 15,
+                        size: MediaQuery.of(context).size.height * 0.025,
                         color: service.colorList[0],
                       ),
                       onChanged: (value) {
@@ -325,7 +325,7 @@ class _TaskScreenState extends State<TaskScreen> {
               actions: <Widget>[
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: service.colorList[2],
+                    backgroundColor: service.colorList[2],
                   ),
                   child: Text(
                     "Schließen",
